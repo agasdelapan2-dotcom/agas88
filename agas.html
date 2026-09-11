@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Kapal Berangkat</title>
+  <link rel="icon" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1771393356/LOGO-PT-AGAS88-2025_azvjrm.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .ship-card {
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    .wave-bg {
+      background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+    }
+    .status-ready {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    .status-pending {
+      background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+      color: white;
+    }
+.btn-home {
+  background-color: #007bff; /* Warna biru */
+  color: white;              /* Warna teks putih */
+  padding: 8px 18px;       /* Ukuran tombol */
+  border: none;              /* Menghapus garis tepi */
+  border-radius: 8px;        /* Membuat sudut melengkung */
+  font-size: 16px;           /* Ukuran font */
+  cursor: pointer;           /* Mengubah kursor saat diarahkan */
+  transition: 0.3s;          /* Efek transisi halus */
+}
+
+/* Efek saat mouse diarahkan ke tombol (Hover) */
+.btn-home:hover {
+  background-color: #0056b3; /* Biru lebih gelap saat hover */
+  transform: scale(1.05);    /* Sedikit memperbesar tombol */
+}
+
+  </style>
+</head>
+<body class="h-full">
+  <div id="app-wrapper" class="h-full w-full wave-bg overflow-auto">
+    <div class="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+      <!-- Header -->
+      <header class="text-center mb-6 sm:mb-8">
+        <div class="mb-3 sm:mb-4">
+          <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1771393356/LOGO-PT-AGAS88-2025_azvjrm.png" alt="PT AGAS88" class="w-16 h-16 sm:w-24 sm:h-24 mx-auto rounded-lg shadow-lg" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Logo not available';">
+        </div>
+        <h1 id="page-title" class="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2 tracking-tight">
+          Daftar Kapal Berangkat
+        </h1>
+        <p id="subtitle-text" class="text-sky-200 text-sm sm:text-lg">Jadwal Keberangkatan Hari Ini</p>
+        <div class="mt-3 sm:mt-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+          <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+          <span id="ship-count" class="text-white text-xs sm:text-sm font-medium">18 Kapal Terdaftar</span>
+        </div>
+      </header>
+
+      <!-- Filter Buttons -->
+      <div class="flex gap-2 sm:gap-3 mb-4 sm:mb-6 justify-center flex-wrap">
+        <button id="filter-all" class="px-3 sm:px-6 py-1.5 sm:py-2 bg-white text-sky-700 font-semibold text-xs sm:text-sm rounded-full hover:bg-sky-50 transition-all shadow-lg">
+          Semua
+        </button>
+        <button id="filter-ready" class="px-3 sm:px-6 py-1.5 sm:py-2 bg-emerald-500 text-white font-semibold text-xs sm:text-sm rounded-full hover:bg-emerald-600 transition-all shadow-lg">
+          Siap Berangkat
+        </button>
+        <button id="filter-pending" class="px-3 sm:px-6 py-1.5 sm:py-2 bg-gray-400 text-white font-semibold text-xs sm:text-sm rounded-full hover:bg-gray-500 transition-all shadow-lg">
+          Belum Siap
+        </button><a href="https://agas88.web.id/"><button class="btn-home">Kembali ke Home</button></a>
+
+      </div>
+
+      <!-- Share WhatsApp Button -->
+      <div class="flex justify-center mb-6 sm:mb-8 px-2">
+        <button id="share-whatsapp" class="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-green-500 text-white font-semibold text-xs sm:text-base rounded-full hover:bg-green-600 transition-all shadow-lg hover:shadow-xl w-full sm:w-auto justify-center">
+          <svg class="w-4 sm:w-5 h-4 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.37 1.25-3.355 2.235-1.602 1.602-2.584 3.737-2.584 5.964 0 1.312.269 2.598.78 3.822L1.5 23.5l4.003-1.262a9.868 9.868 0 004.743 1.209h.006c5.487 0 9.963-4.476 9.963-9.963 0-2.661-1.035-5.165-2.918-7.05-1.883-1.883-4.388-2.917-7.055-2.917"/>
+          </svg>
+          <span class="hidden xs:inline">Bagikan ke WhatsApp</span>
+          <span class="xs:hidden">Bagikan</span>
+        </button>
+      </div>
+
+      <!-- Ship List -->
+      <main class="grid gap-2 sm:gap-3" id="ship-list">
+        <!-- Ships will be rendered here -->
+      </main>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="text-center py-12 hidden">
+        <p class="text-white text-base sm:text-lg">Tidak ada kapal untuk ditampilkan</p>
+      </div>
+
+      <!-- Footer -->
+      <footer class="text-center mt-6 sm:mt-8 text-sky-300 text-xs sm:text-sm">
+        <p>PT. AGAS88 - Selamat Berlayar</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const ships = [
+      { id: 1, name: "KLM.SUMBER RIZKY", status: "pending" },
+      { id: 2, name: "KLM.SUMBER RIZKY 02", status: "pending" },
+      { id: 3, name: "KLM.SUMBER REZKY A", status: "pending" },
+      { id: 4, name: "KLM.BERKAH BUAH", status: "pending" },
+      { id: 5, name: "KLM.ADI RAHMATULLAH PUTRA", status: "pending" },
+      { id: 6, name: "KLM.SUMBER REZKY B", status: "pending" },
+      { id: 7, name: "KLM.QUDRAT ILAHI", status: "pending" },
+      { id: 8, name: "KLM.FIRDAH JAYA 03", status: "pending" },
+      { id: 9, name: "KLM.SYUKRAN 3", status: "pending" },
+      { id: 10, name: "KLM.SYUKRAN 03", status: "pending" },
+      { id: 11, name: "KLM.BUNGA RIZKA", status: "pending" },
+      { id: 12, name: "KLM.SURYA UTAMA 77", status: "pending" },
+      { id: 13, name: "KLM.MARHABAN 02", status: "pending" },
+      { id: 14, name: "KLM.BERKAT SABAR 05", status: "pending" },
+      { id: 15, name: "KLM.BERKAH ILAHI 99", status: "pending" },
+      { id: 16, name: "KLM.PUTRA KARAYAAN 01", status: "pending" },
+      { id: 17, name: "KLM.SUMBER REZKY 88", status: "pending" },
+      { id: 18, name: "KLM.ANUGERAH REZKY PUTRA", status: "pending" }
+    ];
+
+    const defaultConfig = {
+      page_title: "Daftar Kapal Berangkat",
+      subtitle_text: "Jadwal Keberangkatan Hari Ini",
+      background_color: "#0c4a6e",
+      card_color: "#ffffff",
+      text_color: "#1e3a5f",
+      accent_color: "#0ea5e9",
+      secondary_color: "#e0f2fe",
+      font_family: "Poppins",
+      font_size: 16
+    };
+
+    let currentFilter = "all";
+    let shipData = [...ships];
+
+    function loadShipData() {
+      const saved = localStorage.getItem('shipStatuses');
+      if (saved) {
+        const statuses = JSON.parse(saved);
+        shipData = ships.map(ship => ({
+          ...ship,
+          status: statuses[ship.id] || ship.status
+        }));
+      } else {
+        shipData = [...ships];
+      }
+    }
+
+    function saveShipData() {
+      const statuses = {};
+      shipData.forEach(ship => {
+        statuses[ship.id] = ship.status;
+      });
+      localStorage.setItem('shipStatuses', JSON.stringify(statuses));
+    }
+
+    function getFilteredShips() {
+      if (currentFilter === "all") return shipData;
+      if (currentFilter === "ready") return shipData.filter(ship => ship.status === "ready");
+      if (currentFilter === "pending") return shipData.filter(ship => ship.status === "pending");
+      return shipData;
+    }
+
+    function renderShipList() {
+      const container = document.getElementById('ship-list');
+      const emptyState = document.getElementById('empty-state');
+      const filteredShips = getFilteredShips();
+      
+      if (filteredShips.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = '';
+
+      filteredShips.forEach((ship, index) => {
+        container.appendChild(createShipElement(ship, index));
+      });
+    }
+
+    function createShipElement(ship, index) {
+      const card = document.createElement('div');
+      card.className = 'ship-card bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl transition-all duration-300';
+      
+      const isReady = ship.status === "ready";
+      const statusText = isReady ? "Siap Berangkat" : "Belum Siap";
+      const statusClass = isReady ? "status-ready" : "status-pending";
+      
+      card.innerHTML = `
+        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-sky-400 to-sky-600 rounded-lg sm:rounded-xl flex items-center justify-center text-white font-bold text-sm sm:text-lg shadow-md">
+          ${index + 1}
+        </div>
+        <div class="flex-grow min-w-0">
+          <h3 class="font-semibold text-slate-800 truncate text-sm sm:text-base">${ship.name}</h3>
+          <p class="text-xs sm:text-sm text-gray-500">PT. AGAS88</p>
+        </div>
+        <button class="status-badge ${statusClass} px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm whitespace-nowrap shadow-md flex-shrink-0">
+          ${statusText}
+        </button>
+      `;
+
+      const statusBtn = card.querySelector('.status-badge');
+      statusBtn.addEventListener('click', () => {
+        ship.status = ship.status === "ready" ? "pending" : "ready";
+        saveShipData();
+        renderShipList();
+      });
+      
+      return card;
+    }
+
+    function shareToWhatsApp() {
+      const readyShips = shipData.filter(ship => ship.status === "ready");
+      
+      if (readyShips.length === 0) {
+        alert("Tidak ada kapal siap berangkat untuk dibagikan!");
+        return;
+      }
+
+      let shipList = readyShips.map((ship, index) => `${index + 1}. ${ship.name}`).join('\n');
+      let tanggal = new Date().toLocaleDateString('id-ID');
+
+      let message = `Assalamualaikum Wr, Wb.
+
+Berikut adalah informasi kapal siap berangkat hari ini dari PT.AGAS88:
+
+DAFTAR KAPAL SIAP BERANGKAT:
+
+${shipList}
+
+INFORMASI DETAIL:
+Total Kapal: ${readyShips.length}
+Tanggal: ${tanggal}
+Perusahaan: PT.AGAS88
+
+Informasi selengkapnya, silahkan kunjungi:
+www.agas88.web.id/agas
+
+
+Hormat kami,
+PT. AGAS88`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+      
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function setupFilterButtons() {
+      document.getElementById('filter-all').addEventListener('click', () => {
+        currentFilter = "all";
+        updateFilterButtons();
+        renderShipList();
+      });
+
+      document.getElementById('filter-ready').addEventListener('click', () => {
+        currentFilter = "ready";
+        updateFilterButtons();
+        renderShipList();
+      });
+
+      document.getElementById('filter-pending').addEventListener('click', () => {
+        currentFilter = "pending";
+        updateFilterButtons();
+        renderShipList();
+      });
+    }
+
+    function updateFilterButtons() {
+      document.getElementById('filter-all').classList.toggle('bg-white', currentFilter !== 'all');
+      document.getElementById('filter-all').classList.toggle('text-sky-700', currentFilter !== 'all');
+      document.getElementById('filter-all').classList.toggle('bg-sky-600', currentFilter === 'all');
+      document.getElementById('filter-all').classList.toggle('text-white', currentFilter === 'all');
+
+      document.getElementById('filter-ready').classList.toggle('bg-emerald-500', currentFilter !== 'ready');
+      document.getElementById('filter-ready').classList.toggle('bg-emerald-700', currentFilter === 'ready');
+
+      document.getElementById('filter-pending').classList.toggle('bg-gray-400', currentFilter !== 'pending');
+      document.getElementById('filter-pending').classList.toggle('bg-gray-600', currentFilter === 'pending');
+    }
+
+    async function onConfigChange(config) {
+      const title = document.getElementById('page-title');
+      const subtitle = document.getElementById('subtitle-text');
+      
+      title.textContent = config.page_title || defaultConfig.page_title;
+      subtitle.textContent = config.subtitle_text || defaultConfig.subtitle_text;
+      
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+      
+      const fontSize = config.font_size || defaultConfig.font_size;
+      title.style.fontSize = `${fontSize * 2}px`;
+      subtitle.style.fontSize = `${fontSize * 1.1}px`;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => { config.card_color = value; window.elementSdk.setConfig({ card_color: value }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => { config.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => { config.secondary_color = value; window.elementSdk.setConfig({ secondary_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => { config.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["page_title", config.page_title || defaultConfig.page_title],
+        ["subtitle_text", config.subtitle_text || defaultConfig.subtitle_text]
+      ]);
+    }
+
+    // Initialize
+    loadShipData();
+    setupFilterButtons();
+    renderShipList();
+    
+    document.getElementById('share-whatsapp').addEventListener('click', shareToWhatsApp);
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cfc0d7193529c6b',t:'MTc3MTQwMjI3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

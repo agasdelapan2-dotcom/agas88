@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Sekarang</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+        }
+        h2 { color: #1e293b; margin-bottom: 8px; font-weight: 600; }
+        p { color: #64748b; font-size: 14px; margin-bottom: 32px; }
+        
+        .input-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; margin-left: 4px; }
+        
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #fcfcfd;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #1d4ed8; transform: translateY(-1px); }
+        button:active { transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+<div id="success-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-radius: 24px;">
+    <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+    <h2 style="color: #1e293b;">Data Terkirim!</h2>
+    <p style="color: #64748b; max-width: 250px; margin: 0 auto 30px;">Terima kasih telah bergabung. Tim kami akan segera menghubungi Anda.</p>
+    <button onclick="location.reload()" style="width: auto; padding: 12px 30px; background: #f1f5f9; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">Kembali</button>
+</div>
+    <!-- Ganti YOUR_BACKEND_URL dengan URL Web App dari langkah 3 -->
+<form action="https://script.google.com/macros/s/AKfycbxShOzO25_wKx8JVY4EzPaOsdYDnAEJgdZAxy0HCgZT6dWOQEqwDgt3VDQvLgTfXAIX/exec" method="POST" id="my-form">
+    
+    <h2>Mulai Sekarang</h2>
+    <p>Lengkapi data Anda untuk mendapatkan akses eksklusif.</p>
+    
+    <form action="https://script.google.com/macros/s/AKfycbxShOzO25_wKx8JVY4EzPaOsdYDnAEJgdZAxy0HCgZT6dWOQEqwDgt3VDQvLgTfXAIX/exec" method="POST">
+        <div class="input-group">
+            <label>NAMA LENGKAP</label>
+            <input type="text" name="name" placeholder="cth. Jane Doe" required>
+        </div>
+        
+        <div class="input-group">
+            <label>ALAMAT EMAIL</label>
+            <input type="email" name="email" placeholder="jane@example.com" required>
+        </div>
+        
+        <div class="input-group">
+            <label>NOMOR TELEPON</label>
+            <input type="tel" name="phone" pattern="[0-9]+" placeholder="08123456xxx" required>
+        </div>
+        
+        <button type="submit">Kirim Data</button>
+    </form>
+</div>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxShOzO25_wKx8JVY4EzPaOsdYDnAEJgdZAxy0HCgZT6dWOQEqwDgt3VDQvLgTfXAIX/exec'; // Pastikan URL Web App sudah benar
+  const form = document.forms['my-form'];
+  const btnKirim = document.querySelector('button[type="submit"]');
+  const overlay = document.getElementById('success-overlay');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    // 1. Ubah tampilan tombol saat loading
+    btnKirim.disabled = true;
+    btnKirim.innerHTML = "Mohon Tunggu...";
+    btnKirim.style.opacity = "0.7";
+
+    // 2. Kirim data ke Google Sheets
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+          // 3. Tampilkan halaman sukses
+          overlay.style.display = 'flex';
+          console.log('Success!', response);
+      })
+      .catch(error => {
+          btnKirim.disabled = false;
+          btnKirim.innerHTML = "Kirim Data";
+          alert('Maaf, terjadi kesalahan. Silakan coba lagi.');
+          console.error('Error!', error.message);
+      });
+  });
+</script>
+
+</body>
+</html>

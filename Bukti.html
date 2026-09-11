@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bukti Pembayaran PNBP</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+  <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 flex gap-6 p-4 md:p-8 overflow-auto">
+  <!-- Edit Panel -->
+  <div class="w-80 flex-shrink-0 bg-white rounded-2xl shadow-lg p-6 overflow-y-auto max-h-screen">
+   <h2 class="text-lg font-bold text-slate-800 mb-4">⚙️ Edit Dokumen</h2>
+   <div class="space-y-4">
+    <!-- Document Settings -->
+    <div>
+     <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Pengaturan Dokumen</p>
+     <div class="space-y-2">
+      <input type="text" id="edit-document-title" placeholder="Judul" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-document-subtitle" placeholder="Subjudul" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+     </div>
+    </div>
+    <hr class="my-3"><!-- Payment Data -->
+    <div>
+     <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Data Pembayaran</p>
+     <div class="space-y-2">
+      <input type="text" id="edit-kode-billing" placeholder="Kode Billing" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-tanggal-billing" placeholder="Tanggal Billing" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-tanggal-kadaluarsa" placeholder="Tanggal Kadaluarsa" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-nama-wajib-bayar" placeholder="Nama Wajib Bayar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+     </div>
+    </div>
+    <hr class="my-3"><!-- Amount -->
+    <div>
+     <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Jumlah Pembayaran</p>
+     <div class="space-y-2">
+      <input type="text" id="edit-jumlah-bayar" placeholder="Jumlah (Rp)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-terbilang" placeholder="Terbilang" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+     </div>
+    </div>
+    <hr class="my-3"><!-- Status & Transaction -->
+    <div>
+     <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Status Transaksi</p>
+     <div class="space-y-2">
+      <input type="text" id="edit-status-bayar" placeholder="Status Bayar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-ntpn" placeholder="NTPN" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-ntb" placeholder="NTB" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-tanggal-bayar" placeholder="Tanggal Bayar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"> <input type="text" id="edit-channel-bayar" placeholder="Channel Bayar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+     </div>
+    </div>
+    <hr class="my-3"><!-- Colors -->
+    <div>
+     <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Warna</p>
+     <div class="space-y-2">
+      <div class="flex items-center gap-2">
+       <label class="text-sm text-slate-600">Warna Utama</label> <input type="color" id="edit-primary-color" value="#1e40af" class="w-10 h-10 border border-slate-300 rounded cursor-pointer">
+      </div>
+      <div class="flex items-center gap-2">
+       <label class="text-sm text-slate-600">Warna Status</label> <input type="color" id="edit-status-color" value="#ef4444" class="w-10 h-10 border border-slate-300 rounded cursor-pointer">
+      </div>
+     </div>
+    </div><button id="reset-btn" class="w-full mt-4 px-4 py-2 bg-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-400 transition"> Reset ke Default </button>
+   </div>
+  </div><!-- Receipt Preview -->
+  <div class="w-full max-w-2xl">
+   <div id="receipt-card" class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden"><!-- Header -->
+    <div class="bg-gradient-to-r from-blue-800 to-blue-900 text-white px-6 py-5 text-center">
+     <div class="flex justify-center mb-3">
+      <svg class="w-12 h-12 text-blue-200" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+     </div>
+     <h1 id="doc-title" class="text-xl font-bold tracking-wide uppercase">Bukti Pembayaran Tagihan</h1>
+     <h2 id="doc-subtitle" class="text-blue-200 text-sm mt-1 font-medium">Penerimaan Negara Bukan Pajak (PNBP)</h2>
+    </div>
+    <div class="p-6 space-y-6"><!-- Section: Data Pembayaran -->
+     <div>
+      <div class="flex items-center gap-2 mb-4">
+       <div class="w-1 h-6 bg-blue-600 rounded-full"></div>
+       <h3 class="font-semibold text-slate-700 uppercase text-sm tracking-wide">Data Pembayaran Tagihan</h3>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4 space-y-3">
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">Kode Billing</span> <span id="kode-billing" class="mono font-semibold text-blue-700 tracking-wider text-right">-</span>
+       </div>
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">Tanggal Billing</span> <span id="tanggal-billing" class="text-slate-700 font-medium text-sm text-right">20 Februari 2026 15:46:30</span>
+       </div>
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">Tanggal Kadaluarsa</span> <span id="tanggal-kadaluarsa" class="text-slate-700 font-medium text-sm text-right">21 Februari 2026 23:59:59</span>
+       </div>
+       <div class="flex justify-between items-center py-2"><span class="text-slate-500 text-sm">Nama Wajib Bayar</span> <span id="nama-wajib-bayar" class="text-slate-700 font-semibold text-sm text-right">AGUNG BAMBANG SUJADMIKO</span>
+       </div>
+      </div>
+     </div><!-- Amount Box -->
+     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+      <div class="text-center">
+       <p class="text-slate-500 text-xs uppercase tracking-wide mb-2">Total Pembayaran</p>
+       <p id="jumlah-bayar" class="text-3xl font-bold text-blue-700">Rp. 92.500,00</p>
+       <p id="terbilang" class="text-slate-500 text-sm italic mt-2">"Sembilan puluh Dua ribu Lima ratus rupiah"</p>
+      </div>
+     </div><!-- Section: Status & Detail -->
+     <div>
+      <div class="flex items-center gap-2 mb-4">
+       <div class="w-1 h-6 bg-blue-600 rounded-full"></div>
+       <h3 class="font-semibold text-slate-700 uppercase text-sm tracking-wide">Status &amp; Detail Transaksi</h3>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4 space-y-3">
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">Status Bayar</span> <span id="status-bayar" class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full uppercase">BELUM BAYAR</span>
+       </div>
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">NTPN</span> <span id="ntpn" class="mono text-slate-700 font-medium text-sm">-</span>
+       </div>
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">NTB</span> <span id="ntb" class="mono text-slate-700 font-medium text-sm">-</span>
+       </div>
+       <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-200"><span class="text-slate-500 text-sm">Tanggal Bayar</span> <span id="tanggal-bayar" class="text-slate-700 font-medium text-sm">-</span>
+       </div>
+       <div class="flex justify-between items-center py-2"><span class="text-slate-500 text-sm">Channel Bayar</span> <span id="channel-bayar" class="text-slate-700 font-medium text-sm">-</span>
+       </div>
+      </div>
+     </div><!-- Footer -->
+     <div class="text-center pt-4 border-t border-slate-200">
+      <p class="text-slate-400 text-xs">Dokumen ini dibuat secara elektronik dan sah tanpa tanda tangan</p>
+     </div>
+    </div><button id="reset-btn" class="w-full mt-4 px-4 py-2 bg-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-400 transition"> Reset ke Default </button> <button id="share-whatsapp-btn" class="w-full mt-3 px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center gap-2">
+     <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.105 0-2.193.372-3.056 1.045C6.957 8.432 6.5 9.467 6.5 10.582c0 1.115.457 2.15 1.288 2.982.851.832 1.987 1.29 3.19 1.29h.004c1.105 0 2.193-.372 3.056-1.045 1.852-1.74 2.309-2.774 2.309-3.907 0-1.115-.457-2.15-1.288-2.982-.851-.832-1.987-1.29-3.19-1.29zM12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z" />
+     </svg> Bagikan ke WhatsApp </button>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+        document_title: "Bukti Pembayaran Tagihan",
+        document_subtitle: "Penerimaan Negara Bukan Pajak (PNBP)",
+        kode_billing: "-",
+        tanggal_billing: "20 Februari 2026 15:46:30",
+        tanggal_kadaluarsa: "21 Februari 2026 23:59:59",
+        nama_wajib_bayar: "AGUNG BAMBANG SUJADMIKO",
+        jumlah_bayar: "Rp. 92.500,00",
+        terbilang: '"Sembilan puluh Dua ribu Lima ratus rupiah"',
+        status_bayar: "BELUM BAYAR",
+        ntpn: "-",
+        ntb: "-",
+        tanggal_bayar: "-",
+        channel_bayar: "-",
+        primary_color: "#1e40af",
+        secondary_color: "#f8fafc",
+        text_color: "#334155",
+        accent_color: "#3b82f6",
+        status_color: "#ef4444"
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(config) {
+        // Update document title and subtitle
+        document.getElementById('doc-title').textContent = config.document_title || defaultConfig.document_title;
+        document.getElementById('doc-subtitle').textContent = config.document_subtitle || defaultConfig.document_subtitle;
+        
+        // Update payment data
+        document.getElementById('kode-billing').textContent = config.kode_billing || defaultConfig.kode_billing;
+        document.getElementById('tanggal-billing').textContent = config.tanggal_billing || defaultConfig.tanggal_billing;
+        document.getElementById('tanggal-kadaluarsa').textContent = config.tanggal_kadaluarsa || defaultConfig.tanggal_kadaluarsa;
+        document.getElementById('nama-wajib-bayar').textContent = config.nama_wajib_bayar || defaultConfig.nama_wajib_bayar;
+        
+        // Update amount
+        document.getElementById('jumlah-bayar').textContent = config.jumlah_bayar || defaultConfig.jumlah_bayar;
+        document.getElementById('terbilang').textContent = config.terbilang || defaultConfig.terbilang;
+        
+        // Update status and transaction details
+        const statusEl = document.getElementById('status-bayar');
+        const statusText = config.status_bayar || defaultConfig.status_bayar;
+        statusEl.textContent = statusText;
+        
+        // Change status badge color based on status
+        if (statusText.toUpperCase().includes('LUNAS') || statusText.toUpperCase().includes('BERHASIL') || statusText.toUpperCase().includes('SUKSES')) {
+            statusEl.className = 'px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full uppercase';
+        } else {
+            statusEl.className = 'px-3 py-1 text-white text-xs font-bold rounded-full uppercase';
+            statusEl.style.backgroundColor = config.status_color || defaultConfig.status_color;
+        }
+        
+        document.getElementById('ntpn').textContent = config.ntpn || defaultConfig.ntpn;
+        document.getElementById('ntb').textContent = config.ntb || defaultConfig.ntb;
+        document.getElementById('tanggal-bayar').textContent = config.tanggal_bayar || defaultConfig.tanggal_bayar;
+        document.getElementById('channel-bayar').textContent = config.channel_bayar || defaultConfig.channel_bayar;
+        
+        // Update colors
+        const header = document.querySelector('.bg-gradient-to-r.from-blue-800');
+        if (header && config.primary_color) {
+            header.style.background = `linear-gradient(to right, ${config.primary_color}, ${adjustColor(config.primary_color, -20)})`;
+        }
+    }
+
+    function adjustColor(hex, amount) {
+        const num = parseInt(hex.replace('#', ''), 16);
+        const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+        const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+        const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+        return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+    }
+
+    function updateFromEdits() {
+        config = {
+            document_title: document.getElementById('edit-document-title').value || defaultConfig.document_title,
+            document_subtitle: document.getElementById('edit-document-subtitle').value || defaultConfig.document_subtitle,
+            kode_billing: document.getElementById('edit-kode-billing').value || defaultConfig.kode_billing,
+            tanggal_billing: document.getElementById('edit-tanggal-billing').value || defaultConfig.tanggal_billing,
+            tanggal_kadaluarsa: document.getElementById('edit-tanggal-kadaluarsa').value || defaultConfig.tanggal_kadaluarsa,
+            nama_wajib_bayar: document.getElementById('edit-nama-wajib-bayar').value || defaultConfig.nama_wajib_bayar,
+            jumlah_bayar: document.getElementById('edit-jumlah-bayar').value || defaultConfig.jumlah_bayar,
+            terbilang: document.getElementById('edit-terbilang').value || defaultConfig.terbilang,
+            status_bayar: document.getElementById('edit-status-bayar').value || defaultConfig.status_bayar,
+            ntpn: document.getElementById('edit-ntpn').value || defaultConfig.ntpn,
+            ntb: document.getElementById('edit-ntb').value || defaultConfig.ntb,
+            tanggal_bayar: document.getElementById('edit-tanggal-bayar').value || defaultConfig.tanggal_bayar,
+            channel_bayar: document.getElementById('edit-channel-bayar').value || defaultConfig.channel_bayar,
+            primary_color: document.getElementById('edit-primary-color').value || defaultConfig.primary_color,
+            secondary_color: defaultConfig.secondary_color,
+            text_color: defaultConfig.text_color,
+            accent_color: defaultConfig.accent_color,
+            status_color: document.getElementById('edit-status-color').value || defaultConfig.status_color
+        };
+        onConfigChange(config);
+    }
+
+    function getStatusDisplay() {
+        const statusText = config.status_bayar || defaultConfig.status_bayar;
+        if (statusText.toUpperCase().includes('LUNAS') || statusText.toUpperCase().includes('BERHASIL') || statusText.toUpperCase().includes('SUKSES')) {
+            return `${statusText} ✔`;
+        }
+        return statusText;
+    }
+
+    function shareToWhatsApp() {
+        const statusDisplay = getStatusDisplay();
+        const message = `*BUKTI PEMBAYARAN TAGIHAN*\n\n` +
+            `📋 *Data Pembayaran*\n` +
+            `Kode Billing: ${config.kode_billing}\n` +
+            `Nama Wajib Bayar: ${config.nama_wajib_bayar}\n` +
+            `Tanggal Billing: ${config.tanggal_billing}\n` +
+            `Tanggal Kadaluarsa: ${config.tanggal_kadaluarsa}\n\n` +
+            `💰 *Jumlah Pembayaran*\n` +
+            `Rp. ${config.jumlah_bayar}\n` +
+            `(${config.terbilang})\n\n` +
+            `✅ *Status Transaksi*\n` +
+            `Status: ${statusDisplay}\n` +
+            `NTPN: ${config.ntpn}\n` +
+            `NTB: ${config.ntb}\n` +
+            `Tanggal Bayar: ${config.tanggal_bayar}\n` +
+            `Channel Bayar: ${config.channel_bayar}\n\n` +
+            `Dokumen ini dibuat secara elektronik dan sah tanpa tanda tangan`;
+
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+        window.open(whatsappUrl, '_blank');
+    }
+
+    function initializeEditPanel() {
+        document.getElementById('edit-document-title').value = defaultConfig.document_title;
+        document.getElementById('edit-document-subtitle').value = defaultConfig.document_subtitle;
+        document.getElementById('edit-kode-billing').value = defaultConfig.kode_billing;
+        document.getElementById('edit-tanggal-billing').value = defaultConfig.tanggal_billing;
+        document.getElementById('edit-tanggal-kadaluarsa').value = defaultConfig.tanggal_kadaluarsa;
+        document.getElementById('edit-nama-wajib-bayar').value = defaultConfig.nama_wajib_bayar;
+        document.getElementById('edit-jumlah-bayar').value = defaultConfig.jumlah_bayar;
+        document.getElementById('edit-terbilang').value = defaultConfig.terbilang;
+        document.getElementById('edit-status-bayar').value = defaultConfig.status_bayar;
+        document.getElementById('edit-ntpn').value = defaultConfig.ntpn;
+        document.getElementById('edit-ntb').value = defaultConfig.ntb;
+        document.getElementById('edit-tanggal-bayar').value = defaultConfig.tanggal_bayar;
+        document.getElementById('edit-channel-bayar').value = defaultConfig.channel_bayar;
+        document.getElementById('edit-primary-color').value = defaultConfig.primary_color;
+        document.getElementById('edit-status-color').value = defaultConfig.status_color;
+
+        // Add event listeners
+        document.getElementById('edit-document-title').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-document-subtitle').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-kode-billing').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-tanggal-billing').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-tanggal-kadaluarsa').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-nama-wajib-bayar').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-jumlah-bayar').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-terbilang').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-status-bayar').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-ntpn').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-ntb').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-tanggal-bayar').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-channel-bayar').addEventListener('input', updateFromEdits);
+        document.getElementById('edit-primary-color').addEventListener('change', updateFromEdits);
+        document.getElementById('edit-status-color').addEventListener('change', updateFromEdits);
+
+        // Reset button
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            config = { ...defaultConfig };
+            initializeEditPanel();
+            onConfigChange(config);
+        });
+
+        // WhatsApp share button
+        document.getElementById('share-whatsapp-btn').addEventListener('click', shareToWhatsApp);
+    }
+
+    function mapToCapabilities(config) {
+        return {
+            recolorables: [
+                {
+                    get: () => config.primary_color || defaultConfig.primary_color,
+                    set: (value) => {
+                        config.primary_color = value;
+                        document.getElementById('edit-primary-color').value = value;
+                        window.elementSdk.setConfig({ primary_color: value });
+                    }
+                },
+                {
+                    get: () => config.secondary_color || defaultConfig.secondary_color,
+                    set: (value) => {
+                        config.secondary_color = value;
+                        window.elementSdk.setConfig({ secondary_color: value });
+                    }
+                },
+                {
+                    get: () => config.text_color || defaultConfig.text_color,
+                    set: (value) => {
+                        config.text_color = value;
+                        window.elementSdk.setConfig({ text_color: value });
+                    }
+                },
+                {
+                    get: () => config.accent_color || defaultConfig.accent_color,
+                    set: (value) => {
+                        config.accent_color = value;
+                        window.elementSdk.setConfig({ accent_color: value });
+                    }
+                },
+                {
+                    get: () => config.status_color || defaultConfig.status_color,
+                    set: (value) => {
+                        config.status_color = value;
+                        document.getElementById('edit-status-color').value = value;
+                        window.elementSdk.setConfig({ status_color: value });
+                    }
+                }
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+        };
+    }
+
+    function mapToEditPanelValues(config) {
+        return new Map([
+            ["document_title", config.document_title || defaultConfig.document_title],
+            ["document_subtitle", config.document_subtitle || defaultConfig.document_subtitle],
+            ["kode_billing", config.kode_billing || defaultConfig.kode_billing],
+            ["tanggal_billing", config.tanggal_billing || defaultConfig.tanggal_billing],
+            ["tanggal_kadaluarsa", config.tanggal_kadaluarsa || defaultConfig.tanggal_kadaluarsa],
+            ["nama_wajib_bayar", config.nama_wajib_bayar || defaultConfig.nama_wajib_bayar],
+            ["jumlah_bayar", config.jumlah_bayar || defaultConfig.jumlah_bayar],
+            ["terbilang", config.terbilang || defaultConfig.terbilang],
+            ["status_bayar", config.status_bayar || defaultConfig.status_bayar],
+            ["ntpn", config.ntpn || defaultConfig.ntpn],
+            ["ntb", config.ntb || defaultConfig.ntb],
+            ["tanggal_bayar", config.tanggal_bayar || defaultConfig.tanggal_bayar],
+            ["channel_bayar", config.channel_bayar || defaultConfig.channel_bayar]
+        ]);
+    }
+
+    // Initialize edit panel
+    initializeEditPanel();
+
+    // Initialize SDK
+    if (window.elementSdk) {
+        window.elementSdk.init({
+            defaultConfig,
+            onConfigChange,
+            mapToCapabilities,
+            mapToEditPanelValues
+        });
+    }
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d0db1675462f90a',t:'MTc3MTU4NzI0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

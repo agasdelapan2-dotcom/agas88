@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bukti Pembayaran PNBP</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="icon" href="https://agas88.web.id/LOGO-PT-AGAS88-2026.png" type="image/png" sizes="32x32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    @media print { body { background-color: white !important; padding: 0 !important; } .receipt-card { box-shadow: none !important; border: 1px solid #ccc !important; } }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gray-100 flex justify-center items-start p-4 md:p-6 overflow-auto">
+  <div class="flex flex-col md:flex-row gap-6 w-full max-w-6xl">
+   <!-- Edit Panel -->
+   <div class="md:w-80 flex-shrink-0">
+    <div class="bg-white rounded-xl shadow-lg p-5 border border-gray-200 sticky top-4">
+     <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg> Edit Data</h3>
+     <div class="space-y-3 max-h-96 overflow-y-auto">
+      <div><label class="block text-xs font-semibold text-gray-700 mb-1">Kode Billing</label> <input type="text" id="edit_kode_billing" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Masukkan kode billing" value="-">
+      </div>
+      <div><label class="block text-xs font-semibold text-gray-700 mb-1">Tanggal Billing</label> <input type="text" id="edit_tanggal_billing" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: 20 Februari 2026" value="20 Februari 2026 15:46:30">
+      </div>
+      <div><label class="block text-xs font-semibold text-gray-700 mb-1">Tanggal Kadaluarsa</label> <input type="text" id="edit_tanggal_kadaluarsa" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: 21 Februari 2026" value="21 Februari 2026 23:59:59">
+      </div>
+      <div><label class="block text-xs font-semibold text-gray-700 mb-1">Nama Wajib Bayar</label> <input type="text" id="edit_nama_wajib_bayar" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Masukkan nama lengkap" value="AGUNG BAMBANG SUJADMIKO">
+      </div>
+      <div class="pt-2 border-t border-gray-200">
+       <p class="text-xs font-semibold text-gray-700 mb-2">Nominal</p>
+       <div><label class="block text-xs font-semibold text-gray-600 mb-1">Jumlah Bayar (Rp)</label> <input type="text" id="edit_jumlah_bayar" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: 92500" value="92500">
+       </div>
+       <div class="mt-2"><label class="block text-xs font-semibold text-gray-600 mb-1">Terbilang (Otomatis)</label> <textarea id="edit_terbilang" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50" rows="2" placeholder="Otomatis dari jumlah bayar" readonly></textarea>
+       </div>
+      </div>
+      <div class="pt-2 border-t border-gray-200">
+       <p class="text-xs font-semibold text-gray-700 mb-2">Status &amp; Detail</p>
+       <div><label class="block text-xs font-semibold text-gray-600 mb-1">Status Bayar</label> <input type="text" id="edit_status_bayar" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: LUNAS" value="BELUM BAYAR">
+       </div>
+       <div class="mt-2"><label class="block text-xs font-semibold text-gray-600 mb-1">NTPN</label> <input type="text" id="edit_ntpn" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Nomor Transaksi Penerimaan" value="-">
+       </div>
+       <div class="mt-2"><label class="block text-xs font-semibold text-gray-600 mb-1">NTB</label> <input type="text" id="edit_ntb" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Nomor Transaksi Bank" value="-">
+       </div>
+       <div class="mt-2"><label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal Bayar</label> <input type="text" id="edit_tanggal_bayar" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: 20 Februari 2026" value="-">
+       </div>
+       <div class="mt-2"><label class="block text-xs font-semibold text-gray-600 mb-1">Channel Bayar</label> <input type="text" id="edit_channel_bayar" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Contoh: BANK BRI" value="-">
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Receipt Card -->
+   <div class="receipt-card bg-white flex-1 border border-gray-200 shadow-lg rounded-xl overflow-hidden">
+    <!-- Header -->
+    <div class="header bg-gradient-to-r from-blue-800 to-blue-600 text-white text-center py-5 px-4">
+     <div class="flex justify-center mb-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 opacity-90" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+     </div>
+     <h1 class="text-lg md:text-xl font-bold tracking-wide uppercase">Bukti Pembayaran Tagihan</h1>
+     <h2 class="text-sm md:text-base font-medium opacity-90 mt-1">Penerimaan Negara Bukan Pajak (PNBP)</h2>
+    </div>
+    <div class="p-5 md:p-6">
+     <!-- Section: Data Pembayaran -->
+     <div class="section-title bg-gray-50 px-3 py-2 font-semibold text-sm text-gray-700 border-l-4 border-blue-500 rounded-r mb-4">
+      DATA PEMBAYARAN TAGIHAN
+     </div>
+     <div class="space-y-2 text-sm">
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">🔹 Kode Billing</span> <span id="kode_billing" class="value text-gray-800 font-semibold tracking-wider">-</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">📅 Tanggal Billing</span> <span id="tanggal_billing" class="value text-gray-800 font-medium">20 Februari 2026 15:46:30</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">⏰ Kadaluarsa</span> <span id="tanggal_kadaluarsa" class="value text-gray-800 font-medium">21 Februari 2026 23:59:59</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">👤 Nama Wajib Bayar</span> <span id="nama_wajib_bayar" class="value text-gray-800 font-medium">AGUNG BAMBANG SUJADMIKO</span>
+      </div>
+     </div><!-- Amount Box -->
+     <div class="amount-box mt-5 p-4 bg-blue-50 rounded-lg border border-blue-100">
+      <div class="text-xs text-gray-500 mb-1">
+       💰 Total Tagihan
+      </div>
+      <div id="jumlah_bayar" class="amount-value text-2xl md:text-3xl font-bold text-blue-600">
+       Rp. 92.500,00
+      </div>
+      <div id="terbilang" class="terbilang italic text-xs text-gray-500 mt-1">
+       "Sembilan puluh dua ribu lima ratus rupiah"
+      </div>
+     </div><!-- Section: Status & Detail -->
+     <div class="section-title bg-gray-50 px-3 py-2 font-semibold text-sm text-gray-700 border-l-4 border-blue-500 rounded-r mb-4 mt-6">
+      STATUS &amp; DETAIL TRANSAKSI
+     </div>
+     <div class="space-y-2 text-sm">
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2 items-center">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">✓ Status Bayar</span> <span id="status_bayar" class="status-badge inline-block px-3 py-1 bg-red-500 text-white rounded-full text-xs font-bold">BELUM BAYAR</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">📝 NTPN</span> <span id="ntpn" class="value text-gray-800 font-medium">-</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">🏦 NTB</span> <span id="ntb" class="value text-gray-800 font-medium">-</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">📆 Tanggal Bayar</span> <span id="tanggal_bayar" class="value text-gray-800 font-medium">-</span>
+      </div>
+      <div class="data-row flex border-b border-dashed border-gray-200 py-2">
+       <span class="label w-40 md:w-44 text-gray-500 flex-shrink-0">💳 Channel Bayar</span> <span id="channel_bayar" class="value text-gray-800 font-medium">-</span>
+      </div>
+     </div><!-- Footer -->
+     <div class="mt-6 pt-4 border-t border-gray-200 text-center">
+      <p class="text-xs text-gray-400">Dokumen ini dicetak secara elektronik dan sah tanpa tanda tangan.</p>
+     </div><!-- Action Buttons -->
+     <div class="mt-6 flex gap-3 justify-center flex-wrap">
+      <button id="btn_download" class="flex items-center gap-2 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold text-sm transition">
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+       </svg> Download </button> <button id="btn_whatsapp" class="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition">
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.411-2.393-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.35 1.223-3.226 2.07-3.476 3.286-3.476 8.512 0 11.798 3.477 3.286 9.126 3.286 12.602 0C21.94 15.611 21.94 10.384 18.464 7.098c-.877-.847-1.989-1.567-3.226-2.07a9.868 9.868 0 00-4.255-.949zm4.273 12.73c-1.615.27-3.26-.176-4.738-1.329-2.414-1.908-3.598-5.094-2.677-8.052.52-1.603 1.505-2.964 2.686-3.957 1.212-.98 2.631-1.643 4.148-1.848 1.466-.19 2.946.118 4.27 1.005 1.315.866 2.315 2.166 2.874 3.652.56 1.486.524 3.12-.108 4.603-.708 1.747-2.016 3.182-3.637 4.082-1.506.823-3.226 1.17-4.818.884z" />
+       </svg> WhatsApp </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Fungsi convert angka ke terbilang
+    function angkaKeTerbilang(angka) {
+      const ones = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan'];
+      const teens = ['sepuluh', 'sebelas', 'dua belas', 'tiga belas', 'empat belas', 'lima belas', 'enam belas', 'tujuh belas', 'delapan belas', 'sembilan belas'];
+      const tens = ['', '', 'dua puluh', 'tiga puluh', 'empat puluh', 'lima puluh', 'enam puluh', 'tujuh puluh', 'delapan puluh', 'sembilan puluh'];
+      const scales = ['', 'ribu', 'juta', 'miliar', 'triliun'];
+
+      if (angka === 0) return 'nol';
+
+      function convert(num) {
+        if (num === 0) return '';
+        else if (num < 10) return ones[num];
+        else if (num < 20) return teens[num - 10];
+        else if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 ? ' ' + ones[num % 10] : '');
+        else if (num < 1000) return ones[Math.floor(num / 100)] + ' ratus' + (num % 100 ? ' ' + convert(num % 100) : '');
+      }
+
+      let str = String(angka).padStart(15, '0');
+      let result = [];
+      for (let i = 0; i < 5; i++) {
+        let chunk = parseInt(str.slice(i * 3, i * 3 + 3));
+        if (chunk !== 0) {
+          result.unshift(convert(chunk) + (scales[4 - i] ? ' ' + scales[4 - i] : ''));
+        }
+      }
+      return result.join(' ').trim();
+    }
+
+    // Local state
+    let data = {
+      kode_billing: '-',
+      tanggal_billing: '20 Februari 2026 15:46:30',
+      tanggal_kadaluarsa: '21 Februari 2026 23:59:59',
+      nama_wajib_bayar: 'AGUNG BAMBANG SUJADMIKO',
+      jumlah_bayar: '92500',
+      terbilang: 'Sembilan puluh dua ribu lima ratus rupiah',
+      status_bayar: 'BELUM BAYAR',
+      ntpn: '-',
+      ntb: '-',
+      tanggal_bayar: '-',
+      channel_bayar: '-'
+    };
+
+    function formatRupiah(num) {
+      return 'Rp. ' + parseInt(num).toLocaleString('id-ID');
+    }
+
+    function updateDisplay() {
+      document.getElementById('kode_billing').textContent = data.kode_billing;
+      document.getElementById('tanggal_billing').textContent = data.tanggal_billing;
+      document.getElementById('tanggal_kadaluarsa').textContent = data.tanggal_kadaluarsa;
+      document.getElementById('nama_wajib_bayar').textContent = data.nama_wajib_bayar;
+      
+      document.getElementById('jumlah_bayar').textContent = formatRupiah(data.jumlah_bayar);
+      document.getElementById('terbilang').textContent = '"' + data.terbilang + '"';
+      
+      const statusEl = document.getElementById('status_bayar');
+      statusEl.textContent = data.status_bayar.toUpperCase();
+      if (data.status_bayar.toUpperCase().includes('LUNAS') || data.status_bayar.toUpperCase().includes('SUKSES') || data.status_bayar.toUpperCase().includes('BERHASIL')) {
+        statusEl.className = 'status-badge inline-block px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold';
+      } else {
+        statusEl.className = 'status-badge inline-block px-3 py-1 bg-red-500 text-white rounded-full text-xs font-bold';
+      }
+      
+      document.getElementById('ntpn').textContent = data.ntpn;
+      document.getElementById('ntb').textContent = data.ntb;
+      document.getElementById('tanggal_bayar').textContent = data.tanggal_bayar;
+      document.getElementById('channel_bayar').textContent = data.channel_bayar;
+    }
+
+    // Event listeners
+    document.getElementById('edit_kode_billing').addEventListener('input', (e) => {
+      data.kode_billing = e.target.value || '-';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_tanggal_billing').addEventListener('input', (e) => {
+      data.tanggal_billing = e.target.value || '20 Februari 2026 15:46:30';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_tanggal_kadaluarsa').addEventListener('input', (e) => {
+      data.tanggal_kadaluarsa = e.target.value || '21 Februari 2026 23:59:59';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_nama_wajib_bayar').addEventListener('input', (e) => {
+      data.nama_wajib_bayar = e.target.value || 'AGUNG BAMBANG SUJADMIKO';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_jumlah_bayar').addEventListener('input', (e) => {
+      data.jumlah_bayar = e.target.value || '92500';
+      const angka = parseInt(data.jumlah_bayar) || 0;
+      data.terbilang = angkaKeTerbilang(angka) + ' rupiah';
+      document.getElementById('edit_terbilang').value = data.terbilang;
+      updateDisplay();
+    });
+
+    document.getElementById('edit_status_bayar').addEventListener('input', (e) => {
+      data.status_bayar = e.target.value || 'BELUM BAYAR';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_ntpn').addEventListener('input', (e) => {
+      data.ntpn = e.target.value || '-';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_ntb').addEventListener('input', (e) => {
+      data.ntb = e.target.value || '-';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_tanggal_bayar').addEventListener('input', (e) => {
+      data.tanggal_bayar = e.target.value || '-';
+      updateDisplay();
+    });
+
+    document.getElementById('edit_channel_bayar').addEventListener('input', (e) => {
+      data.channel_bayar = e.target.value || '-';
+      updateDisplay();
+    });
+
+    // Download button
+    document.getElementById('btn_download').addEventListener('click', () => {
+      const html = document.querySelector('.receipt-card').innerHTML;
+      const blob = new Blob(['<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Inter,sans-serif}@media print{body{margin:0;padding:0}}</style></head><body>' + html + '</body></html>'], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Bukti_Pembayaran_PNBP.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // WhatsApp button
+    document.getElementById('btn_whatsapp').addEventListener('click', () => {
+      const msg = `**BUKTI PEMBAYARAN PNBP**\n\n` +
+        `**DATA PEMBAYARAN**\n` +
+        `Kode Billing: ${data.kode_billing}\n` +
+        `Tanggal Billing: ${data.tanggal_billing}\n` +
+        `Kadaluarsa: ${data.tanggal_kadaluarsa}\n` +
+        `Nama: ${data.nama_wajib_bayar}\n\n` +
+        `**NOMINAL PEMBAYARAN**\n` +
+        `${formatRupiah(data.jumlah_bayar)}\n` +
+        `${data.terbilang}\n\n` +
+        `**STATUS TRANSAKSI**\n` +
+        `Status: ${data.status_bayar}\n` +
+        `NTPN: ${data.ntpn}\n` +
+        `NTB: ${data.ntb}\n` +
+        `Tanggal Bayar: ${data.tanggal_bayar}\n` +
+        `Channel Bayar: ${data.channel_bayar}\n\n` +
+        `Dokumen ini dicetak secara elektronik dan sah tanpa tanda tangan.`;
+      
+      const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+
+    // Initialize
+    updateDisplay();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d0f038ac48df882',t:'MTc3MTYwMTA5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

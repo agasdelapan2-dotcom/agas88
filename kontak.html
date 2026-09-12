@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hubungi Kami | PT.AGAS88</title>
-  <!-- Favicon & App Icon -->
   <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,6 +91,14 @@
       min-height: 120px;
     }
 
+    /* Group Tombol Aksi */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
     .btn-submit {
       width: 100%;
       padding: 14px;
@@ -103,7 +110,6 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 10px;
     }
 
     .btn-submit:hover {
@@ -114,6 +120,37 @@
     .btn-submit:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    /* Style Tombol Lihat Pesan */
+    .btn-view-sheet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-view-sheet:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #00f2fe;
+      color: #00f2fe;
+      transform: translateY(-2px);
+    }
+
+    .btn-view-sheet svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     .alert {
@@ -218,13 +255,24 @@
         <textarea id="pesan" name="pesan" class="form-control" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
       </div>
 
-      <button type="submit" id="submitBtn" class="btn-submit">Kirim Pesan</button>
+      <div class="btn-group">
+        <!-- Tombol Kirim Pesan -->
+        <button type="submit" id="submitBtn" class="btn-submit">Kirim Pesan</button>
+        
+        <!-- Tombol Lihat Pesan (Spreadsheet) -->
+        <a href="https://docs.google.com/spreadsheets/d/1RtZDK9bX8pM_kDBzMn7dRYwqMqxGaEl4ZBAHoDCymcw/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-view-sheet">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z"/>
+          </svg>
+          Lihat Pesan (Spreadsheet)
+        </a>
+      </div>
     </form>
   </div>
 
   <script>
     // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwepOvEo6LCLsYxTWXxVK4GQD0vdmi0UaJQ8WKkHMEXN3xN29ZagLc5NXtaO2LKoypDKA/exec';
+    const scriptURL = 'URL_SCRIPT_GOOGLE_ANDA_DI_SINI';
     
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -234,7 +282,6 @@
     form.addEventListener('submit', e => {
       e.preventDefault();
       
-      // Ubah tampilan tombol saat proses kirim
       submitBtn.disabled = true;
       submitBtn.innerText = 'Mengirim...';
       alertSuccess.style.display = 'none';
@@ -245,7 +292,7 @@
           submitBtn.disabled = false;
           submitBtn.innerText = 'Kirim Pesan';
           alertSuccess.style.display = 'block';
-          form.reset(); // Clear form
+          form.reset();
         })
         .catch(error => {
           submitBtn.disabled = false;

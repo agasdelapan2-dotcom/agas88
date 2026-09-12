@@ -53,6 +53,20 @@
       100% { background-position: 10% 5%, 90% 15%, 50% 100%; }
     }
     .supports-backdrop:where(.supports-backdrop) { backdrop-filter: blur(10px); }
+/* Container pembungkus slider */
+.slider-container {
+    width: 100%;
+    height: 600px; /* Ubah angka ini sesuai tinggi yang kamu inginkan (misal: 500px -> 600px) */
+    /* atau bisa pakai vh untuk responsif layar: height: 80vh; */
+}
+
+/* Tag gambar di dalam slider */
+.slider-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Sangat penting: agar gambar tidak gepeng/terdistorsi */
+    object-position: center; /* Memastikan fokus gambar tetap di tengah */
+}
   </style>
 </head>
 
@@ -295,7 +309,7 @@
   <!-- Slider Foto -->
 <section id="slider" class="relative bg-slate-900/50 border-b border-white/10 overflow-hidden group">
   <!-- Container Gambar -->
-  <div class="relative w-full h-[28vh] sm:h-[38vh] md:h-[48vh] lg:h-[56vh]">
+  <div class="relative w-full h-[40vh] sm:h-[55vh] md:h-[70vh] lg:h-[80vh]">
     <img data-slide="0" 
          src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgxiiSFh4A2IFT-8VnAS2Pe2fSlBQyw_KcA63u3BRDV-z6d4mRd-g4WzQkYFnyPFRpxBjy3s95MMyUO39AMmxf6gIlz2AukMh279Yi_5I3wMPgof5plqVMjGs6u5O_QYfHcCw_Q-xPyBgiH8mp_Od9S2Avhjjubyz02knlnpL8Ll4eNP-T3I7FMCVGTcevW/s1672/ChatGPT%20Image%2012%20Sep%202026,%2009.00.00.png" 
          alt="Slide 1" 

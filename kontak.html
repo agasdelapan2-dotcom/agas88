@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hubungi Kami | PT.AGAS88</title>
+  <!-- Favicon & App Icon -->
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .contact-container {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .contact-title {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .contact-subtitle {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: #00f2fe;
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      border: none;
+      border-radius: 10px;
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert-success {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-container">
+    <h1 class="contact-title">Kirim Pesan</h1>
+    <p class="contact-subtitle">Punya pertanyaan atau masukan? Silakan isi formulir di bawah ini.</p>
+
+    <!-- Notifikasi -->
+    <div id="alertSuccess" class="alert alert-success">Pesan Anda berhasil terkirim! Terima kasih.</div>
+    <div id="alertError" class="alert alert-error">Gagal mengirim pesan. Silakan coba lagi.</div>
+
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama Anda" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Alamat Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="nama@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pesan">Pesan</label>
+        <textarea id="pesan" name="pesan" class="form-control" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">Kirim Pesan</button>
+    </form>
+  </div>
+
+  <script>
+    // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwepOvEo6LCLsYxTWXxVK4GQD0vdmi0UaJQ8WKkHMEXN3xN29ZagLc5NXtaO2LKoypDKA/exec';
+    
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertSuccess = document.getElementById('alertSuccess');
+    const alertError = document.getElementById('alertError');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      
+      // Ubah tampilan tombol saat proses kirim
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Mengirim...';
+      alertSuccess.style.display = 'none';
+      alertError.style.display = 'none';
+
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Kirim Pesan';
+          alertSuccess.style.display = 'block';
+          form.reset(); // Clear form
+        })
+        .catch(error => {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Kirim Pesan';
+          alertError.style.display = 'block';
+          console.error('Error!', error.message);
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -345,34 +345,7 @@
   </div>
 </section>
 
-  <script>
-    (function(){
-      let idx = 0;
-      const slider = document.getElementById('slider');
-      if (!slider) return;
-      const slides = slider.querySelectorAll('[data-slide]');
-      const dots = slider.querySelectorAll('[data-dot]');
-      function show(i){
-        if (!slides.length) return;
-        idx = (i + slides.length) % slides.length;
-        slides.forEach((s,k)=>{
-          s.classList.toggle('opacity-0', k !== idx);
-          s.classList.toggle('opacity-100', k === idx);
-        });
-        dots.forEach((d,k)=>{
-          if (k === idx) { d.classList.add('bg-white'); d.classList.remove('bg-white/40'); }
-          else { d.classList.add('bg-white/40'); d.classList.remove('bg-white'); }
-        });
-      }
-      window.nextSlide = function(step){ show(idx + (step || 1)); };
-      dots.forEach((d,k)=> d.addEventListener('click', ()=> show(k)));
-      show(0);
-      let timer = setInterval(()=> window.nextSlide(1), 5000);
-      slider.addEventListener('mouseenter', ()=> { clearInterval(timer); });
-      slider.addEventListener('mouseleave', ()=> { timer = setInterval(()=> window.nextSlide(1), 5000); });
-    })();
-  </script>
-
+ 
   <!-- Hero -->
   <section id="home" class="relative overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('https://agas88.web.id/agas1.png');">
     <div class="absolute inset-0 pointer-events-none animated-gradient"></div>

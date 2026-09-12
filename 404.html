@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Halaman Tidak Ditemukan | AGAS88</title>
+  <!-- Favicon & App Icon -->
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Ambient Lights */
+    .bg-glow-1 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: -100px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(121, 40, 202, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: -100px;
+      right: -100px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    /* Container Card */
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 30px;
+      max-width: 550px;
+      width: 90%;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Animated 404 Text */
+    .error-code {
+      font-size: 110px;
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #7928ca 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      letter-spacing: -2px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .error-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .error-desc {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    /* Action Buttons */
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #0f172a;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 25px rgba(0, 242, 254, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .error-code { font-size: 85px; }
+      .error-title { font-size: 20px; }
+      .btn-group { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background glow -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Main Content Card -->
+  <div class="container">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Waduh! Halaman Hilang</h1>
+    <p class="error-desc">
+      Halaman yang Anda cari mungkin telah dipindahkan, dihapus, atau Alamat URL yang dimasukkan salah.
+    </p>
+
+    <div class="btn-group">
+      <!-- Tombol Kembali Ke Beranda -->
+      <a href="https://agas88.web.id/" class="btn btn-primary">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        Kembali ke Home
+      </a>
+      
+      <!-- Tombol Kembali Ke Halaman Sebelumnya -->
+      <a href="javascript:history.back()" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Kembali Lagi
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1191,5 +1191,27 @@ window.addEventListener('scroll', function() {
     }
   }, 3000);
 </script>
+<!-- Tambahkan ini tepat di atas tag </body> -->
+<script>
+  (function() {
+    function hideAllLoaders() {
+      // Mencari loader berdasarkan ID atau Class yang umum dipakai
+      const loaders = document.querySelectorAll('#loader, #loading, .loader, .loading, #preloader, .preloader, [class*="loading"], [id*="loader"]');
+      loaders.forEach(el => {
+        el.style.display = 'none';
+        el.style.opacity = '0';
+        el.style.visibility = 'hidden';
+      });
+      document.body.classList.remove('overflow-hidden', 'loading');
+    }
+
+    // Paksa sembunyikan langsung saat HTML siap
+    document.addEventListener('DOMContentLoaded', hideAllLoaders);
+    window.addEventListener('load', hideAllLoaders);
+
+    // Keamanan tambahan: Paksa hilang setelah 2 detik jika skrip lain macet
+    setTimeout(hideAllLoaders, 2000);
+  })();
+</script>
 </body>
 </html>

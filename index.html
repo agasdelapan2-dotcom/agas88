@@ -292,35 +292,13 @@
     </div>
   </header>
 
-  /* === HERO SECTION === */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/1600/600') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            max-width: 600px;
-        }
-
-        /* === CONTENT SECTION === */
-        .content {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+  <!-- Slider Foto -->
+  <section id="slider" class="relative bg-slate-900/50 border-b border-white/10">
+    <div class="relative w-full h-[28vh] sm:h-[38vh] md:h-[48vh] lg:h-[56vh]">
+      <img data-slide="0" src="https://fastly.picsum.photos/id/918/1600/600.jpg?hmac=7G20RPZkIiRarzY3h1QSWNftFzqXZFr5zAYm8bT7Bz4" alt="Slide 1" class="absolute inset-0 w-full h-full object-cover md:object-cover object-center opacity-100 transition-opacity duration-700" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+      <img data-slide="1" src="https://agas88.web.id/agas1.png" alt="Slide 2" class="absolute inset-0 w-full h-full object-cover md:object-cover object-center opacity-0 transition-opacity duration-700" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+      <img data-slide="2" src="https://agas88.web.id/agas2.png" alt="Slide 3" class="absolute inset-0 w-full h-full object-cover md:object-cover object-center opacity-0 transition-opacity duration-700" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+      <img data-slide="3" src="https://fastly.picsum.photos/id/124/1600/600.jpg?hmac=-4-4c2CJmD3uqE7c-CdSpLKJxSomKjR9WTIftbJne7M" alt="Slide 4" class="absolute inset-0 w-full h-full object-cover md:object-cover object-center opacity-0 transition-opacity duration-700" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
 
 
       <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent pointer-events-none"></div>

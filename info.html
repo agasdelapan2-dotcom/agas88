@@ -1,4 +1,7 @@
 <!-- Container Utama Aplikasi -->
+<!-- Favicon & App Icon -->
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
 <div id="agas88-scheduler">
   <style>
     #agas88-scheduler {
@@ -167,6 +170,57 @@
       font-size: 12px;
       color: #888;
     }
+.float-home-expand {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  height: 50px;
+  width: 50px;
+  background: #111827;
+  border: 2px solid #3b82f6;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 13px;
+  overflow: hidden;
+  text-decoration: none;
+  z-index: 9999;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+.float-home-expand .home-svg {
+  width: 20px;
+  height: 20px;
+  fill: #3b82f6;
+  flex-shrink: 0;
+  transition: fill 0.3s ease;
+}
+
+.float-home-expand .label-text {
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 12px;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s ease 0.1s;
+}
+
+.float-home-expand:hover {
+  width: 130px;
+  background: #3b82f6;
+}
+
+.float-home-expand:hover .home-svg {
+  fill: #ffffff;
+}
+
+.float-home-expand:hover .label-text {
+  opacity: 1;
+}
   </style>
 
   <div class="card">
@@ -365,3 +419,10 @@
 
   updateCountAGAS();
 </script>
+<!-- Tombol Melayang Expandable -->
+<a href="https://agas88.web.id/" class="float-home-expand">
+  <svg viewBox="0 0 24 24" class="home-svg">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="label-text">BERANDA</span>
+</a>

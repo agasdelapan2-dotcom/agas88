@@ -258,19 +258,19 @@
                 </div>
             </div>
 
-            <label>Rincian Perubahan Muatan:</label>
+            <label>Rincian Perubahan Muatan (Isi 0 atau biarkan jika tidak ada perubahan):</label>
             <div class="grid-3">
                 <div class="form-group">
                     <label for="sayur-perubahan">Sayuran (Kg):</label>
-                    <input type="number" id="sayur-perubahan" value="8000" min="0" required>
+                    <input type="number" id="sayur-perubahan" value="0" min="0">
                 </div>
                 <div class="form-group">
                     <label for="buah-perubahan">Buah (Kg):</label>
-                    <input type="number" id="buah-perubahan" value="2000" min="0" required>
+                    <input type="number" id="buah-perubahan" value="0" min="0">
                 </div>
                 <div class="form-group">
                     <label for="ikan-perubahan">Ikan (Kg):</label>
-                    <input type="number" id="ikan-perubahan" value="5000" min="0" required>
+                    <input type="number" id="ikan-perubahan" value="0" min="0">
                 </div>
             </div>
 
@@ -371,10 +371,7 @@
 </div>
 
 <script>
-    const daftarPengirim = [
-        "OPAN",
-        "FAHRUL"
-    ];
+    const daftarPengirim = ["OPAN", "FAHRUL"];
 
     const daftarKapal = [
         "KLM.SUMBER RIZKY",
@@ -483,10 +480,19 @@
         document.getElementById('doc-sender').textContent = pengirim;
         document.getElementById('doc-type').textContent = jenisLayanan;
         document.getElementById('doc-ship').textContent = kapal;
-        document.getElementById('doc-sayur').textContent = sayur.toLocaleString('id-ID') + ' Kg';
-        document.getElementById('doc-buah').textContent = buah.toLocaleString('id-ID') + ' Kg';
-        document.getElementById('doc-ikan').textContent = ikan.toLocaleString('id-ID') + ' Kg';
-        document.getElementById('doc-total').textContent = total.toLocaleString('id-ID') + ' Kg';
+
+        // Tampilan tabel untuk halaman jika tidak ada perubahan
+        if (jenisLayanan === 'Perubahan Muatan' && total === 0) {
+            document.getElementById('doc-sayur').textContent = "Tidak Ada Perubahan";
+            document.getElementById('doc-buah').textContent = "Tidak Ada Perubahan";
+            document.getElementById('doc-ikan').textContent = "Tidak Ada Perubahan";
+            document.getElementById('doc-total').textContent = "Tidak Ada Perubahan";
+        } else {
+            document.getElementById('doc-sayur').textContent = sayur > 0 ? sayur.toLocaleString('id-ID') + ' Kg' : (jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+            document.getElementById('doc-buah').textContent = buah > 0 ? buah.toLocaleString('id-ID') + ' Kg' : (jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+            document.getElementById('doc-ikan').textContent = ikan > 0 ? ikan.toLocaleString('id-ID') + ' Kg' : (jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+            document.getElementById('doc-total').textContent = total.toLocaleString('id-ID') + ' Kg';
+        }
 
         const outputArea = document.getElementById('output-area');
         outputArea.style.display = 'block';
@@ -496,6 +502,24 @@
     function shareWhatsApp() {
         if (!currentData.kapal) return;
 
+        let rincianText = "";
+
+        // Logika Pengecekan Perubahan Muatan
+        if (currentData.jenisLayanan === 'Perubahan Muatan' && currentData.total === 0) {
+            rincianText = "Tidak Ada Perubahan";
+        } else {
+            const sayurText = currentData.sayur > 0 ? `${currentData.sayur.toLocaleString('id-ID')} Kg` : (currentData.jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+            const buahText = currentData.buah > 0 ? `${currentData.buah.toLocaleString('id-ID')} Kg` : (currentData.jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+            const ikanText = currentData.ikan > 0 ? `${currentData.ikan.toLocaleString('id-ID')} Kg` : (currentData.jenisLayanan === 'Perubahan Muatan' ? 'Tidak Ada Perubahan' : '0 Kg');
+
+            rincianText = 
+`* Sayuran: ${sayurText}
+* Buah: ${buahText}
+* Ikan: ${ikanText}
+----------------------------------
+📦 Total Muatan: ${currentData.total.toLocaleString('id-ID')} Kg`;
+        }
+
         const textMessage = 
 `--- PERMOHONAN ${currentData.jenisLayanan.toUpperCase()} ---
 👤 Pengirim: ${currentData.pengirim}
@@ -503,11 +527,7 @@
 🚢 Nama Kapal: ${currentData.kapal}
 
 Rincian Muatan:
-* Sayuran: ${currentData.sayur.toLocaleString('id-ID')} Kg
-* Buah: ${currentData.buah.toLocaleString('id-ID')} Kg
-* Ikan: ${currentData.ikan.toLocaleString('id-ID')} Kg
-----------------------------------
-📦 Total Muatan: ${currentData.total.toLocaleString('id-ID')} Kg
+${rincianText}
 
 🔗 Link Revisi: https://agas88.web.id/revisi`;
 

@@ -95,6 +95,12 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
 
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -237,11 +243,19 @@
     <!-- TAB 1: FORM PERUBAHAN MUATAN -->
     <div id="tab-perubahan" class="tab-content active">
         <form id="formPerubahan" onsubmit="generateDocument(event, 'Perubahan Muatan')">
-            <div class="form-group">
-                <label for="kapal-perubahan">Nama Kapal:</label>
-                <select id="kapal-perubahan" required>
-                    <!-- Opsi kapal diisi oleh JavaScript -->
-                </select>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="pengirim-perubahan">Nama Pengirim:</label>
+                    <select id="pengirim-perubahan" required>
+                        <!-- Opsi pengirim diisi oleh JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kapal-perubahan">Nama Kapal:</label>
+                    <select id="kapal-perubahan" required>
+                        <!-- Opsi kapal diisi oleh JavaScript -->
+                    </select>
+                </div>
             </div>
 
             <label>Rincian Perubahan Muatan:</label>
@@ -267,11 +281,19 @@
     <!-- TAB 2: FORM DOKUMEN BARU -->
     <div id="tab-dokumen-baru" class="tab-content">
         <form id="formBaru" onsubmit="generateDocument(event, 'Dokumen Baru')">
-            <div class="form-group">
-                <label for="kapal-baru">Nama Kapal:</label>
-                <select id="kapal-baru" required>
-                    <!-- Opsi kapal diisi oleh JavaScript -->
-                </select>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="pengirim-baru">Nama Pengirim:</label>
+                    <select id="pengirim-baru" required>
+                        <!-- Opsi pengirim diisi oleh JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kapal-baru">Nama Kapal:</label>
+                    <select id="kapal-baru" required>
+                        <!-- Opsi kapal diisi oleh JavaScript -->
+                    </select>
+                </div>
             </div>
 
             <label>Rincian Muatan Baru:</label>
@@ -301,6 +323,7 @@
             <p>Tanggal Diterbitkan: <span id="doc-date"></span></p>
         </div>
         <div class="doc-details">
+            <p><strong>Nama Pengirim:</strong> <span id="doc-sender"></span></p>
             <p><strong>Jenis Pengajuan:</strong> <span id="doc-type"></span></p>
             <p><strong>Nama Kapal:</strong> <span id="doc-ship"></span></p>
         </div>
@@ -348,6 +371,11 @@
 </div>
 
 <script>
+    const daftarPengirim = [
+        "OPAN",
+        "FAHRUL"
+    ];
+
     const daftarKapal = [
         "KLM.SUMBER RIZKY",
         "KLM.SUMBER RIZKY 02",
@@ -367,23 +395,38 @@
         "KLM.ANUGERAH REZKY PUTRA"
     ];
 
-    // Variabel penampung data aktif untuk dibagikan via WhatsApp
     let currentData = {};
 
     function populateDropdowns() {
-        const selectPerubahan = document.getElementById('kapal-perubahan');
-        const selectBaru = document.getElementById('kapal-baru');
+        const selectPengirimPerubahan = document.getElementById('pengirim-perubahan');
+        const selectPengirimBaru = document.getElementById('pengirim-baru');
+        const selectKapalPerubahan = document.getElementById('kapal-perubahan');
+        const selectKapalBaru = document.getElementById('kapal-baru');
 
+        // Isi Dropdown Pengirim
+        daftarPengirim.forEach(pengirim => {
+            let opt1 = document.createElement('option');
+            opt1.value = pengirim;
+            opt1.textContent = pengirim;
+            selectPengirimPerubahan.appendChild(opt1);
+
+            let opt2 = document.createElement('option');
+            opt2.value = pengirim;
+            opt2.textContent = pengirim;
+            selectPengirimBaru.appendChild(opt2);
+        });
+
+        // Isi Dropdown Kapal
         daftarKapal.forEach(kapal => {
             let option1 = document.createElement('option');
             option1.value = kapal;
             option1.textContent = kapal;
-            selectPerubahan.appendChild(option1);
+            selectKapalPerubahan.appendChild(option1);
 
             let option2 = document.createElement('option');
             option2.value = kapal;
             option2.textContent = kapal;
-            selectBaru.appendChild(option2);
+            selectKapalBaru.appendChild(option2);
         });
     }
 
@@ -408,14 +451,16 @@
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = today.toLocaleDateString('id-ID', options);
 
-        let kapal = "", sayur = 0, buah = 0, ikan = 0;
+        let pengirim = "", kapal = "", sayur = 0, buah = 0, ikan = 0;
 
         if (jenisLayanan === 'Perubahan Muatan') {
+            pengirim = document.getElementById('pengirim-perubahan').value;
             kapal = document.getElementById('kapal-perubahan').value;
             sayur = parseInt(document.getElementById('sayur-perubahan').value) || 0;
             buah = parseInt(document.getElementById('buah-perubahan').value) || 0;
             ikan = parseInt(document.getElementById('ikan-perubahan').value) || 0;
         } else {
+            pengirim = document.getElementById('pengirim-baru').value;
             kapal = document.getElementById('kapal-baru').value;
             sayur = parseInt(document.getElementById('sayur-baru').value) || 0;
             buah = parseInt(document.getElementById('buah-baru').value) || 0;
@@ -424,8 +469,8 @@
 
         const total = sayur + buah + ikan;
 
-        // Simpan data ke variabel global untuk pengiriman WhatsApp
         currentData = {
+            pengirim,
             jenisLayanan,
             formattedDate,
             kapal,
@@ -435,9 +480,9 @@
             total
         };
 
-        // Mengisi tampilan preview dokumen
         document.getElementById('doc-title').textContent = `DOKUMEN ${jenisLayanan.toUpperCase()}`;
         document.getElementById('doc-date').textContent = formattedDate;
+        document.getElementById('doc-sender').textContent = pengirim;
         document.getElementById('doc-type').textContent = jenisLayanan;
         document.getElementById('doc-ship').textContent = kapal;
         document.getElementById('doc-sayur').textContent = sayur.toLocaleString('id-ID') + ' Kg';
@@ -450,12 +495,12 @@
         outputArea.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Fungsi Share ke WhatsApp
     function shareWhatsApp() {
         if (!currentData.kapal) return;
 
         const textMessage = 
 `*--- DOKUMEN ${currentData.jenisLayanan.toUpperCase()} ---*
+👤 *Pengirim:* ${currentData.pengirim}
 📅 *Tanggal:* ${currentData.formattedDate}
 🚢 *Nama Kapal:* ${currentData.kapal}
 
@@ -464,12 +509,11 @@
 • Buah: ${currentData.buah.toLocaleString('id-ID')} Kg
 • Ikan: ${currentData.ikan.toLocaleString('id-ID')} Kg
 ----------------------------------
-📦 *Total Muatan:* ${currentData.total.toLocaleString('id-ID')} Kg`;
+📦 *Total Muatan:* ${currentData.total.toLocaleString('id-ID')} Kg
 
-        // Encode pesan ke format URL
+🔗 *Link Revisi:* https://agas88.web.id/revisi`;
+
         const encodedText = encodeURIComponent(textMessage);
-        
-        // Buka tautan WhatsApp di tab baru
         window.open(`https://wa.me/?text=${encodedText}`, '_blank');
     }
 

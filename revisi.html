@@ -403,7 +403,6 @@
         const selectKapalPerubahan = document.getElementById('kapal-perubahan');
         const selectKapalBaru = document.getElementById('kapal-baru');
 
-        // Isi Dropdown Pengirim
         daftarPengirim.forEach(pengirim => {
             let opt1 = document.createElement('option');
             opt1.value = pengirim;
@@ -416,7 +415,6 @@
             selectPengirimBaru.appendChild(opt2);
         });
 
-        // Isi Dropdown Kapal
         daftarKapal.forEach(kapal => {
             let option1 = document.createElement('option');
             option1.value = kapal;
@@ -499,19 +497,19 @@
         if (!currentData.kapal) return;
 
         const textMessage = 
-`*--- DOKUMEN ${currentData.jenisLayanan.toUpperCase()} ---*
-👤 *Pengirim:* ${currentData.pengirim}
-📅 *Tanggal:* ${currentData.formattedDate}
-🚢 *Nama Kapal:* ${currentData.kapal}
+`--- PERMOHONAN ${currentData.jenisLayanan.toUpperCase()} ---
+👤 Pengirim: ${currentData.pengirim}
+📅 Tanggal: ${currentData.formattedDate}
+🚢 Nama Kapal: ${currentData.kapal}
 
-*Rincian Muatan:*
-• Sayuran: ${currentData.sayur.toLocaleString('id-ID')} Kg
-• Buah: ${currentData.buah.toLocaleString('id-ID')} Kg
-• Ikan: ${currentData.ikan.toLocaleString('id-ID')} Kg
+Rincian Muatan:
+* Sayuran: ${currentData.sayur.toLocaleString('id-ID')} Kg
+* Buah: ${currentData.buah.toLocaleString('id-ID')} Kg
+* Ikan: ${currentData.ikan.toLocaleString('id-ID')} Kg
 ----------------------------------
-📦 *Total Muatan:* ${currentData.total.toLocaleString('id-ID')} Kg
+📦 Total Muatan: ${currentData.total.toLocaleString('id-ID')} Kg
 
-🔗 *Link Revisi:* https://agas88.web.id/revisi`;
+🔗 Link Revisi: https://agas88.web.id/revisi`;
 
         const encodedText = encodeURIComponent(textMessage);
         window.open(`https://wa.me/?text=${encodedText}`, '_blank');

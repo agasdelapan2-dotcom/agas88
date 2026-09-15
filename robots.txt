@@ -1,7 +1,14 @@
+# User-agent global untuk semua mesin pencari
 User-agent: *
+
+# Memblokir akses ke direktori sensitif/sistem (opsional)
 Disallow: /wp-admin/
-Allow: /wp-admin/admin-ajax.php
-Disallow: /tmp/
+Disallow: /admin/
+Disallow: /includes/
 Disallow: /cgi-bin/
 
-Sitemap: https://agas88.web.id/sitemap.xml
+# Mengizinkan perayapan ke seluruh konten utama
+Allow: /
+
+# Lokasi Peta Situs (Sitemap)
+Sitemap: https://agas88.com/sitemap.xml

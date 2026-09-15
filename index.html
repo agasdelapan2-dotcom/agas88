@@ -132,6 +132,37 @@ body:has(a:hover, button:hover) .cursor-dot {
     cursor: auto !important;
   }
 }
+/* Batasi ukuran container tombol */
+#scroll-percent {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+/* Batasi ukuran SVG/ikon di dalamnya agar tidak meluap */
+#scroll-percent svg,
+#scroll-percent i,
+#scroll-percent img {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+}
+
+/* Atur ukuran teks persentase jika ada */
+#percent-value {
+  font-size: 12px;
+  font-weight: bold;
+}
   </style>
 </head>
 
@@ -1097,14 +1128,6 @@ body:has(a:hover, button:hover) .cursor-dot {
     </div>
   </footer>
 
-  <!-- WhatsApp Floating Button -->
-<!-- Tombol Melayang Neon/Glassmorphism -->
-<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
-  <svg viewBox="0 0 24 24" class="home-icon">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-  <span class="home-text">HOME</span>
-</a>
 <!-- Floating WhatsApp Button (Pojok Kiri Bawah) -->
 <a href="https://wa.me/6282197001999?text=Halo%20PT.%20AGAS88,%20saya%20informa%20ingin%20bertanya%20mengenai%20layanan%20Anda." 
    class="wa-float-btn" 

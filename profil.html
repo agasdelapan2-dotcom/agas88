@@ -1,546 +1,566 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profil Perusahaan - PT. Sumber Rezky Alam</title>
-  <meta name="description" content="Profil Perusahaan PT. Sumber Rezky Alam - Jasa keagenan pelayaran nasional dengan layanan profesional, cepat, dan efisien.">
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1758415536/SRA-LOGO-FIX_ztj4a8.png">
-  <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1758415536/SRA-LOGO-FIX_ztj4a8.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: light dark; }
-    html { scroll-behavior: smooth; }
-    body { font-family: "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
-    /* Soft floating gradient blobs for depth */
-    .blob {
-      position: absolute; filter: blur(48px); opacity: .35; pointer-events: none;
-      mix-blend-mode: screen; transform: translateZ(0);
-    }
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); }
-    .text-gradient { background: linear-gradient(90deg, #67e8f9, #38bdf8, #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  </style>
-</head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-sky-950 to-cyan-900 text-white antialiased">
-  <!-- Decorative blobs -->
-  <div class="blob -top-16 -left-10 w-72 h-72 rounded-full bg-cyan-500/40"></div>
-  <div class="blob top-32 -right-10 w-80 h-80 rounded-full bg-blue-500/40"></div>
-  <div class="blob bottom-10 left-1/4 w-96 h-96 rounded-full bg-teal-400/40"></div>
-
-  <!-- Header / Navbar -->
-  <header class="sticky top-0 z-40">
-    <div class="backdrop-blur bg-slate-950/60 border-b border-white/10">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#home" class="flex items-center gap-3 group">
-          <!-- Company logo -->
-          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Logo PT. Sumber Rezky Alam" class="w-12 h-12 object-contain drop-shadow" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';" />
-          <div>
-            <div class="text-sm uppercase tracking-widest text-cyan-300">PT. Sumber Rezky Alam</div>
-            <div class="font-extrabold text-lg leading-tight">Profil Perusahaan</div>
-          </div>
-        </a>
-        <nav class="hidden md:flex items-center gap-2">
-          <a href="#tentang" class="px-3 py-2 rounded-lg hover:bg-white/10 transition">Tentang</a>
-          <a href="#visi-misi" class="px-3 py-2 rounded-lg hover:bg-white/10 transition">Visi & Misi</a>
-          <a href="#layanan" class="px-3 py-2 rounded-lg hover:bg-white/10 transition">Layanan</a>
-          <a href="#nilai" class="px-3 py-2 rounded-lg hover:bg-white/10 transition">Nilai</a>
-          <a href="https://agas88.web.id/" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 transition">Kembali ke Home</a>
-          <a href="https://agas88.web.id/contak" class="px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition">Kontak</a>
-        </nav>
-        <!-- Mobile menu toggle -->
-        <button id="menuBtn" aria-label="Buka menu" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 transition">
-          <span class="sr-only">Menu</span>
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-      <!-- Mobile menu -->
-      <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
-        <div class="grid gap-2">
-          <a href="#tentang" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">Tentang</a>
-          <a href="#visi-misi" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">Visi & Misi</a>
-          <a href="#layanan" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">Layanan</a>
-          <a href="#nilai" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">Nilai</a>
-          <a href="https://agas88.web.id/" target="_blank" rel="noopener noreferrer" class="block px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 transition">Kembali ke Home</a>
-          <a href="https://agas88.web.id/contak" class="block px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition">Kontak</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section id="home" class="relative">
-    <div class="max-w-7xl mx-auto px-6 pt-16 md:pt-24 pb-16">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div class="reveal">
-          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-            Mitra Keagenan Pelayaran Nasional yang
-            <span class="text-gradient">Profesional & Andal</span>
-          </h1>
-          <p class="mt-4 text-slate-300 leading-relaxed">
-            PT. Sumber Rezky Alam hadir mendukung kelancaran operasional kapal di berbagai pelabuhan Indonesia
-            dengan pelayanan cepat, tepat, dan berintegritas.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="https://agas88.web.id/" class="px-5 py-3 rounded-xl bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition">Lihat Layanan</a>
-            <a href="https://agas88.web.id/contak" class="px-5 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition">Hubungi Kami</a>
-          </div>
-        </div>
-        <div class="reveal md:justify-self-end">
-          <!-- Abstract maritime card -->
-          <div class="glass rounded-2xl p-6 md:p-8 shadow-2xl max-w-lg">
-            <div class="flex items-center gap-4">
-              <div class="p-3 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg">
-                <svg class="w-8 h-8 text-slate-950" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M2 16c3 0 3-2 6-2s3 2 6 2 3-2 6-2 3 2 6 2" transform="scale(.75)" />
-                </svg>
-              </div>
-              <div>
-                <div class="text-sm uppercase tracking-widest text-cyan-300">Fokus Kami</div>
-                <div class="text-xl font-bold">Kecepatan, Ketepatan, Integritas</div>
-              </div>
-            </div>
-            <p class="mt-4 text-slate-300">
-              Kami berkomitmen memberikan solusi efisien dan aman untuk setiap kebutuhan operasional pelayaran Anda.
-            </p>
-            <div class="mt-6 grid grid-cols-3 gap-3">
-              <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
-                <div class="text-2xl">⚓</div>
-                <div class="mt-2 text-sm text-slate-300">Keagenan</div>
-              </div>
-              <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
-                <div class="text-2xl">📄</div>
-                <div class="mt-2 text-sm text-slate-300">Dokumen</div>
-              </div>
-              <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
-                <div class="text-2xl">🚢</div>
-                <div class="mt-2 text-sm text-slate-300">Operasional</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tentang Perusahaan -->
-  <section id="tentang" class="relative">
-    <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div class="grid lg:grid-cols-3 gap-8 items-stretch">
-        <div class="lg:col-span-2 reveal">
-          <div class="glass rounded-2xl p-8">
-            <h2 class="text-2xl md:text-3xl font-extrabold">Tentang Perusahaan</h2>
-            <p class="mt-4 text-slate-300 leading-relaxed">
-              PT. Sumber Rezky Alam adalah perusahaan yang bergerak di bidang layanan jasa keagenan pelayaran laut nasional.
-              Dengan pengalaman dan komitmen tinggi, perusahaan hadir untuk memberikan solusi profesional dalam mendukung kelancaran
-              operasional kapal di berbagai pelabuhan Indonesia.
-            </p>
-            <p class="mt-4 text-slate-300 leading-relaxed">
-              Sebagai mitra terpercaya, PT. Sumber Rezky Alam berfokus pada pelayanan yang cepat, tepat, dan efisien,
-              serta menjunjung tinggi integritas dalam setiap kegiatan usaha.
-            </p>
-          </div>
-        </div>
-        <div class="reveal">
-          <div class="rounded-2xl p-8 bg-gradient-to-br from-cyan-500 to-blue-600 text-slate-950">
-            <div class="text-sm uppercase tracking-widest opacity-80">Identitas</div>
-            <div class="mt-2 text-2xl font-extrabold">PT. Sumber Rezky Alam</div>
-            <div class="mt-4 text-slate-900/80">
-              Layanan Jasa Keagenan Pelayaran Nasional
-            </div>
-            <div class="mt-6 grid gap-3">
-              <div class="flex items-center gap-3">
-                <span class="text-xl">📍</span>
-                <span>Beroperasi di berbagai pelabuhan Indonesia</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-xl">🧭</span>
-                <span>Profesional, Efisien, Berintegritas</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-xl">🤝</span>
-                <span>Mitra tepercaya industri maritim</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Visi & Misi -->
-  <section id="visi-misi" class="relative">
-    <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div class="reveal text-center mb-10">
-        <div class="flex justify-center mb-4">
-          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Watermark Logo PT. Sumber Rezky Alam" class="w-20 md:w-28 opacity-20" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-        </div>
-      </div>
-      <div class="grid lg:grid-cols-2 gap-8">
-        <div class="reveal glass rounded-2xl p-8">
-          <h3 class="text-xl md:text-2xl font-extrabold">Visi</h3>
-          <p class="mt-4 text-slate-300 leading-relaxed">
-            Menjadi perusahaan jasa keagenan pelayaran nasional yang unggul, terpercaya, dan berdaya saing tinggi
-            dalam mendukung industri maritim Indonesia.
-          </p>
-        </div>
-        <div class="reveal glass rounded-2xl p-8">
-          <h3 class="text-xl md:text-2xl font-extrabold">Misi</h3>
-          <ul class="mt-4 space-y-3 text-slate-300">
-            <li class="flex gap-3"><span class="text-cyan-400 mt-0.5">•</span> Memberikan layanan keagenan pelayaran yang profesional, aman, dan efisien.</li>
-            <li class="flex gap-3"><span class="text-cyan-400 mt-0.5">•</span> Membangun hubungan kerja sama yang berkelanjutan dengan mitra usaha.</li>
-            <li class="flex gap-3"><span class="text-cyan-400 mt-0.5">•</span> Mendukung pertumbuhan industri maritim nasional melalui pelayanan berkualitas.</li>
-            <li class="flex gap-3"><span class="text-cyan-400 mt-0.5">•</span> Mengutamakan kepuasan pelanggan dengan standar pelayanan terbaik.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Layanan -->
-  <section id="layanan" class="relative">
-    <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div class="reveal text-center mb-10">
-        <div class="flex justify-center mb-4">
-          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Watermark Logo PT. Sumber Rezky Alam" class="w-20 md:w-28 opacity-20" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-        </div>
-        <h3 class="text-2xl md:text-3xl font-extrabold">Layanan</h3>
-        <p class="mt-3 text-slate-300">Solusi lengkap untuk kebutuhan operasional pelayaran Anda.</p>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card 1 -->
-        <div class="reveal glass rounded-2xl p-6 hover:bg-white/12 transition group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-extrabold shadow-md">1</div>
-          <h4 class="mt-4 font-bold text-lg">Jasa keagenan kapal di pelabuhan nasional</h4>
-          <p class="mt-2 text-slate-300">Pendampingan penuh untuk kelancaran sandar, bongkar muat, dan keberangkatan kapal.</p>
-          <div class="mt-4 text-cyan-300 text-sm group-hover:translate-x-1 transition">Pelajari lebih lanjut →</div>
-        </div>
-        <!-- Card 2 -->
-        <div class="reveal glass rounded-2xl p-6 hover:bg-white/12 transition group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-extrabold shadow-md">2</div>
-          <h4 class="mt-4 font-bold text-lg">Pengurusan dokumen kapal dan muatan</h4>
-          <p class="mt-2 text-slate-300">Dokumentasi terkelola rapi untuk menjamin kepatuhan dan efisiensi proses.</p>
-          <div class="mt-4 text-cyan-300 text-sm group-hover:translate-x-1 transition">Pelajari lebih lanjut →</div>
-        </div>
-        <!-- Card 3 -->
-        <div class="reveal glass rounded-2xl p-6 hover:bg-white/12 transition group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-extrabold shadow-md">3</div>
-          <h4 class="mt-4 font-bold text-lg">Koordinasi bongkar muat barang</h4>
-          <p class="mt-2 text-slate-300">Koordinasi profesional agar proses berjalan cepat dan aman.</p>
-          <div class="mt-4 text-cyan-300 text-sm group-hover:translate-x-1 transition">Pelajari lebih lanjut →</div>
-        </div>
-        <!-- Card 4 -->
-        <div class="reveal glass rounded-2xl p-6 hover:bg-white/12 transition group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-extrabold shadow-md">4</div>
-        <h4 class="mt-4 font-bold text-lg">Penyediaan kebutuhan logistik kapal</h4>
-          <p class="mt-2 text-slate-300">Dukungan logistik tepat waktu untuk menjaga kelangsungan operasional.</p>
-          <div class="mt-4 text-cyan-300 text-sm group-hover:translate-x-1 transition">Pelajari lebih lanjut →</div>
-        </div>
-        <!-- Card 5 -->
-        <div class="reveal glass rounded-2xl p-6 hover:bg-white/12 transition group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-extrabold shadow-md">5</div>
-          <h4 class="mt-4 font-bold text-lg">Dukungan operasional pelayaran</h4>
-          <p class="mt-2 text-slate-300">Pendampingan operasional menyeluruh dari awal hingga akhir perjalanan.</p>
-          <div class="mt-4 text-cyan-300 text-sm group-hover:translate-x-1 transition">Pelajari lebih lanjut →</div>
-        </div>
-        <!-- Filler card to balance grid -->
-        <div class="reveal glass rounded-2xl p-6 flex items-center justify-center">
-          <div class="text-center">
-            <div class="text-2xl">🚀</div>
-            <p class="mt-2 text-slate-300">Butuh layanan khusus? Kami siap menyesuaikan.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Nilai Perusahaan -->
-  <section id="nilai" class="relative">
-    <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div class="reveal text-center mb-10">
-        <div class="flex justify-center mb-4">
-          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Watermark Logo PT. Sumber Rezky Alam" class="w-20 md:w-28 opacity-20" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-        </div>
-        <h3 class="text-2xl md:text-3xl font-extrabold">Nilai Perusahaan</h3>
-        <p class="mt-3 text-slate-300">Prinsip yang selalu kami pegang dalam setiap layanan.</p>
-      </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="reveal glass rounded-2xl p-6">
-          <div class="text-2xl">🏆</div>
-          <h4 class="mt-3 font-bold">Profesionalisme</h4>
-          <p class="mt-2 text-slate-300">Menjalankan layanan dengan standar tinggi dan penuh tanggung jawab.</p>
-        </div>
-        <div class="reveal glass rounded-2xl p-6">
-          <div class="text-2xl">🧭</div>
-          <h4 class="mt-3 font-bold">Integritas</h4>
-          <p class="mt-2 text-slate-300">Menjunjung tinggi kejujuran dan transparansi dalam setiap kegiatan.</p>
-        </div>
-        <div class="reveal glass rounded-2xl p-6">
-          <div class="text-2xl">⚡</div>
-          <h4 class="mt-3 font-bold">Efisiensi</h4>
-          <p class="mt-2 text-slate-300">Memberikan solusi cepat dan tepat untuk mendukung operasional.</p>
-        </div>
-        <div class="reveal glass rounded-2xl p-6">
-          <div class="text-2xl">🤝</div>
-          <h4 class="mt-3 font-bold">Kemitraan</h4>
-          <p class="mt-2 text-slate-300">Membangun hubungan jangka panjang dengan pelanggan dan mitra.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Kontak -->
-  <section id="kontak" class="relative">
-    <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-      <div class="reveal text-center mb-10">
-        <div class="flex justify-center mb-4">
-          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Watermark Logo PT. Sumber Rezky Alam" class="w-20 md:w-28 opacity-20" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
-        </div>
-        <h3 class="text-2xl md:text-3xl font-extrabold">Informasi Kontak</h3>
-        <p class="mt-3 text-slate-300">Hubungi kami untuk kebutuhan keagenan pelayaran Anda.</p>
-      </div>
-      <div class="grid lg:grid-cols-2 gap-8">
-        <!-- Info Card -->
-        <div class="reveal glass rounded-2xl p-8">
-          <div class="flex items-center gap-3">
-            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Logo PT. Sumber Rezky Alam" class="w-12 h-12 object-contain drop-shadow" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';" />
-            <div>
-              <div class="text-sm uppercase tracking-widest text-cyan-300">PT. Sumber Rezky Alam</div>
-              <h4 class="mt-1 text-xl font-extrabold">Detail Perusahaan</h4>
-            </div>
-          </div>
-
-          <div class="mt-6 space-y-4">
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">🏢</div>
-              <div>
-                <div class="text-slate-300 text-sm">Alamat</div>
-                <div class="font-semibold">
-                  JL.Mutiara Wani Dua, Tanantovea, Donggala, Sulawesi Tengah 94352
-                </div>
-                <button data-copy="#addr" class="copyBtn mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 transition">
-                  <span class="text-sm">Salin alamat</span>
-                </button>
-                <span id="addr" class="sr-only">JL.Mutiara Wani Dua, Tanantovea, Donggala, Sulawesi Tengah 94352</span>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">☎️</div>
-              <div>
-                <div class="text-slate-300 text-sm">Telepon</div>
-                <div class="font-semibold">+.</div>
-                <!-- Tidak dibuat tombol panggilan karena nomor tidak lengkap -->
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">✉️</div>
-              <div>
-                <div class="text-slate-300 text-sm">Email</div>
-                <div class="font-semibold break-all">
-                  <a href="mailto:ptsumberrizkyalam@gmal.com" class="underline decoration-cyan-400/50 hover:decoration-cyan-300">ptsumberrizkyalam@gmal.com</a>
-                </div>
-                <button data-copy="#email" class="copyBtn mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 transition">
-                  <span class="text-sm">Salin email</span>
-                </button>
-                <span id="email" class="sr-only">ptsumberrizkyalam@gmal.com</span>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">🌐</div>
-              <div>
-                <div class="text-slate-300 text-sm">Website</div>
-                <div class="font-semibold">
-                  <a href="https://agas88.web.id/" target="_blank" rel="noopener noreferrer" class="underline decoration-cyan-400/50 hover:decoration-cyan-300">
-                    https://agas88.web.id/
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="copyToast" class="hidden mt-6 p-3 rounded-lg bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 text-sm">
-            Tersalin! Informasi telah disalin ke papan klip.
-          </div>
-        </div>
-
-        <!-- Contact Form (Demo) -->
-        <div class="reveal glass rounded-2xl p-8">
-          <h4 class="text-xl font-extrabold">Kirim Pesan</h4>
-          <p class="mt-2 text-slate-300 text-sm">
-            Formulir ini adalah contoh (demo) untuk keperluan tampilan. Pesan tidak dikirim ke server.
-          </p>
-          <form id="contactForm" class="mt-6 grid gap-4">
-            <div class="grid md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm text-slate-300 mb-2">Nama</label>
-                <input required type="text" name="nama" class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Nama Anda" />
-              </div>
-              <div>
-                <label class="block text-sm text-slate-300 mb-2">Email</label>
-                <input required type="email" name="email" class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400" placeholder="email@contoh.com" />
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm text-slate-300 mb-2">Subjek</label>
-              <input required type="text" name="subjek" class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Subjek pesan" />
-            </div>
-            <div>
-              <label class="block text-sm text-slate-300 mb-2">Pesan</label>
-              <textarea required name="pesan" rows="5" class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Tulis pesan Anda di sini..."></textarea>
-            </div>
-            <div class="flex items-center gap-3">
-              <button type="submit" class="px-5 py-3 rounded-xl bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition">
-                Kirim
-              </button>
-              <button type="reset" class="px-5 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition">
-                Reset
-              </button>
-            </div>
-            <div id="formAlert" class="hidden rounded-xl p-4 border mt-2"></div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="relative mt-10">
-    <div class="max-w-7xl mx-auto px-6 py-10 border-t border-white/10 relative">
-      <!-- Watermark logo -->
-      <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" alt="Logo PT. Sumber Rezky Alam (watermark)" aria-hidden="true" class="pointer-events-none select-none absolute -z-10 left-1/2 -translate-x-1/2 bottom-4 w-24 sm:w-32 md:w-40 opacity-[0.08]" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';" />
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-center md:text-left">
-          <div class="font-bold">PT. Sumber Rezky Alam</div>
-          <div class="text-slate-400 text-sm">Jasa Keagenan Pelayaran Nasional</div>
-        </div>
-        <div class="text-slate-400 text-sm text-center md:text-right">
-          © <span id="year"></span> PT. Sumber Rezky Alam. Semua hak dilindungi.
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Floating WhatsApp (left) -->
-  <button id="waBtn" aria-label="Chat WhatsApp" class="group fixed bottom-5 left-5 inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-900/20 border border-white/10 ring-2 ring-white/70 z-40 relative overflow-visible transform transition will-change-transform hover:-translate-y-0.5 hover:scale-105">
-    <span class="absolute inset-0 rounded-full bg-emerald-400/20 animate-ping"></span>
-    <span class="absolute inset-0 rounded-full border border-emerald-300/30 animate-ping [animation-delay:300ms]"></span>
-    <span class="absolute w-12 h-12 rounded-full bg-white/95 shadow-sm"></span>
-    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758555182/download__40_-removebg-preview_np9yei.png" alt="Ikon WhatsApp" class="relative w-10 h-10 object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';" />
-  </button>
-  <div id="waToast" class="fixed left-5 bottom-24 hidden px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-400/30 text-amber-100 text-sm z-40">
-    Nomor WhatsApp belum diatur.
-  </div>
-
-  <!-- Back to top -->
-  <button id="toTop" aria-label="Kembali ke atas" class="fixed bottom-5 right-5 hidden md:flex items-center gap-2 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 backdrop-blur transition">
-    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M12 19V5m0 0l-7 7m7-7l7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span>Atas</span>
-  </button>
-
-  <script>
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn?.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT. AGAS88 - Keagenan Pelayaran Laut Nasional</title>
+    <!-- Favicon & App Icon -->
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & COLOR VARIABLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
         }
-      });
-    }, { threshold: 0.15 });
-    reveals.forEach(el => io.observe(el));
+        
+        :root {
+            --primary-navy: #0A192F;    /* Biru Laut Dalam / Navy */
+            --ocean-blue: #005691;      /* Biru Samudra */
+            --gold-accent: #E5A93C;     /* Emas Elegan */
+            --bg-light: #F4F7FA;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
 
-    // Copy buttons (email, address)
-    const copyToast = document.getElementById('copyToast');
-    function showToast() {
-      if (!copyToast) return;
-      copyToast.classList.remove('hidden');
-      copyToast.style.opacity = '1';
-      setTimeout(() => {
-        copyToast.style.opacity = '0';
-        setTimeout(() => copyToast.classList.add('hidden'), 300);
-      }, 1500);
-    }
-    document.querySelectorAll('.copyBtn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetSel = btn.getAttribute('data-copy');
-        const target = targetSel ? document.querySelector(targetSel) : null;
-        const text = target ? (target.textContent || '').trim() : '';
-        if (!text) return;
-        navigator.clipboard?.writeText(text).then(showToast).catch(showToast);
-      });
-    });
+        body {
+            color: var(--text-dark);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
 
-    // Contact form (demo only)
-    const form = document.getElementById('contactForm');
-    const alertBox = document.getElementById('formAlert');
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const nama = formData.get('nama');
-      alertBox.className = 'rounded-xl p-4 border mt-2 bg-emerald-500/10 border-emerald-400/30 text-emerald-200';
-      alertBox.textContent = `Terima kasih, ${nama}! Ini adalah simulasi. Pesan Anda telah dicatat secara lokal.`;
-      alertBox.classList.remove('hidden');
-      form.reset();
-    });
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    // WhatsApp button behavior
-    const waBtn = document.getElementById('waBtn');
-    const waToast = document.getElementById('waToast');
-    const WA_NUMBER = '';
-    const WA_TEXT = encodeURIComponent('Halo PT. Sumber Rezky Alam, saya ingin bertanya mengenai layanan.');
+        /* --- NAVBAR --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    function openWA() {
-      if (!WA_NUMBER) {
-        waToast?.classList.remove('hidden');
-        waToast.style.opacity = '1';
-        setTimeout(() => {
-          waToast.style.opacity = '0';
-          setTimeout(() => waToast?.classList.add('hidden'), 300);
-        }, 1500);
-        return;
-      }
-      const url = `https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`;
-      window.open(url, '_blank');
-    }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-navy);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    waBtn?.addEventListener('click', openWA);
+        .logo i {
+            color: var(--ocean-blue);
+        }
 
-    // Back to top button
-    const toTop = document.getElementById('toTop');
-    window.addEventListener('scroll', () => {
-      const show = window.scrollY > 600;
-      toTop.style.display = show ? 'flex' : 'none';
-    });
-    toTop?.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        .logo span {
+            color: var(--gold-accent);
+        }
 
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
 
-    // Close mobile menu on nav click
-    mobileMenu?.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-    });
-  </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9832f6bdd275c9da',t:'MTc1ODU1NjI4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        .nav-links a {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ocean-blue);
+        }
+
+        .btn-contact {
+            background-color: var(--primary-navy);
+            color: #fff !important;
+            padding: 10px 22px;
+            border-radius: 6px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-contact:hover {
+            background-color: var(--gold-accent);
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.88), rgba(0, 86, 145, 0.8)), 
+                        url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(229, 169, 60, 0.2);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 35px;
+            color: #E2E8F0;
+            font-weight: 300;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--gold-accent);
+            color: var(--primary-navy);
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(229, 169, 60, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #d4982d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #ffffff;
+            color: var(--primary-navy);
+            transform: translateY(-2px);
+        }
+
+        /* --- ABOUT SECTION --- */
+        .section-padding {
+            padding: 90px 8%;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-img {
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-title {
+            font-size: 34px;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+            position: relative;
+            line-height: 1.3;
+        }
+
+        .about-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gold-accent);
+            margin-top: 10px;
+            border-radius: 2px;
+        }
+
+        .about-text p {
+            margin-bottom: 18px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* --- LAYANAN / SERVICES --- */
+        .services-bg {
+            background-color: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 34px;
+            color: var(--primary-navy);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-bottom: 4px solid var(--gold-accent);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            font-size: 42px;
+            color: var(--ocean-blue);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-navy);
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* --- KEUNGGULAN / FEATURES --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: #ffffff;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            border-color: var(--ocean-blue);
+            box-shadow: 0 10px 25px rgba(0, 86, 145, 0.08);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 86, 145, 0.1);
+            color: var(--ocean-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .feature-box h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary-navy);
+        }
+
+        .feature-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-navy);
+            color: #ffffff;
+            padding: 70px 8% 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--gold-accent);
+            margin-top: 8px;
+        }
+
+        .footer-col p, .footer-col li {
+            color: #94A3B8;
+            font-size: 14px;
+            margin-bottom: 12px;
+            list-style: none;
+        }
+
+        .footer-col a {
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--gold-accent);
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            margin-right: 8px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 38px;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--gold-accent);
+            color: var(--primary-navy);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 15px;
+            }
+            .nav-links {
+                display: none; /* Dapat disesuaikan dengan menu burger jika dibutuhkan */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-ship"></i> PT. AGAS<span>88</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang Kami</a></li>
+            <li><a href="#layanan">Layanan</a></li>
+            <li><a href="#keunggulan">Keunggulan</a></li>
+            <li><a href="#penawaran" class="btn-contact">Minta Penawaran</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="hero-badge">Keagenan Pelayaran Laut Nasional</span>
+            <h1>Solusi Terpercaya Keagenan Kapal & Layanan Pelabuhan</h1>
+            <p>PT. AGAS88 adalah perusahaan jasa keagenan pelayaran laut nasional. Kami menangani clearance kapal, koordinasi pelabuhan, dan dukungan 24/7 secara profesional.</p>
+            <div class="hero-buttons">
+                <a href="#penawaran" class="btn-primary">Minta Penawaran</a>
+                <a href="#layanan" class="btn-secondary">Lihat Layanan</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TENTANG KAMI -->
+    <section class="section-padding" id="about">
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" alt="Kapal Kargo PT AGAS88">
+            </div>
+            <div class="about-text">
+                <h2 class="about-title">Keagenan Pelayaran Laut Nasional Terpercaya</h2>
+                <p><strong>PT. AGAS88</strong> berdedikasi tinggi memberikan penanganan logistik dan keagenan kapal terbaik di berbagai pelabuhan strategis di Indonesia.</p>
+                <p>Sebagai agen pelayaran nasional, tugas utama kami adalah memastikan proses operasional kapal Anda—mulai dari kedatangan (inward clearance), tambat labuh, hingga keberangkatan (outward clearance)—berjalan lancar tanpa kendala birokrasi.</p>
+                <p>Dengan jaringan luas dan pemahaman mendalam terkait regulasi maritim lokal, kami menjadi mitra andal untuk pemilik kapal, operator, dan pengelola kargo nasional maupun internasional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAYANAN KAMI -->
+    <section class="section-padding services-bg" id="layanan">
+        <div class="section-header">
+            <h2>Layanan Utama Kami</h2>
+            <p>Dukungan menyeluruh untuk kebutuhan operasional armada kapal Anda</p>
+        </div>
+        <div class="services-grid">
+            <!-- Layanan 1 -->
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-file-contract"></i></div>
+                <h3>Vessel Clearance</h3>
+                <p>Pengurusan izin dokumen kapal, imigrasi, bea cukai, syahbandar, dan karantina medis secara cepat dan efisien.</p>
+            </div>
+            <!-- Layanan 2 -->
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-anchor"></i></div>
+                <h3>Koordinasi Pelabuhan</h3>
+                <p>Manajemen jadwal tambat, pandu tunda, suplai logistik, bunker BBM, air bersih, serta kebutuhan crew change.</p>
+            </div>
+            <!-- Layanan 3 -->
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <h3>Dukungan 24/7</h3>
+                <p>Tim operasional siap siaga di pelabuhan selama 24 jam sehari untuk memastikan penanganan darurat dan tepat waktu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEUNGGULAN KAMI -->
+    <section class="section-padding" id="keunggulan">
+        <div class="section-header">
+            <h2>Mengapa Memilih PT. AGAS88?</h2>
+            <p>Komitmen pelayanan presisi demi keamanan dan kelancaran pelayaran</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <h4>Sangat Profesional</h4>
+                <p>Dikelola oleh tim berpengalaman yang memahami regulasi otoritas pelabuhan Indonesia.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h4>Respon Cepat</h4>
+                <p>Komunikasi transparan dan pembaruan status kapal (*Daily Vessel Report*) secara berkala.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <h4>Jaringan Luas</h4>
+                <p>Memiliki hubungan kerja sama yang solid dengan berbagai pihak otoritas dan vendor pelabuhan.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <h4>Biaya Efisien</h4>
+                <p>Penawaran tarif keagenan yang bersaing tanpa mengorbankan kualitas dan kecepatan standar kerja.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / KONTAK -->
+    <footer id="penawaran">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>PT. AGAS88</h3>
+                <p>Mitra terpercaya jasa keagenan pelayaran laut nasional. Menangani clearance kapal, koordinasi pelabuhan, dan dukungan 24/7 secara profesional.</p>
+                <div class="social-links" style="margin-top: 18px;">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/6282197001999"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Menu Navigasi</h3>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#layanan">Layanan Pelabuhan</a></li>
+                    <li><a href="#keunggulan">Keunggulan Kami</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Minta Penawaran / Kontak</h3>
+                <p><i class="fa-solid fa-globe" style="margin-right: 10px;"></i> <a href="https://agas88.com/" target="_blank">https://agas88.com/</a></p>
+                <p><i class="fa-solid fa-envelope" style="margin-right: 10px;"></i> agency@agas88.com</p>
+                <p><i class="fa-solid fa-phone" style="margin-right: 10px;"></i> +62 821-9700-1999</p>
+                <p><i class="fa-solid fa-location-dot" style="margin-right: 10px;"></i> Palu, Sulawesi Tengah</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; PT. AGAS88. All Rights Reserved. Keagenan Pelayaran Laut Nasional.</p>
+        </div>
+    </footer>
+
+</body>
 </html>

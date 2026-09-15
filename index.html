@@ -1228,28 +1228,36 @@ body, button, a {
               conic-gradient(#e52e71 0%, #ff8a00 0%, #bbb 0%);
 }
 </style>
-
+<div id="scroll-percent" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+  <span id="percent-value">0%</span>
+</div>
+<!-- Script JavaScript untuk Menghitung Scroll -->
 <script>
-window.addEventListener('scroll', function() {
-  var scrollLabel = document.getElementById('percent-value');
-  var scrollCircle = document.getElementById('scroll-percent');
+  window.addEventListener('scroll', () => {
+    // 1. Hitung total jarak scroll yang tersedia
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    
+    // 2. Hitung persentase scroll (0 - 100%)
+    const scrollPercent = Math.round((scrollTop / scrollHeight) * 100) || 0;
+    
+    // 3. Update teks persentase
+    const percentValue = document.getElementById('percent-value');
+    if (percentValue) {
+      percentValue.innerText = scrollPercent + '%';
+    }
+    
+    // 4. Update lingkaran warna (conic-gradient)
+    const scrollBtn = document.getElementById('scroll-percent');
+    if (scrollBtn) {
+      scrollBtn.style.background = `radial-gradient(closest-side, white 79%, transparent 80%, transparent 100%), conic-gradient(rgb(229, 46, 113) ${scrollPercent}%, rgb(187, 187, 187) 0%)`;
+    }
   
-  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  var scrolled = Math.round((winScroll / height) * 100);
-
-  if (isNaN(scrolled)) scrolled = 0;
-
-  // Update Teks Angka
-  scrollLabel.innerText = scrolled + '%';
-
-  // Update Animasi Lingkaran
-  scrollCircle.style.background = `radial-gradient(closest-side, white 79%, transparent 80% 100%), 
-                                  conic-gradient(#e52e71 ${scrolled}%, #bbb 0%)`;
   
   // Sembunyikan jika di paling atas
   scrollCircle.style.opacity = (scrolled > 0) ? "1" : "0";
   scrollCircle.style.transition = "opacity 0.3s";
+}
 });
 </script>
 

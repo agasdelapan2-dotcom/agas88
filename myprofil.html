@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Perusahaan - PT. AGAS88</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & BASIC STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #0d233a;   /* Blue Navy Elegan */
+            --secondary-color: #f39c12; /* Gold Premium */
+            --accent-color: #0080ff;    /* Bright Blue */
+            --bg-light: #f8f9fa;
+            --text-dark: #2c3e50;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .btn-contact {
+            background-color: var(--primary-color);
+            color: #fff !important;
+            padding: 10px 22px;
+            border-radius: 25px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-contact:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9), rgba(10, 20, 35, 0.95)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 span {
+            color: var(--secondary-color);
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+            font-weight: 300;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-main:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.6);
+        }
+
+        /* --- ABOUT SECTION --- */
+        .section-padding {
+            padding: 80px 8%;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-title {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .about-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* --- VISI & MISI --- */
+        .visi-misi-bg {
+            background-color: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            color: var(--primary-color);
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .card ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        /* --- KEUNGGULAN --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(13, 35, 58, 0.05);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .feature-box:hover .feature-icon {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .feature-box h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .feature-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 60px 8% 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary-color);
+            margin-top: 8px;
+        }
+
+        .footer-col p, .footer-col li {
+            color: #b0c4de;
+            font-size: 14px;
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            margin-right: 8px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 38px;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8a9ba8;
+            font-size: 13px;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 15px;
+            }
+            .nav-links {
+                display: none; /* Opsional: bisa ditambahkan JS Hamburger Menu */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-building"></i> AGAS<span>88</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang Kami</a></li>
+            <li><a href="#visi-misi">Visi & Misi</a></li>
+            <li><a href="#keunggulan">Keunggulan</a></li>
+            <li><a href="#contact" class="btn-contact">Hubungi Kami</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Selamat Datang di <span>PT. AGAS88</span></h1>
+            <p>Mitra Terpercaya Anda dalam Memberikan Solusi Profesional, Inovatif, dan Berkelanjutan untuk Masa Depan yang Lebih Baik.</p>
+            <a href="#about" class="btn-main">Jelajahi Profil Kami <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></a>
+        </div>
+    </section>
+
+    <!-- TENTANG KAMI -->
+    <section class="section-padding" id="about">
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Tim PT AGAS88">
+            </div>
+            <div class="about-text">
+                <h2 class="about-title">Tentang PT. AGAS88</h2>
+                <p><strong>PT. AGAS88</strong> adalah perusahaan yang bergerak di bidang layanan profesional dengan komitmen penuh terhadap kualitas, integritas, dan kepuasan pelanggan.</p>
+                <p>Didukung oleh tenaga ahli yang berpengalaman di bidangnya, kami terus berinovasi untuk memberikan solusi terbaik yang relevan dengan perkembangan industri dan teknologi saat ini.</p>
+                <p>Kepercayaan klien adalah aset terbesar kami. Oleh karena itu, kami selalu mengedepankan transparansi, ketepatan waktu, serta standar kerja tinggi dalam setiap proyek yang kami jalankan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISI & MISI -->
+    <section class="section-padding visi-misi-bg" id="visi-misi">
+        <div class="section-header">
+            <h2>Visi & Misi Perusahaan</h2>
+            <p style="color: var(--text-muted);">Landasan utama kami dalam melangkah dan melayani</p>
+        </div>
+        <div class="cards-container">
+            <!-- Card Visi -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+                <h3>Visi Kami</h3>
+                <p style="color: var(--text-muted);">Menjadi perusahaan unggul dan terdepan yang dikenal secara nasional atas integritas, profesionalisme, serta inovasi yang memberikan nilai tambah bagi seluruh pemangku kepentingan.</p>
+            </div>
+            <!-- Card Misi -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                <h3>Misi Kami</h3>
+                <ul>
+                    <li>Memberikan layanan berkualitas tinggi dengan standar profesional.</li>
+                    <li>Membangun hubungan jangka panjang yang saling menguntungkan dengan mitra dan klien.</li>
+                    <li>Meningkatkan kompetensi SDM secara berkelanjutan.</li>
+                    <li>Mengadaptasi teknologi terbaru untuk efisiensi dan efektivitas kerja.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEUNGGULAN KAMI -->
+    <section class="section-padding" id="keunggulan">
+        <div class="section-header">
+            <h2>Mengapa Memilih AGAS88?</h2>
+            <p style="color: var(--text-muted);">Komitmen kami untuk memberikan hasil terbaik</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h4>Tim Profesional</h4>
+                <p>Dikelola oleh tenaga ahli yang berpengalaman dan berdedikasi tinggi di bidangnya.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-award"></i></div>
+                <h4>Kualitas Terjamin</h4>
+                <p>Menjaga standar kualitas terbaik pada setiap produk dan layanan yang kami hadirkan.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
+                <h4>Integritas Tinggi</h4>
+                <p>Mengutamakan kejujuran dan transparansi dalam setiap kerja sama bisnis.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+                <h4>Dukungan Cepat</h4>
+                <p>Pelayanan yang responsif dan siap membantu kebutuhan klien kapan pun dibutuhkan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / KONTAK -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>PT. AGAS88</h3>
+                <p>Solusi bisnis dan layanan profesional terpercaya untuk menyokong pertumbuhan usaha Anda secara berkelanjutan.</p>
+                <div class="social-links" style="margin-top: 15px;">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Navigasi Cepat</h3>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#visi-misi">Visi & Misi</a></li>
+                    <li><a href="#keunggulan">Keunggulan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Hubungi Kami</h3>
+                <p><i class="fa-solid fa-globe" style="margin-right: 8px;"></i> <a href="https://agas88.com/" target="_blank" style="color: var(--secondary-color);">https://agas88.com/</a></p>
+                <p><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> info@agas88.com</p>
+                <p><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +62 821-9700-1999</p>
+                <p><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> Palu, Sulawesi Tengah</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PT. AGAS88. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

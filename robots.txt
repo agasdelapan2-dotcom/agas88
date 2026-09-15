@@ -1,0 +1,16 @@
+robots.txt for https://agas88.web.id/
+
+User-agent: *
+Allow: /
+
+Disallow access to common administrative and private directories
+
+Disallow: /wp-admin/
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /includes/
+Disallow: /tmp/
+
+Sitemap location (replace or update the URL if your sitemap is located elsewhere)
+
+Sitemap: https://agas88.web.id/sitemap.xml

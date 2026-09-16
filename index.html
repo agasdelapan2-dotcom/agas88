@@ -1261,6 +1261,10 @@ body, button, a {
   window.addEventListener('scroll', updateScrollPercent, true);
   window.addEventListener('resize', updateScrollPercent);
   document.addEventListener('DOMContentLoaded', updateScrollPercent);
+
+// Sembunyikan jika di paling atas
+  scrollCircle.style.opacity = (scrolled &gt; 0) ? &quot;1&quot; : &quot;0&quot;;
+  scrollCircle.style.transition = &quot;opacity 0.3s&quot;;
 </script>
 
   <script>

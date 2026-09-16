@@ -1,14 +1,12 @@
-# User-agent global untuk semua mesin pencari
+# robots.txt untuk https://agas88.com/ (GitHub Pages)
+
 User-agent: *
-
-# Memblokir akses ke direktori sensitif/sistem (opsional)
-Disallow: /wp-admin/
-Disallow: /admin/
-Disallow: /includes/
-Disallow: /cgi-bin/
-
-# Mengizinkan perayapan ke seluruh konten utama
 Allow: /
+
+# Mencegah pengindeksan file atau folder internal jika ada
+Disallow: /.github/
+Disallow: /README.md
+Disallow: /LICENSE
 
 # Lokasi Peta Situs (Sitemap)
 Sitemap: https://agas88.com/sitemap.xml

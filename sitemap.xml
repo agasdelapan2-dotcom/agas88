@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-       <loc>https://www.agas88.com/</loc>
-       <lastmod>2026-09-16T12:52:05+00:00</lastmod>
-       <priority>1.0000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/layanan</loc>
-       <lastmod>2026-09-16T12:52:05+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/profil</loc>
-       <lastmod>2026-09-16T12:52:06+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/kontak</loc>
-       <lastmod>2026-09-16T12:52:05+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
+    <url>
+        <loc>https://www.agas88.com/</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/layanan</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/profil</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/kontak</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/agas</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/revisi</loc>
+    </url>
+
 </urlset>

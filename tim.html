@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT. AGAS88 - Keagenan Pelayaran Laut Nasional | Crew & Leadership</title>
+    <!-- Favicon & App Icon -->
+    <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Inter & Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B192C',
+                            900: '#030E1E',
+                            950: '#010814',
+                        },
+                        ocean: {
+                            400: '#38BDF8',
+                            500: '#0EA5E9',
+                            600: '#0284C7',
+                        },
+                        gold: {
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.25);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 35px rgba(14, 165, 233, 0.45);
+        }
+        .wave-bg {
+            background-image: radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.15), transparent 60%);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-ocean-500 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-navy-900/80 backdrop-blur-md border-b border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-ocean-600 via-ocean-500 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-ocean-500/30">
+                        <i class="fa-solid fa-ship text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading font-black text-2xl tracking-wider text-white">AGAS<span class="text-ocean-400">88</span></span>
+                        <p class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">PT. Agas Delapan Delapan</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#beranda" class="text-slate-300 hover:text-ocean-400 transition-colors">Beranda</a>
+                    <a href="#tentang" class="text-slate-300 hover:text-ocean-400 transition-colors">Tentang Kami</a>
+                    <a href="#crew" class="text-ocean-400 font-semibold border-b-2 border-ocean-400 pb-1">Tim & Crew</a>
+                    <a href="#layanan" class="text-slate-300 hover:text-ocean-400 transition-colors">Layanan</a>
+                    <a href="#kontak" class="text-slate-300 hover:text-ocean-400 transition-colors">Kontak</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://wa.me/628123456789" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-ocean-500 to-cyan-500 hover:from-ocean-600 hover:to-cyan-600 text-white font-semibold text-sm transition-all shadow-md shadow-ocean-500/20 hover:shadow-lg hover:shadow-ocean-500/40 flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Dukungan 24/7</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Modal/Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-900/95 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#beranda" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Beranda</a>
+            <a href="#tentang" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Tentang Kami</a>
+            <a href="#crew" class="block px-3 py-2 rounded-md text-base font-medium text-ocean-400 font-bold bg-slate-800/50">Tim & Crew</a>
+            <a href="#layanan" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Layanan</a>
+            <a href="#kontak" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Kontak</a>
+            <a href="https://wa.me/628123456789" target="_blank" class="w-full mt-4 py-3 rounded-xl bg-ocean-500 text-white font-semibold text-center flex items-center justify-center gap-2">
+                <i class="fa-solid fa-headset"></i>
+                <span>Hubungi Dukungan 24/7</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden wave-bg">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-ocean-500/10 rounded-full filter blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-cyan-500/10 rounded-full filter blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto space-y-6">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-ocean-500/30 text-ocean-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-ocean-400 animate-ping"></span>
+                    <span>Keagenan Pelayaran Laut Nasional</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+                    Profesionalisme & Integritas di <span class="bg-gradient-to-r from-ocean-400 via-cyan-300 to-white bg-clip-text text-transparent">Setiap Samudra</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+                    <strong class="text-white font-medium">PT. AGAS88 (PT. Agas Delapan Delapan)</strong> menangani clearance kapal, koordinasi pelabuhan, serta dukungan operasional maritim 24/7 dengan standar efisiensi terbaik.
+                </p>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-8 max-w-2xl mx-auto">
+                    <div class="p-4 rounded-2xl glass-card text-center border-slate-800">
+                        <div class="text-ocean-400 text-2xl font-black font-heading">24/7</div>
+                        <div class="text-xs text-slate-400 mt-1">Dukungan Nonstop</div>
+                    </div>
+                    <div class="p-4 rounded-2xl glass-card text-center border-slate-800">
+                        <div class="text-ocean-400 text-2xl font-black font-heading">100%</div>
+                        <div class="text-xs text-slate-400 mt-1">Clearance Presisi</div>
+                    </div>
+                    <div class="col-span-2 md:col-span-1 p-4 rounded-2xl glass-card text-center border-slate-800">
+                        <div class="text-ocean-400 text-2xl font-black font-heading">Nasional</div>
+                        <div class="text-xs text-slate-400 mt-1">Jangkauan Pelabuhan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crew Showcase Section -->
+    <section id="crew" class="py-20 bg-navy-900/50 relative border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-ocean-400 text-sm font-semibold tracking-wider uppercase">Tim Profesional Kami</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white mt-1">Mengenal Struktur Crew & Manajemen</h2>
+                    <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-xl">
+                        Didekasikan penuh oleh tenaga ahli berpengalaman untuk memastikan operasional pelayaran Anda berjalan lancar dan efisien.
+                    </p>
+                </div>
+
+                <!-- Search & Filter Controls -->
+                <div class="flex flex-col sm:flex-row gap-3 min-w-[300px]">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                        <input type="text" id="crew-search" placeholder="Cari nama atau jabatan..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-ocean-500 placeholder-slate-500 transition-colors">
+                    </div>
+                    <select id="crew-filter" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-300 focus:outline-none focus:border-ocean-500 cursor-pointer">
+                        <option value="all">Semua Posisi</option>
+                        <option value="direksi">Direksi & Pimpinan</option>
+                        <option value="operasional">Tim Operasional & Crew</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Crew Grid -->
+            <div id="crew-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Agung Bambang Sujadmiko (Direktur) -->
+                <div class="crew-card group relative bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-ocean-500/50 transition-all duration-500 hover:-translate-y-2 glow-effect" data-category="direksi" data-name="agung bambang sujadmiko" data-role="direktur">
+                    <!-- Top Ribbon Accent -->
+                    <div class="h-2 bg-gradient-to-r from-gold-500 via-ocean-500 to-cyan-400"></div>
+                    
+                    <div class="p-5">
+                        <!-- Role Badge -->
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="px-2.5 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-crown text-[10px]"></i> Direktur
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-medium">PT. AGAS88</span>
+                        </div>
+
+                        <!-- Image Frame -->
+                        <div class="relative w-40 h-40 mx-auto mb-5 rounded-2xl overflow-hidden bg-slate-800 p-1.5 border border-slate-700/60 group-hover:border-ocean-400/50 transition-colors">
+                            <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 relative">
+                                <img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724658779/bam_s-02_utmwpp.png" alt="AGUNG BAMBANG SUJADMIKO" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/0b192c/ffffff?text=AGUNG+B.S'">
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="text-center">
+                            <h3 class="font-heading text-lg font-bold text-white group-hover:text-ocean-400 transition-colors">
+                                AGUNG BAMBANG SUJADMIKO
+                            </h3>
+                            <p class="text-ocean-400 text-xs font-semibold mt-0.5">Direktur</p>
+                            <p class="text-slate-400 text-[11px] mt-1 font-light">PT. Agas Delapan Delapan</p>
+
+                            <!-- Description Snippet -->
+                            <p class="text-slate-400 text-[11px] leading-relaxed mt-3 pt-3 border-t border-slate-800">
+                                Memimpin visi strategis dan arah pertumbuhan operasional keagenan pelayaran nasional PT. AGAS88.
+                            </p>
+                        </div>
+
+                        <!-- Card Action -->
+                        <div class="mt-5 pt-3 border-t border-slate-800/60">
+                            <button onclick="openModal('Agung Bambang Sujadmiko', 'Direktur', 'PT. Agas Delapan Delapan', 'https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724658779/bam_s-02_utmwpp.png', 'Memimpin seluruh kebijakan dan keputusan strategis perusahaan dalam pelayanan jasa keagenan pelayaran laut nasional dengan komitmen tinggi pada keandalan dan ketepatan waktu.')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-ocean-600 text-slate-200 hover:text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Detail Profil</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Deny Wijaya (Direktur Cabang) -->
+                <div class="crew-card group relative bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-ocean-500/50 transition-all duration-500 hover:-translate-y-2 glow-effect" data-category="direksi" data-name="deny wijaya" data-role="direktur cabang">
+                    <!-- Top Ribbon Accent -->
+                    <div class="h-2 bg-gradient-to-r from-ocean-500 to-cyan-400"></div>
+
+                    <div class="p-5">
+                        <!-- Role Badge -->
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="px-2.5 py-1 rounded-full bg-ocean-500/10 border border-ocean-500/30 text-ocean-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-building-user text-[10px]"></i> Direktur Cabang
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-medium">PT. AGAS88</span>
+                        </div>
+
+                        <!-- Image Frame -->
+                        <div class="relative w-40 h-40 mx-auto mb-5 rounded-2xl overflow-hidden bg-slate-800 p-1.5 border border-slate-700/60 group-hover:border-ocean-400/50 transition-colors">
+                            <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 relative">
+                                <img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724658779/deny-00_eaqzw3.png" alt="DENY WIJAYA" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/0b192c/ffffff?text=DENY+WIJAYA'">
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="text-center">
+                            <h3 class="font-heading text-lg font-bold text-white group-hover:text-ocean-400 transition-colors">
+                                DENY WIJAYA
+                            </h3>
+                            <p class="text-ocean-400 text-xs font-semibold mt-0.5">Direktur Cabang</p>
+                            <p class="text-slate-400 text-[11px] mt-1 font-light">PT. Agas Delapan Delapan</p>
+
+                            <!-- Description Snippet -->
+                            <p class="text-slate-400 text-[11px] leading-relaxed mt-3 pt-3 border-t border-slate-800">
+                                Mengoordinasikan eksekusi wilayah cabang, pemenuhan izin regulasi port clearance, serta kepuasan prinsipal.
+                            </p>
+                        </div>
+
+                        <!-- Card Action -->
+                        <div class="mt-5 pt-3 border-t border-slate-800/60">
+                            <button onclick="openModal('Deny Wijaya', 'Direktur Cabang', 'PT. Agas Delapan Delapan', 'https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724658779/deny-00_eaqzw3.png', 'Mengawasi operasional cabang pelabuhan regional, memastikan kelancaran administrasi pabean/syahbandar, dan menjaga komunikasi efektif dengan awak serta pemilik kapal.')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-ocean-600 text-slate-200 hover:text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Detail Profil</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Hermansyah (Crew) -->
+                <div class="crew-card group relative bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-ocean-500/50 transition-all duration-500 hover:-translate-y-2 glow-effect" data-category="operasional" data-name="hermansyah" data-role="crew">
+                    <!-- Top Ribbon Accent -->
+                    <div class="h-2 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
+
+                    <div class="p-5">
+                        <!-- Role Badge -->
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-anchor text-[10px]"></i> CREW
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-medium">PT. AGAS88</span>
+                        </div>
+
+                        <!-- Image Frame -->
+                        <div class="relative w-40 h-40 mx-auto mb-5 rounded-2xl overflow-hidden bg-slate-800 p-1.5 border border-slate-700/60 group-hover:border-ocean-400/50 transition-colors">
+                            <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 relative">
+                                <img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724657787/HERMANSYAH_FIX_akyhrx.jpg" alt="HERMANSYAH" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/0b192c/ffffff?text=HERMANSYAH'">
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="text-center">
+                            <h3 class="font-heading text-lg font-bold text-white group-hover:text-ocean-400 transition-colors">
+                                HERMANSYAH
+                            </h3>
+                            <p class="text-emerald-400 text-xs font-semibold mt-0.5">CREW Operasional</p>
+                            <p class="text-slate-400 text-[11px] mt-1 font-light">PT. Agas Delapan Delapan</p>
+
+                            <!-- Description Snippet -->
+                            <p class="text-slate-400 text-[11px] leading-relaxed mt-3 pt-3 border-t border-slate-800">
+                                Berada di garis depan pelayanan pelabuhan, menangani penambatan, kebutuhan logistik, dan pendampingan kapal.
+                            </p>
+                        </div>
+
+                        <!-- Card Action -->
+                        <div class="mt-5 pt-3 border-t border-slate-800/60">
+                            <button onclick="openModal('Hermansyah', 'CREW Operasional', 'PT. Agas Delapan Delapan', 'https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724657787/HERMANSYAH_FIX_akyhrx.jpg', 'Garda terdepan operasional lapangan pelabuhan PT. AGAS88. Menangani pengurusan fisik clearance kapal, suplai perbekalan, hingga asistensi teknis di dermaga secara siaga.')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-ocean-600 text-slate-200 hover:text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Detail Profil</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Syamsuddin (Operator) -->
+                <div class="crew-card group relative bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 hover:border-ocean-500/50 transition-all duration-500 hover:-translate-y-2 glow-effect" data-category="operasional" data-name="syamsuddin" data-role="operator">
+                    <!-- Top Ribbon Accent -->
+                    <div class="h-2 bg-gradient-to-r from-sky-400 to-indigo-500"></div>
+
+                    <div class="p-5">
+                        <!-- Role Badge -->
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-headset text-[10px]"></i> Operator
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-medium">PT. AGAS88</span>
+                        </div>
+
+                        <!-- Image Frame -->
+                        <div class="relative w-40 h-40 mx-auto mb-5 rounded-2xl overflow-hidden bg-slate-800 p-1.5 border border-slate-700/60 group-hover:border-ocean-400/50 transition-colors">
+                            <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 relative">
+                                <img src="https://res.cloudinary.com/kshynbri/image/upload/v1789620161/Syamsuddin.png" alt="SYAMSUDDIN" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/0b192c/ffffff?text=SYAMSUDDIN'">
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="text-center">
+                            <h3 class="font-heading text-lg font-bold text-white group-hover:text-ocean-400 transition-colors">
+                                SYAMSUDDIN
+                            </h3>
+                            <p class="text-sky-400 text-xs font-semibold mt-0.5">Operator</p>
+                            <p class="text-slate-400 text-[11px] mt-1 font-light">PT. Agas Delapan Delapan</p>
+
+                            <!-- Description Snippet -->
+                            <p class="text-slate-400 text-[11px] leading-relaxed mt-3 pt-3 border-t border-slate-800">
+                                Mengoperasikan sistem komunikasi, monitoring pergerakan kapal, dan koordinasi dokumen operasional harian.
+                            </p>
+                        </div>
+
+                        <!-- Card Action -->
+                        <div class="mt-5 pt-3 border-t border-slate-800/60">
+                            <button onclick="openModal('Syamsuddin', 'Operator', 'PT. Agas Delapan Delapan', 'https://res.cloudinary.com/kshynbri/image/upload/v1789620161/Syamsuddin.png', 'Mengendalikan alur komunikasi operasional kapal, sinkronisasi data jadwal sandar/berlabuh, serta pemantauan layanan dokumen clearance secara real-time 24 jam.')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-ocean-600 text-slate-200 hover:text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-address-card"></i>
+                                <span>Detail Profil</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty Filter State -->
+            <div id="no-results" class="hidden text-center py-16 bg-slate-900/40 rounded-3xl border border-slate-800">
+                <i class="fa-solid fa-user-slash text-4xl text-slate-600 mb-3"></i>
+                <h4 class="text-lg font-bold text-slate-300">Anggota Tim Tidak Ditemukan</h4>
+                <p class="text-slate-500 text-sm mt-1">Coba kata kunci pencarian atau filter lainnya.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="layanan" class="py-20 relative bg-navy-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-ocean-400 text-sm font-semibold tracking-wider uppercase">Layanan Keagenan</span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white mt-1">Komitmen Layanan PT. AGAS88</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2">
+                    Kami hadir menyajikan solusi keagenan pelayaran terpadu untuk efisiensi dan keamanan pelayaran Anda di pelabuhan Indonesia.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800/80 hover:border-ocean-500/40 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-ocean-500/10 border border-ocean-500/20 text-ocean-400 flex items-center justify-center text-2xl mb-6 group-hover:bg-ocean-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-white mb-3">Clearance Kapal</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Pengurusan dokumen Port Clearance (Inward/Outward) secara akurat, cepat, dan sesuai regulasi Syahbandar & Imigrasi lokal.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800/80 hover:border-ocean-500/40 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-white mb-3">Koordinasi Pelabuhan</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Mengoordinasikan alokasi tambatan, pelayanan pandu & tunda, serta penanganan bongkar muat secara profesional.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800/80 hover:border-ocean-500/40 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-6 group-hover:bg-amber-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-white mb-3">Dukungan 24/7 Nonstop</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Tim siaga 24 jam penuh di pelabuhan untuk menangani kebutuhan darurat kapal, suplai fresh water, bunker, dan pergantian crew.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-lg bg-slate-900 border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl scale-95 transition-transform duration-300 transform" id="modal-content">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Modal Header / Content -->
+            <div class="text-center">
+                <div class="w-28 h-28 mx-auto rounded-2xl overflow-hidden bg-slate-800 p-1 border-2 border-ocean-500/50 mb-4 shadow-lg">
+                    <img id="modal-img" src="" alt="Profile Image" class="w-full h-full object-cover object-top rounded-xl">
+                </div>
+
+                <h3 id="modal-name" class="font-heading text-2xl font-bold text-white"></h3>
+                <p id="modal-role" class="text-ocean-400 text-sm font-semibold mt-1"></p>
+                <p id="modal-company" class="text-slate-400 text-xs mt-0.5"></p>
+
+                <div class="my-6 p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-slate-300 text-xs sm:text-sm text-left leading-relaxed font-light" id="modal-bio">
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="https://wa.me/628123456789" target="_blank" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-semibold text-xs tracking-wide uppercase transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Kontak Langsung</span>
+                    </a>
+                    <button onclick="closeModal()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs uppercase tracking-wide transition-colors">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer id="kontak" class="bg-navy-950 border-t border-slate-800/80 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                
+                <!-- Col 1: About -->
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-ocean-500 flex items-center justify-center text-white font-bold text-lg">
+                            <i class="fa-solid fa-anchor"></i>
+                        </div>
+                        <span class="font-heading font-black text-2xl tracking-wider text-white">PT. AGAS88</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-md font-light">
+                        PT. Agas Delapan Delapan adalah perusahaan jasa keagenan pelayaran laut nasional terpercaya. Kami berdedikasi memberikan penanganan kapal secara efisien, responsif, dan profesional di seluruh area operasional pelabuhan.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-heading text-sm font-bold text-white uppercase tracking-wider mb-4">Navigasi</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        <li><a href="#beranda" class="hover:text-ocean-400 transition-colors">Beranda</a></li>
+                        <li><a href="#crew" class="hover:text-ocean-400 transition-colors">Struktur Crew</a></li>
+                        <li><a href="#layanan" class="hover:text-ocean-400 transition-colors">Layanan Utama</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Contact Info -->
+                <div>
+                    <h4 class="font-heading text-sm font-bold text-white uppercase tracking-wider mb-4">Kontak Layanan</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-headset text-ocean-400 mt-1"></i>
+                            <span>Layanan Darurat / Dispatch 24/7 Siaga</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-ocean-400"></i>
+                            <span>info@agas88.co.id</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-shield-halved text-ocean-400"></i>
+                            <span>Keagenan Pelayaran Resmi</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 PT. Agas Delapan Delapan (AGAS88). Hak Cipta Dilindungi Undang-Undang.</p>
+                <div class="flex space-x-6">
+                    <span class="text-slate-600">Pelayaran Laut Nasional</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Filter and Search Logic
+        const searchInput = document.getElementById('crew-search');
+        const filterSelect = document.getElementById('crew-filter');
+        const crewCards = document.querySelectorAll('.crew-card');
+        const noResults = document.getElementById('no-results');
+
+        function filterCrew() {
+            const query = searchInput.value.toLowerCase().trim();
+            const category = filterSelect.value;
+            let visibleCount = 0;
+
+            crewCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const role = card.getAttribute('data-role');
+                const cat = card.getAttribute('data-category');
+
+                const matchesQuery = name.includes(query) || role.includes(query);
+                const matchesCategory = (category === 'all') || (cat === category);
+
+                if (matchesQuery && matchesCategory) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        searchInput.addEventListener('input', filterCrew);
+        filterSelect.addEventListener('change', filterCrew);
+
+        // Modal Functionality
+        const modal = document.getElementById('profile-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(name, role, company, imgSrc, bio) {
+            document.getElementById('modal-name').innerText = name;
+            document.getElementById('modal-role').innerText = role;
+            document.getElementById('modal-company').innerText = company;
+            document.getElementById('modal-img').src = imgSrc;
+            document.getElementById('modal-bio').innerText = bio;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close modal when clicking outside content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

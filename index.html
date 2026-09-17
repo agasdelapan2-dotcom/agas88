@@ -193,6 +193,138 @@ body {
     color: #ffffff;
     
 }
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .faq-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .faq-title {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .faq-subtitle {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(0, 242, 254, 0.4);
+    }
+
+    .faq-question {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      color: #f1f5f9;
+      user-select: none;
+    }
+
+    .faq-question i {
+      color: #38bdf8;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+      background: rgba(15, 23, 42, 0.4);
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 0 20px;
+    }
+
+    .faq-answer p {
+      margin-bottom: 10px;
+    }
+
+    .faq-answer ul {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    /* Class Aktif untuk Accordion */
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 15px 20px 20px 20px;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-contact-box {
+      margin-top: 40px;
+      padding: 24px;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px border border-slate-800;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .faq-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .faq-contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+    }
   </style>
 </head>
 
@@ -1041,6 +1173,78 @@ body {
     </div>
   </section>
 
+<section class="faq-section">
+    <div class="faq-header">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <p class="faq-subtitle">Jawaban cepat untuk pertanyaan seputar layanan keagenan kapal PT. AGAS88</p>
+    </div>
+
+    <div class="faq-container">
+      
+      <!-- FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Bagaimana prosedur dasar keagenan kapal di PT. AGAS88?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Prosedur keagenan dimulai dari penerbitan <i>Appointment Letter</i> oleh Pemilik Kapal/Charterer. Tim kami akan segera melakukan penunjukan agen resmi, pengurusan izin sandar pelabuhan, koordinasi dengan otoritas terkait (Syahbandar, Bea Cukai, Karantina, Imigrasi), hingga pengawasan operasional bongkar muat secara 24/7.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Dokumen apa saja yang diperlukan untuk pengurusan Port Clearance?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Untuk proses penerbitan Surat Persetujuan Berlayar (SPB) / Port Clearance, dokumen utama yang harus disediakan meliputi:</p>
+          <ul>
+            <li>Surat Ukur Kapal & Sertifikat Keselamatan</li>
+            <li>Daftar Anam / Crew List</li>
+            <li>Manifest Cargo / Bill of Lading (B/L)</li>
+            <li>Dokumen Lapor Tiba/Berangkat Kapal (Outward/Inward Clearance)</li>
+            <li>Sertifikat Bebas Karantina (Health Clearance)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Apa saja ketentuan layanan Pengisian Bahan Bakar (Bunkering)?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Pengisian bahan bakar (MGO/MFO) dilakukan sesuai standar keselamatan maritim. Pemesanan bunkering wajib diajukan minimal 2x24 jam sebelum kapal tiba. Kami memastikan kualitas BBM bersertifikat resmi, pemeriksaan kalkulasi bunker bersama *chief engineer*, dan pendampingan selama proses bunker hingga penandatanganan *Bunker Delivery Note* (BDN).</p>
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Apakah PT. AGAS88 melayani permintaan darurat 24/7?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Ya, tim operasional kami siap siaga 24 jam nonstop untuk menangani kebutuhan mendadak seperti perpanjangan dokumen izin, pasokan logistik/air bersih (*fresh water*), hingga pergantian kru (*crew change*) di pelabuhan.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Kotak Bantuan -->
+    <div class="faq-contact-box">
+      <h3 style="color: #ffffff; font-size: 18px;">Punya pertanyaan lain yang belum terjawab?</h3>
+      <p style="color: #94a3b8; font-size: 14px; margin-top: 5px;">Tim admin operasional kami siap membantu Anda kapan saja.</p>
+      <a href="https://wa.me/6282197001999" target="_blank" class="faq-contact-btn">
+        <i class="fa-brands fa-whatsapp text-lg"></i>
+        Hubungi Tim Operasional
+      </a>
+    </div>
+  </section>
+
   <!-- Careers -->
   <section id="careers" class="py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1512,5 +1716,28 @@ body, button, a {
   }
   animateFollower();
 </script>
+
+<!-- JavaScript Accordion Interaktif -->
+  <script>
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // Tutup item lain yang sedang terbuka
+        faqItems.forEach(otherItem => {
+          otherItem.classList.remove('active');
+        });
+
+        // Buka item jika sebelumnya tertutup
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
+     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -62,11 +62,16 @@
 
     .agas-widget-banner {
       width: 100%;
-      height: auto;
-      max-height: 220px;
+      height: 380px;
       display: block;
       object-fit: cover;
       object-position: center;
+    }
+
+    @media (max-width: 640px) {
+      .agas-widget-banner {
+        height: 220px;
+      }
     }
 
     /* Widget Inner Body */

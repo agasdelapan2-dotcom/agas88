@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PT. AGAS88 - Keagenan Pelayaran Laut Nasional</title>
     <!-- Favicon & App Icon -->
-  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDqSFwR3tb6e8ZGAl3MwMfK4Q-HTw9wwMlQhj1nzNGA6tVs8h5pM1nks5zOWO6oNG5osQzJfNXq8PdLrHfHqw3WjXMaNWdWwCyhBsppLYucD4lnMfo7LYX6zv0vj5RIoQFSD2D8gYJhtZ2FIhRVf5GN-x-Nb-_xbyRhdYmimhjaN72xJkGD586LHNjzPrv/s500/agas-88.png">
+  <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -105,7 +105,7 @@
         /* --- HERO SECTION --- */
         .hero {
             background: linear-gradient(135deg, rgba(10, 25, 47, 0.88), rgba(0, 86, 145, 0.8)), 
-                        url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+                        url('https://www.agas88.com/pt-agas88.png') center/cover no-repeat;
             min-height: 85vh;
             display: flex;
             align-items: center;
@@ -424,9 +424,76 @@
                 display: none; /* Dapat disesuaikan dengan menu burger jika dibutuhkan */
             }
         }
+/* Sembunyikan kursor bawaan pada seluruh halaman */
+body, button, a {
+  cursor: none !important;
+}
+
+/* Titik Utama Kursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* Lingkaran Pelacak (Follower) */
+.cursor-follower {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(56, 189, 248, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Efek Membesar Saat Hover di Tombol / Link */
+a:hover ~ .cursor-follower,
+button:hover ~ .cursor-follower,
+body:has(a:hover, button:hover) .cursor-follower {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+a:hover ~ .cursor-dot,
+button:hover ~ .cursor-dot,
+body:has(a:hover, button:hover) .cursor-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #60a5fa;
+}
+
+/* Matikan kursor kustom di perangkat seluler/touchscreen */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-follower {
+    display: none !important;
+  }
+  body, button, a {
+    cursor: auto !important;
+  }
+}
     </style>
 </head>
 <body>
+
+    <!-- Elemen Kursor Kustom -->
+<div class="cursor-dot"></div>
+<div class="cursor-follower"></div>
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -459,7 +526,7 @@
     <section class="section-padding" id="about">
         <div class="about-grid">
             <div class="about-img">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" alt="Kapal Kargo PT AGAS88">
+                <img src="https://www.agas88.com/agas88-09.png" alt="Armada Kapal PT AGAS88">
             </div>
             <div class="about-text">
                 <h2 class="about-title">Keagenan Pelayaran Laut Nasional Terpercaya</h2>
@@ -561,6 +628,31 @@
             <p>&copy; PT. AGAS88. All Rights Reserved. Keagenan Pelayaran Laut Nasional.</p>
         </div>
     </footer>
+<script>
+  const dot = document.querySelector('.cursor-dot');
+  const follower = document.querySelector('.cursor-follower');
 
+  let posX = 0, posY = 0;
+  let mouseX = 0, mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    dot.style.left = `${mouseX}px`;
+    dot.style.top = `${mouseY}px`;
+  });
+
+  function animateFollower() {
+    posX += (mouseX - posX) * 0.15;
+    posY += (mouseY - posY) * 0.15;
+
+    follower.style.left = `${posX}px`;
+    follower.style.top = `${posY}px`;
+
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+</script>
 </body>
 </html>

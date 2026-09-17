@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Marine Weather Widget - PT. AGAS88</title>
-
-  <!-- Favicon & App Icon untuk Google Search & Browser -->
-  <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
-  <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
-  <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
-  <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
   
-  <!-- FontAwesome & Google Fonts -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts - Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -20,41 +18,57 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-      background: #0b1329;
+      background: #0f172a;
       color: #f8fafc;
-      padding: 20px;
+      padding: 24px 16px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Kontainer Utama Widget */
+    /* Main Container Widget */
     .agas-widget-card {
-      max-width: 900px;
+      width: 100%;
+      max-width: 920px;
       margin: 0 auto;
-      background: #111c38;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
     }
 
-    /* Banner Gambar Header */
+    /* Banner Image Fit Header */
+    .agas-widget-banner-wrapper {
+      width: 100%;
+      background: #0b1329;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
     .agas-widget-banner {
       width: 100%;
       height: auto;
+      max-height: 220px;
       display: block;
       object-fit: cover;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      object-position: center;
     }
 
-    /* Isi Widget */
+    /* Widget Inner Body */
     .agas-widget-body {
-      padding: 24px;
+      padding: 28px 24px;
     }
 
-    /* Header Judul & Dropdown */
+    /* Header Section with Dropdown */
     .agas-widget-header {
       display: flex;
       flex-wrap: wrap;
@@ -62,45 +76,54 @@
       align-items: center;
       gap: 16px;
       margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .agas-widget-title {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 18px;
+      gap: 12px;
+      font-size: 19px;
       font-weight: 700;
       color: #ffffff;
+      letter-spacing: -0.2px;
     }
 
     .agas-widget-title i {
       color: #38bdf8;
-      font-size: 20px;
+      font-size: 22px;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
     }
 
-    /* Dropdown Pilihan Pelabuhan */
+    /* Dropdown Selector */
     .agas-port-select {
-      background: #1e293b;
+      background: #0f172a;
       color: #38bdf8;
       border: 1px solid rgba(56, 189, 248, 0.4);
-      padding: 10px 16px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
       font-size: 14px;
       font-weight: 600;
       outline: none;
       cursor: pointer;
       width: 100%;
-      max-width: 280px;
+      max-width: 300px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    /* Grid Indikator Cuaca (Responsif Simetris) */
+    .agas-port-select:hover, .agas-port-select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Grid Layout for Weather Cards */
     .agas-weather-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
 
     @media (min-width: 768px) {
@@ -110,15 +133,22 @@
     }
 
     .agas-card {
-      background: #1a2647;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 20px 12px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px 14px;
       text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .agas-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 0.8);
     }
 
     .agas-card i {
-      font-size: 28px;
+      font-size: 30px;
       color: #38bdf8;
       margin-bottom: 10px;
     }
@@ -128,11 +158,11 @@
       color: #94a3b8;
       text-transform: uppercase;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
     }
 
     .agas-card-value {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: #ffffff;
       margin: 6px 0 2px 0;
@@ -141,24 +171,64 @@
     .agas-card-sub {
       font-size: 12px;
       color: #38bdf8;
+      font-weight: 500;
     }
 
-    /* Pasang Surut Section */
+    /* Tide Forecast Section */
     .agas-tide-section {
-      background: #16203d;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(15, 23, 42, 0.65);
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .agas-tide-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .agas-tide-title {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: #f1f5f9;
-      margin-bottom: 16px;
       display: flex;
       align-items: center;
+      gap: 10px;
+    }
+
+    .agas-tide-title i {
+      color: #38bdf8;
+    }
+
+    /* Live WITA Clock Container */
+    .agas-live-clock {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #38bdf8;
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+    }
+
+    .agas-live-clock i {
+      animation: pulse 1.5s infinite;
+      font-size: 11px;
+      color: #38bdf8;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
     }
 
     .agas-tide-grid {
@@ -174,11 +244,12 @@
     }
 
     .agas-tide-box {
-      background: #1e293b;
-      padding: 12px;
-      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.6);
+      padding: 14px 12px;
+      border-radius: 10px;
       text-align: center;
-      border-left: 3px solid #38bdf8;
+      border-left: 4px solid #38bdf8;
+      transition: background 0.2s ease;
     }
 
     .agas-tide-box.low {
@@ -189,10 +260,11 @@
       font-size: 11px;
       color: #94a3b8;
       font-weight: 600;
+      text-transform: uppercase;
     }
 
     .agas-tide-time {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: #ffffff;
       margin: 4px 0;
@@ -201,72 +273,81 @@
     .agas-tide-height {
       font-size: 12px;
       color: #38bdf8;
+      font-weight: 600;
     }
 
     .agas-footer-note {
-      margin-top: 20px;
+      margin-top: 22px;
       text-align: center;
       font-size: 12px;
       color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-
 .float-home-neon {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 50px;
-            color: #fff;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            z-index: 9999;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .float-home-neon .home-icon {
-            width: 20px;
-            height: 20px;
-            fill: #00f2fe;
-            transition: transform 0.3s ease;
-        }
-        .float-home-neon:hover {
-            transform: translateY(-5px) scale(1.05);
-            background: rgba(15, 23, 42, 0.9);
-            border-color: #00f2fe;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-            color: #00f2fe;
-        }
-        .float-home-neon:hover .home-icon {
-            transform: scale(1.2);
-            fill: #00f2fe;
-        }
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
   </style>
 </head>
 <body>
 
-  <!-- KONTEN WIDGET -->
+  <!-- MAIN WIDGET CARD -->
   <div class="agas-widget-card">
     
-    <!-- Gambar Header Dalam Kontainer -->
-    <img 
-      src="https://res.cloudinary.com/kshynbri/image/upload/v1789605164/pt-agas88.png" 
-      alt="PT. AGAS88 Header" 
-      class="agas-widget-banner"
-    >
+    <!-- Top Header Banner Image -->
+    <div class="agas-widget-banner-wrapper">
+      <img 
+        src="https://res.cloudinary.com/kshynbri/image/upload/v1789605164/pt-agas88.png" 
+        alt="PT. AGAS88 Header Banner" 
+        class="agas-widget-banner"
+      >
+    </div>
 
     <div class="agas-widget-body">
       
-      <!-- Header & Selector Pelabuhan -->
+      <!-- Widget Header & Port Selection -->
       <div class="agas-widget-header">
         <div class="agas-widget-title">
           <i class="fa-solid fa-water"></i>
@@ -284,7 +365,7 @@
         </select>
       </div>
 
-      <!-- Indikator Cuaca (2x2 atau 4 Sejajar) -->
+      <!-- Weather Indicators Grid -->
       <div class="agas-weather-grid">
         <div class="agas-card">
           <i class="fa-solid fa-wind"></i>
@@ -315,11 +396,19 @@
         </div>
       </div>
 
-      <!-- Pasang Surut -->
+      <!-- Tide Forecast Section with Dynamic WITA Real-time Clock -->
       <div class="agas-tide-section">
-        <div class="agas-tide-title">
-          <i class="fa-solid fa-arrows-up-down text-sky-400"></i>
-          <span>Perkiraan Pasang Surut Hari Ini (Lokal)</span>
+        <div class="agas-tide-header">
+          <div class="agas-tide-title">
+            <i class="fa-solid fa-arrows-up-down"></i>
+            <span>Perkiraan Pasang Surut Hari Ini (Lokal)</span>
+          </div>
+
+          <!-- Dynamic WITA Clock Badge -->
+          <div class="agas-live-clock">
+            <i class="fa-solid fa-circle"></i>
+            <span id="realtimeClockWita">Loading waktu WITA...</span>
+          </div>
         </div>
 
         <div class="agas-tide-grid">
@@ -346,15 +435,17 @@
         </div>
       </div>
 
+      <!-- Footer Note -->
       <div class="agas-footer-note">
-        <i class="fa-solid fa-circle-info"></i> Data diperbarui secara berkala. Panduan operasional PT. AGAS88.
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Data diperbarui secara berkala. Panduan operasional PT. AGAS88.</span>
       </div>
 
     </div>
   </div>
 
-  <!-- SCRIPT JAVASCRIPT -->
   <script>
+    // Coordinates Data for AGAS88 Operational Ports
     const portData = {
       wani: { lat: -0.686, lon: 119.845 },
       samarinda: { lat: -0.502, lon: 117.154 },
@@ -365,6 +456,57 @@
       surabaya: { lat: -7.201, lon: 112.731 }
     };
 
+    // Real-Time Clock Function (WITA / UTC+8)
+    function startWitaClock() {
+      function updateClock() {
+        const now = new Date();
+
+        // Format to WITA (Asia/Makassar - UTC+8)
+        const options = {
+          timeZone: 'Asia/Makassar',
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        };
+
+        const formatter = new Intl.DateTimeFormat('id-ID', options);
+        const parts = formatter.formatToParts(now);
+
+        let weekday = '', day = '', month = '', year = '', hour = '', minute = '', second = '';
+
+        parts.forEach(part => {
+          if (part.type === 'weekday') weekday = part.value;
+          if (part.type === 'day') day = part.value;
+          if (part.type === 'month') month = part.value;
+          if (part.type === 'year') year = part.value;
+          if (part.type === 'hour') hour = part.value;
+          if (part.type === 'minute') minute = part.value;
+          if (part.type === 'second') second = part.value;
+        });
+
+        // Capitalize First Letter of Weekday and Month
+        weekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+        month = month.charAt(0).toUpperCase() + month.slice(1);
+
+        // Format: Kamis, 17 September 2026 - 21:45:44 WITA
+        const formattedString = `${weekday}, ${day} ${month} ${year} - ${hour}:${minute}:${second} WITA`;
+
+        const clockElement = document.getElementById('realtimeClockWita');
+        if (clockElement) {
+          clockElement.innerText = formattedString;
+        }
+      }
+
+      updateClock(); // Initial run
+      setInterval(updateClock, 1000); // Ticks every 1 second
+    }
+
+    // Fetch Live Marine Weather API
     async function fetchMarineWeather(lat, lon) {
       try {
         const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m&hourly=wave_height&timezone=auto`);
@@ -385,7 +527,7 @@
         document.getElementById('visibility').innerText = "8.5 NM";
 
       } catch (error) {
-        console.error("Gagal mengambil data cuaca:", error);
+        console.error("Gagal mengambil data cuaca laut:", error);
         document.getElementById('temperature').innerText = "29 °C";
         document.getElementById('windSpeed').innerText = "8.5 Knot";
         document.getElementById('windDir').innerText = "Arah: Barat Daya";
@@ -395,40 +537,25 @@
       }
     }
 
+    // Convert Wind Degree to Cardinal Direction
     function getWindDirection(degree) {
       const directions = ['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut'];
       return directions[Math.round(degree / 45) % 8];
     }
 
+    // Trigger Weather Update on Port Change
     function updateWeatherData() {
       const selectedPort = document.getElementById('portSelect').value;
       const port = portData[selectedPort];
       fetchMarineWeather(port.lat, port.lon);
     }
 
+    // Initialize on Window Load
     window.onload = () => {
+      startWitaClock();
       updateWeatherData();
     };
   </script>
-<script>
-  // 1. Inisialisasi audio dengan URL audio Anda
-  const clickSound = new Audio('https://syams.online/syam-audio.mp3');
-  clickSound.preload = 'auto'; // Mengunduh audio di awal agar tidak ada delay saat diklik
-
-  // 2. Event listener global untuk mendeteksi klik di seluruh halaman
-  document.addEventListener('click', function(event) {
-    // Menentukan target elemen interaktif: tombol, link/menu, input button, dll.
-    const target = event.target.closest('button, a, input[type="submit"], input[type="button"], [role="button"], .menu-item');
-
-    if (target) {
-      clickSound.currentTime = 0; // Reset ke detik ke-0 agar responsif saat diklik cepat
-      clickSound.play().catch(error => {
-        // Menangani pemblokiran otomatis oleh browser jika user belum berinteraksi
-        console.log("Audio diblokir oleh browser:", error);
-      });
-    }
-  });
-</script>
 <!-- Tombol Melayang Neon/Glassmorphism -->
 <a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
   <svg viewBox="0 0 24 24" class="home-icon">

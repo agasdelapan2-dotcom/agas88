@@ -285,12 +285,16 @@
       </div>
       
       <!-- Pilihan Pelabuhan/Wilayah Operasional -->
-      <select id="portSelect" class="port-selector" onchange="updateWeatherData()">
-        <option value="panton">Pelabuhan Pantoloan (Palu)</option>
-        <option value="makassar">Pelabuhan Soekarno-Hatta (Makassar)</option>
-        <option value="balikpapan">Pelabuhan Semayang (Balikpapan)</option>
-        <option value="surabaya">Pelabuhan Tanjung Perak (Surabaya)</option>
-      </select>
+<select id="portSelect" class="port-selector" onchange="updateWeatherData()">
+  <option value="wani">Pelabuhan Wani (Sulteng)</option>
+  <option value="samarinda">Pelabuhan Samarinda (Kaltim)</option>
+  <option value="panton">Pelabuhan Pantoloan (Palu)</option>
+  <option value="donggala">Pelabuhan Donggala (Sulteng)</option>
+  <option value="balikpapan">Pelabuhan Semayang (Balikpapan)</option>
+  <option value="makassar">Pelabuhan Soekarno-Hatta (Makassar)</option>
+  <option value="surabaya">Pelabuhan Tanjung Perak (Surabaya)</option>
+</select>
+
     </div>
 
     <!-- Grid Indikator Cuaca Laut -->
@@ -369,15 +373,16 @@
 
   </div>
 
-  <!-- JavaScript Integration -->
-  <script>
-    // Koordinat Pelabuhan Utama
-    const portData = {
-      panton: { lat: -0.712, lon: 119.852, name: "Pantoloan" },
-      makassar: { lat: -5.122, lon: 119.412, name: "Makassar" },
-      balikpapan: { lat: -1.265, lon: 116.831, name: "Balikpapan" },
-      surabaya: { lat: -7.201, lon: 112.731, name: "Surabaya" }
-    };
+ // Koordinat Pelabuhan Utama PT. AGAS88
+const portData = {
+  wani: { lat: -0.686, lon: 119.845, name: "Pelabuhan Wani" },
+  samarinda: { lat: -0.502, lon: 117.154, name: "Pelabuhan Samarinda" },
+  panton: { lat: -0.712, lon: 119.852, name: "Pelabuhan Pantoloan" },
+  donggala: { lat: -0.672, lon: 119.740, name: "Pelabuhan Donggala" },
+  balikpapan: { lat: -1.265, lon: 116.831, name: "Pelabuhan Balikpapan" },
+  makassar: { lat: -5.122, lon: 119.412, name: "Pelabuhan Makassar" },
+  surabaya: { lat: -7.201, lon: 112.731, name: "Pelabuhan Surabaya" }
+};
 
     async function fetchMarineWeather(lat, lon) {
       try {

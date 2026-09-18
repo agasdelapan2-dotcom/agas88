@@ -330,6 +330,7 @@
                 </div>
             </div>
 <div class="space-y-4">
+    <div class="space-y-4">
     <!-- Form Utama -->
     <form id="contact-form" class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 space-y-4">
         <div>
@@ -350,7 +351,7 @@
             Kirim Pesan
         </button>
 
-        <!-- Tombol Lihat Pesan (Tautan ke Google Sheets) -->
+        <!-- Tombol Lihat Pesan -->
         <a href="https://docs.google.com/spreadsheets/d/1E1wCt5ZIvWL7VcNOfFNl6cmWh0y1fJkz47va-w24M8w/edit?usp=sharing" 
            target="_blank" 
            rel="noopener noreferrer" 
@@ -360,31 +361,30 @@
     </form>
 </div>
 
-<!-- Script Pengirim Data -->
 <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyh5QOpcq_GM0SNBQTujwduVqsSSCv8ealntZqGh4ItLrj8VTC0dzFvP6GljfUDDtGK/exec'
-  const form = document.forms['contact-form']
-  const btn = document.getElementById('submit-btn')
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbw2oh1u7eLv3Lgyd5aT99rMhCF3n4AlDwk0UZrX7QP9JBkVWmL2Dov7GoRHtCfRLVZn/exec';
+  const form = document.forms['contact-form'];
+  const btn = document.getElementById('submit-btn');
 
   form.addEventListener('submit', e => {
-    e.preventDefault()
-    btn.disabled = true
-    btn.innerHTML = "Sending..."
+    e.preventDefault();
+    btn.disabled = true;
+    btn.innerHTML = "Sending...";
 
     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
       .then(response => {
-         alert('Pesan Anda berhasil terkirim!')
-         btn.disabled = false
-         btn.innerHTML = "Kirim Pesan"
-         form.reset()
+         alert('Pesan Anda berhasil terkirim!');
+         btn.disabled = false;
+         btn.innerHTML = "Kirim Pesan";
+         form.reset();
       })
       .catch(error => {
-         alert('Terjadi kesalahan! Coba lagi.')
-         btn.disabled = false
-         btn.innerHTML = "Kirim Pesan"
-         console.error('Error!', error.message)
-      })
-  })
+         alert('Terjadi kesalahan! Coba lagi.');
+         btn.disabled = false;
+         btn.innerHTML = "Kirim Pesan";
+         console.error('Error!', error.message);
+      });
+  });
 </script>
 
     <!-- 10. Footer Profesional -->

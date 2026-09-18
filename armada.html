@@ -30,6 +30,9 @@
     </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- html2pdf.js Library untuk Ekspor PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
 .float-home-neon {
   position: fixed;
@@ -78,7 +81,7 @@
 </head>
 <body class="bg-slate-100 font-sans p-4 md:p-10">
 
-    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+    <div id="area-cetak" class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
         
         <!-- BANNER ATAS (SAMA PANJANG DENGAN TABEL) -->
         <div class="w-full overflow-hidden bg-navy-900">
@@ -99,7 +102,7 @@
                 </div>
             </div>
             
-            <div class="flex flex-wrap items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3 no-print">
                 <!-- Navigasi ke Jadwal -->
                 <a href="https://www.agas88.com/eta" 
                    class="bg-ocean hover:bg-teal-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow">
@@ -112,6 +115,12 @@
                    class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow">
                     <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Update Data
                 </a>
+
+                <!-- Tombol Ekspor PDF Baru -->
+                <button onclick="eksporPDF()" 
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow cursor-pointer">
+                    <i data-lucide="file-down" class="w-4 h-4"></i> Ekspor PDF
+                </button>
             </div>
         </div>
 
@@ -155,7 +164,7 @@
             </div>
 
             <!-- Input Pencarian Armada -->
-            <div class="relative w-full">
+            <div class="relative w-full no-print">
                 <input type="text" id="search-armada" onkeyup="cariArmada()" placeholder="Cari Nama Kapal, Nomor GT, atau Call Sign..." 
                        class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-ocean text-sm shadow-sm">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
@@ -259,14 +268,37 @@
             tampilkanArmada(hasilFilter);
         }
 
+        // FUNGSI EKSPOR PDF
+        function eksporPDF() {
+            const elemen = document.getElementById("area-cetak");
+            const elemenSembunyi = document.querySelectorAll(".no-print");
+
+            // Sembunyikan tombol & pencarian saat membuat PDF
+            elemenSembunyi.forEach(el => el.style.display = "none");
+
+            const opsi = {
+                margin:       [0.3, 0.3, 0.3, 0.3],
+                filename:     'Daftar_Armada_Kapal_PT_AGAS88.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opsi).from(elemen).save().then(() => {
+                // Tampilkan kembali elemen yang disembunyikan
+                elemenSembunyi.forEach(el => el.style.display = "");
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             tampilkanArmada(dataArmada);
             document.getElementById("total-kapal").innerText = `${dataArmada.length} Kapal`;
             lucide.createIcons();
         });
     </script>
+
 <!-- Tombol Melayang Neon/Glassmorphism -->
-<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+<a href="https://agas88.com/" class="float-home-neon no-print" title="Kembali ke Home">
   <svg viewBox="0 0 24 24" class="home-icon">
     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
   </svg>

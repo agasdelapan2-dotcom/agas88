@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT. AGAS88 - Keagenan Pelayaran Laut Nasional</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B192C',
+                            900: '#1E3E62',
+                        },
+                        ocean: '#00ADB5',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="fixed w-full top-0 z-50 bg-navy-800/80 backdrop-blur-md border-b border-white/10 text-white">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="anchor" class="text-ocean w-8 h-8"></i>
+                <span class="text-2xl font-bold tracking-wider">AGAS<span class="text-ocean">88</span></span>
+            </div>
+            <nav class="hidden md:flex space-x-8 font-medium">
+                <a href="#home" class="hover:text-ocean transition">Beranda</a>
+                <a href="#about" class="hover:text-ocean transition">Tentang</a>
+                <a href="#services" class="hover:text-ocean transition">Layanan</a>
+                <a href="#schedule" class="hover:text-ocean transition">Jadwal</a>
+                <a href="#fleet" class="hover:text-ocean transition">Armada</a>
+                <a href="#contact" class="hover:text-ocean transition">Kontak</a>
+            </nav>
+            <a href="#contact" class="hidden md:inline-block bg-ocean text-white px-5 py-2 rounded-lg font-semibold hover:bg-teal-500 transition">Hubungi Kami</a>
+        </div>
+    </header>
+
+    <!-- 1. Hero Section Slider -->
+    <section id="home" class="relative h-screen flex items-center justify-center bg-navy-800 text-white overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070')] bg-cover bg-center opacity-40"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-800 via-transparent to-navy-800/60"></div>
+        
+        <div class="relative max-w-5xl mx-auto px-4 text-center space-y-6 pt-16">
+            <span class="bg-ocean/20 border border-ocean/40 text-ocean text-sm px-4 py-1.5 rounded-full font-semibold inline-block">Keagenan Pelayaran Laut Nasional</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Solusi Keagenan Kapal Terpercaya & Profesional</h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">PT. AGAS88 melayani seluruh kebutuhan logistik, dokumen, dan operasional kapal di berbagai pelabuhan utama Indonesia.</p>
+            <div class="flex justify-center gap-4 pt-4">
+                <a href="#services" class="bg-ocean text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-500 transition shadow-lg">Layanan Kami</a>
+                <a href="#schedule" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition">Jadwal Kapal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Tentang PT. AGAS88 -->
+    <section id="about" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-ocean font-bold tracking-widest text-sm uppercase">Tentang Kami</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-navy-800">Komitmen Utama dalam Layanan Maritim</h2>
+                <p class="text-slate-600 leading-relaxed">PT. AGAS88 bergerak di bidang keagenan pelayaran laut nasional yang berfokus pada kecepatan, transparansi, dan efisiensi operasional armada. Kami memastikan setiap kapal bertambat, berlabuh, dan berlayar kembali tanpa hambatan regulasi.</p>
+                <ul class="space-y-3">
+                    <li class="flex items-center space-x-3 text-slate-700">
+                        <i data-lucide="check-circle-2" class="text-ocean"></i>
+                        <span>Pelayanan operasional kapal 24/7</span>
+                    </li>
+                    <li class="flex items-center space-x-3 text-slate-700">
+                        <i data-lucide="check-circle-2" class="text-ocean"></i>
+                        <span>Pengurusan perizinan & keagenan cepat</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
+                <img src="https://images.unsplash.com/photo-1516216628859-9bccecca9124?q=80&w=1200" alt="Kapal PT AGAS88" class="w-full h-80 object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Statistik Layanan -->
+    <section class="bg-navy-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <h3 class="text-4xl font-bold text-ocean">500+</h3>
+                <p class="text-slate-400 mt-1 text-sm">Kapal Ditangani</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-ocean">15+</h3>
+                <p class="text-slate-400 mt-1 text-sm">Pelabuhan Cabang</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-ocean">99%</h3>
+                <p class="text-slate-400 mt-1 text-sm">Tepat Waktu</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-ocean">24/7</h3>
+                <p class="text-slate-400 mt-1 text-sm">Dukungan Siaga</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Layanan Keagenan -->
+    <section id="services" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-ocean font-bold tracking-widest text-sm uppercase">Layanan Kami</span>
+            <h2 class="text-3xl font-bold text-navy-800 mt-2">Solusi Maritim Terpadu</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-xl hover:-translate-y-2 transition">
+                <i data-lucide="ship" class="w-12 h-12 text-ocean mb-6"></i>
+                <h3 class="text-xl font-bold text-navy-800 mb-3">Keagenan Kapal</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Pengurusan clearance in/out, kebutuhan bunker, logistik, dan layanan perizinan di pelabuhan.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-xl hover:-translate-y-2 transition">
+                <i data-lucide="package-check" class="w-12 h-12 text-ocean mb-6"></i>
+                <h3 class="text-xl font-bold text-navy-800 mb-3">Penanganan Muatan</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Supervisi bongkar muat kargo umum, kontainer, maupun curah secara efektif dan aman.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-xl hover:-translate-y-2 transition">
+                <i data-lucide="file-text" class="w-12 h-12 text-ocean mb-6"></i>
+                <h3 class="text-xl font-bold text-navy-800 mb-3">Dokumentasi & Regulasi</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Penyelesaian sertifikasi, manifest kargo, serta administrasi kepelabuhanan resmi.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Jadwal Kapal Hari Ini & 6. Quick Service -->
+    <section id="schedule" class="py-20 bg-slate-100 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Jadwal Kapal -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-md">
+                    <h3 class="text-2xl font-bold text-navy-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="calendar" class="text-ocean"></i> Jadwal Kapal Hari Ini
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-navy-800 text-white">
+                                <tr>
+                                    <th class="p-3">Nama Kapal</th>
+                                    <th class="p-3">Pelabuhan Asal</th>
+                                    <th class="p-3">Tujuan</th>
+                                    <th class="p-3">ETA</th>
+                                    <th class="p-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-3 font-semibold">KM. AGAS EXPRESS 01</td>
+                                    <td class="p-3">Tanjung Priok</td>
+                                    <td class="p-3">Tanjung Perak</td>
+                                    <td class="p-3">14:00 WITA</td>
+                                    <td class="p-3"><span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-semibold">Sandar</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">KM. AGAS BARUNA</td>
+                                    <td class="p-3">Makassar</td>
+                                    <td class="p-3">Balikpapan</td>
+                                    <td class="p-3">18:30 WITA</td>
+                                    <td class="p-3"><span class="bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full text-xs font-semibold">Berlayar</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Service -->
+                <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                            <i data-lucide="zap" class="text-ocean"></i> Quick Service
+                        </h3>
+                        <p class="text-slate-300 text-sm mb-6">Akses layanan cepat untuk operasional keagenan kapal Anda.</p>
+                        <div class="space-y-3">
+                            <a href="#" class="block bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm font-medium transition flex items-center justify-between">
+                                <span>Daftar Kapal Berangkat</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-ocean"></i>
+                            </a>
+                            <a href="#" class="block bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm font-medium transition flex items-center justify-between">
+                                <span>Revisi Muatan</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-ocean"></i>
+                            </a>
+                            <a href="#" class="block bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm font-medium transition flex items-center justify-between">
+                                <span>Informasi Detail Kapal</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-ocean"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Armada / Kapal -->
+    <section id="fleet" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-ocean font-bold tracking-widest text-sm uppercase">Armada Kami</span>
+            <h2 class="text-3xl font-bold text-navy-800 mt-2">Dukungan Kapal Handal</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="rounded-2xl overflow-hidden shadow-lg bg-white border border-slate-100">
+                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=800" alt="Kapal Tugboat" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-navy-800">Tugboat & Tunda</h3>
+                    <p class="text-slate-600 text-sm mt-2">Siap melayani pemanduan serta penundaan kapal besar di area pelabuhan.</p>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-lg bg-white border border-slate-100">
+                <img src="https://images.unsplash.com/photo-1516216628859-9bccecca9124?q=80&w=800" alt="Kapal Kargo" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-navy-800">Cargo & Bulk Carrier</h3>
+                    <p class="text-slate-600 text-sm mt-2">Dukungan penanganan armada penyeberangan serta pengangkutan barang cair/curah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Alur Pelayanan -->
+    <section class="py-20 bg-navy-800 text-white px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-ocean font-bold tracking-widest text-sm uppercase">Prosedur</span>
+                <h2 class="text-3xl font-bold mt-2">Alur Layanan Keagenan</h2>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 bg-ocean text-white font-bold rounded-full flex items-center justify-center mx-auto text-xl">1</div>
+                    <h4 class="font-bold">Pengajuan Penunjukan</h4>
+                    <p class="text-slate-400 text-sm">Pemilik kapal mengajukan penunjukan agen secara resmi.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="w-12 h-12 bg-ocean text-white font-bold rounded-full flex items-center justify-center mx-auto text-xl">2</div>
+                    <h4 class="font-bold">Koordinasi Pelabuhan</h4>
+                    <p class="text-slate-400 text-sm">Pengurusan warta kapal, tambatan, serta persetujuan otoritas.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="w-12 h-12 bg-ocean text-white font-bold rounded-full flex items-center justify-center mx-auto text-xl">3</div>
+                    <h4 class="font-bold">Penanganan Operasional</h4>
+                    <p class="text-slate-400 text-sm">Pelayanan bongkar muat, suplai air/bunker, dan logistik kru.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="w-12 h-12 bg-ocean text-white font-bold rounded-full flex items-center justify-center mx-auto text-xl">4</div>
+                    <h4 class="font-bold">Clearance Out</h4>
+                    <p class="text-slate-400 text-sm">Penyelesaian dokumen akhir dan keberangkatan kapal secara aman.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Hubungi PT. AGAS88 -->
+    <section id="contact" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="space-y-6">
+                <span class="text-ocean font-bold tracking-widest text-sm uppercase">Kontak</span>
+                <h2 class="text-3xl font-bold text-navy-800">Hubungi PT. AGAS88</h2>
+                <p class="text-slate-600">Butuh layanan keagenan atau konsultasi operasional pelayaran? Tim kami siap membantu Anda.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <i data-lucide="map-pin" class="text-ocean"></i>
+                        <span class="text-slate-700">Jl. Pelabuhan Utama No. 88, Indonesia</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <i data-lucide="phone" class="text-ocean"></i>
+                        <span class="text-slate-700">+62 812-3456-7890</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <i data-lucide="mail" class="text-ocean"></i>
+                        <span class="text-slate-700">info@agas88.co.id</span>
+                    </div>
+                </div>
+            </div>
+            <form class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Nama Anda">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+                    <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="email@perusahaan.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Pesan</label>
+                    <textarea rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Tuliskan kebutuhan operasional Anda..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-ocean text-white font-semibold py-3 rounded-lg hover:bg-teal-500 transition">Kirim Pesan</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 10. Footer Profesional -->
+    <footer class="bg-navy-800 text-slate-400 py-8 border-t border-white/10 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>&copy; 2026 PT. AGAS88. Seluruh Hak Cipta Dilindungi. Layanan Keagenan Pelayaran Laut Nasional.</p>
+        </div>
+    </footer>
+
+    <!-- Render Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

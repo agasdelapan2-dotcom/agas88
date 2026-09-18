@@ -329,23 +329,63 @@
                     </div>
                 </div>
             </div>
-            <form class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap</label>
-                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Nama Anda">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">Email</label>
-                    <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="email@perusahaan.com">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">Pesan</label>
-                    <textarea rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Tuliskan kebutuhan operasional Anda..."></textarea>
-                </div>
-                <button type="submit" class="w-full bg-ocean text-white font-semibold py-3 rounded-lg hover:bg-teal-500 transition">Kirim Pesan</button>
-            </form>
+<div class="space-y-4">
+    <!-- Form Utama -->
+    <form id="contact-form" class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 space-y-4">
+        <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap</label>
+            <input type="text" name="Nama" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Nama Anda">
         </div>
-    </section>
+        <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+            <input type="email" name="Email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="email@perusahaan.com">
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Pesan</label>
+            <textarea name="Pesan" rows="4" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ocean" placeholder="Tuliskan kebutuhan operasional Anda..."></textarea>
+        </div>
+        
+        <!-- Tombol Kirim Pesan -->
+        <button type="submit" id="submit-btn" class="w-full bg-ocean text-white font-semibold py-3 rounded-lg hover:bg-teal-500 transition">
+            Kirim Pesan
+        </button>
+
+        <!-- Tombol Lihat Pesan (Tautan ke Google Sheets) -->
+        <a href="https://docs.google.com/spreadsheets/d/1E1wCt5ZIvWL7VcNOfFNl6cmWh0y1fJkz47va-w24M8w/edit?usp=sharing" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="block w-full text-center bg-slate-100 text-slate-700 font-semibold py-3 rounded-lg hover:bg-slate-200 border border-slate-200 transition">
+            Lihat Pesan
+        </a>
+    </form>
+</div>
+
+<!-- Script Pengirim Data -->
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyh5QOpcq_GM0SNBQTujwduVqsSSCv8ealntZqGh4ItLrj8VTC0dzFvP6GljfUDDtGK/exec'
+  const form = document.forms['contact-form']
+  const btn = document.getElementById('submit-btn')
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    btn.disabled = true
+    btn.innerHTML = "Sending..."
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+         alert('Pesan Anda berhasil terkirim!')
+         btn.disabled = false
+         btn.innerHTML = "Kirim Pesan"
+         form.reset()
+      })
+      .catch(error => {
+         alert('Terjadi kesalahan! Coba lagi.')
+         btn.disabled = false
+         btn.innerHTML = "Kirim Pesan"
+         console.error('Error!', error.message)
+      })
+  })
+</script>
 
     <!-- 10. Footer Profesional -->
     <footer class="bg-navy-800 text-slate-400 py-8 border-t border-white/10 text-center text-sm">

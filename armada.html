@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Armada Kapal - PT. AGAS88</title>
 
-     <!-- Favicon & App Icon untuk Google Search & Browser -->
+     <!-- Favicon & App Icon -->
      <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
      <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
      <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
@@ -30,8 +30,6 @@
     </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- html2pdf.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 .float-home-neon {
@@ -78,28 +76,59 @@
   fill: #00f2fe;
 }
 
-/* CSS Khusus saat proses ekspor PDF / Cetak */
-.pdf-rendering {
-  background-color: #ffffff !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
+/* =========================================================
+   STYLE KHUSUS CETAK / EKSPOR PDF (PREVENT PAGE BREAK ISSUE)
+   ========================================================= */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm; /* Margin pas untuk A4 */
+  }
 
-.pdf-rendering #area-cetak {
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  border: none !important;
-  max-width: 100% !important;
-  width: 100% !important;
-}
+  body {
+    background-color: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 
-/* Mencegah pemotongan baris tabel di tengah halaman PDF */
-tr {
-  page-break-inside: avoid;
+  /* Sembunyikan elemen navigasi, pencarian, dan tombol melayang */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Hilangkan shadow & border container utama */
+  #area-cetak {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Atur tinggi banner agar rapat */
+  .banner-img {
+    max-height: 160px !important;
+    object-fit: cover !important;
+  }
+
+  /* Pastikan baris tabel tidak terpotong secara paksa */
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  /* Bikin layout card tetap 3 kolom di cetakan */
+  .stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
 }
 </style>
 </head>
-<body class="bg-slate-100 font-sans p-4 md:p-10" id="body-main">
+<body class="bg-slate-100 font-sans p-4 md:p-10">
 
     <div id="area-cetak" class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
         
@@ -107,7 +136,7 @@ tr {
         <div class="w-full overflow-hidden bg-navy-900">
             <img src="https://www.agas88.com/syams-operator.png" 
                  alt="Banner PT AGAS88" 
-                 class="w-full h-auto min-h-[120px] max-h-[220px] object-cover md:object-fill block">
+                 class="banner-img w-full h-auto min-h-[120px] max-h-[260px] object-cover md:object-fill block">
         </div>
 
         <!-- HEADER HALAMAN -->
@@ -125,28 +154,28 @@ tr {
             <div class="flex flex-wrap items-center gap-3 no-print">
                 <!-- Navigasi ke Jadwal -->
                 <a href="https://www.agas88.com/eta" 
-                   class="bg-ocean hover:bg-teal-500 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow">
+                   class="bg-ocean hover:bg-teal-500 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow">
                     <i data-lucide="calendar" class="w-4 h-4"></i> Lihat Jadwal Kapal
                 </a>
 
                 <!-- Tombol Update Data -->
                 <a href="https://docs.google.com/spreadsheets/d/1US7UdxkOe8F5U6c5_9bE4AO-pWNiSeJ25CDw_782quI/edit?usp=sharing" 
                    target="_blank" 
-                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow">
+                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow">
                     <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Update Data
                 </a>
 
-                <!-- Tombol Ekspor PDF -->
-                <button onclick="eksporPDF()" 
-                        class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow cursor-pointer">
-                    <i data-lucide="file-down" class="w-4 h-4"></i> Ekspor PDF
+                <!-- Tombol Ekspor PDF (Cetak Bawaan Browser) -->
+                <button onclick="window.print()" 
+                        class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow cursor-pointer">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Ekspor PDF / Cetak
                 </button>
             </div>
         </div>
 
         <!-- STATISTIK RINGKAS & PENCARIAN -->
         <div class="p-5 bg-slate-50 border-b border-slate-200">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+            <div class="stats-grid grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                 
                 <!-- Card Total Kapal -->
                 <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-3">
@@ -155,7 +184,7 @@ tr {
                     </div>
                     <div>
                         <p class="text-[11px] text-slate-500 font-medium">Total Armada Registered</p>
-                        <p class="text-lg font-bold text-navy-800" id="total-kapal">16 Kapal</p>
+                        <p class="text-base md:text-lg font-bold text-navy-800" id="total-kapal">16 Kapal</p>
                     </div>
                 </div>
 
@@ -166,7 +195,7 @@ tr {
                     </div>
                     <div>
                         <p class="text-[11px] text-slate-500 font-medium">Tipe Armada</p>
-                        <p class="text-lg font-bold text-navy-800">KLM (Kapal Layar Motor)</p>
+                        <p class="text-base md:text-lg font-bold text-navy-800">KLM (Kapal Layar Motor)</p>
                     </div>
                 </div>
 
@@ -177,7 +206,7 @@ tr {
                     </div>
                     <div>
                         <p class="text-[11px] text-slate-500 font-medium">Sinyal Panggilan / Call Sign</p>
-                        <p class="text-lg font-bold text-navy-800">Terintegrasi BKI/Kemenhub</p>
+                        <p class="text-base md:text-lg font-bold text-navy-800">Terintegrasi BKI/Kemenhub</p>
                     </div>
                 </div>
 
@@ -258,14 +287,14 @@ tr {
 
                 const row = `
                     <tr class="hover:bg-slate-50 transition">
-                        <td class="p-3 text-center font-bold text-slate-400">${index + 1}</td>
-                        <td class="p-3 font-bold text-navy-800 flex items-center gap-2">
+                        <td class="p-2.5 text-center font-bold text-slate-400">${index + 1}</td>
+                        <td class="p-2.5 font-bold text-navy-800 flex items-center gap-2">
                             <i data-lucide="ship" class="w-4 h-4 text-ocean"></i>
                             ${kapal.nama}
                         </td>
-                        <td class="p-3 font-semibold text-slate-600">${kapal.gt}</td>
-                        <td class="p-3">${callSignBadge}</td>
-                        <td class="p-3 text-center">
+                        <td class="p-2.5 font-semibold text-slate-600">${kapal.gt}</td>
+                        <td class="p-2.5">${callSignBadge}</td>
+                        <td class="p-2.5 text-center">
                             <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full text-xs font-bold tracking-wide inline-block">
                                 Active / Keagenan
                             </span>
@@ -288,32 +317,6 @@ tr {
             tampilkanArmada(hasilFilter);
         }
 
-        // FUNGSI EKSPOR PDF DIPERBAIKI
-        function eksporPDF() {
-            const elemen = document.getElementById("area-cetak");
-            const bodyMain = document.getElementById("body-main");
-            const elemenSembunyi = document.querySelectorAll(".no-print");
-
-            // Sembunyikan elemen navigasi/pencarian
-            elemenSembunyi.forEach(el => el.style.display = "none");
-            bodyMain.classList.add("pdf-rendering");
-
-            const opsi = {
-                margin:       [0.15, 0.15, 0.15, 0.15], // Margin tipis
-                filename:     'Daftar_Armada_Kapal_PT_AGAS88.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-            };
-
-            html2pdf().set(opsi).from(elemen).save().then(() => {
-                // Tampilkan kembali elemen yang disembunyikan
-                elemenSembunyi.forEach(el => el.style.display = "");
-                bodyMain.classList.remove("pdf-rendering");
-            });
-        }
-
         document.addEventListener("DOMContentLoaded", () => {
             tampilkanArmada(dataArmada);
             document.getElementById("total-kapal").innerText = `${dataArmada.length} Kapal`;
@@ -321,7 +324,7 @@ tr {
         });
     </script>
 
-<!-- Tombol Melayang Neon/Glassmorphism -->
+<!-- Tombol Melayang Neon -->
 <a href="https://agas88.com/" class="float-home-neon no-print" title="Kembali ke Home">
   <svg viewBox="0 0 24 24" class="home-icon">
     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>

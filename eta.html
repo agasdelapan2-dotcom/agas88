@@ -94,7 +94,7 @@
 
             try {
                 // Membaca file CSV dari Google Sheets
-                Papa.parse(https://docs.google.com/spreadsheets/d/e/2PACX-1vSAfZnehsTlyCCwQ0iZjEleqEmgcxedIknGX1H9Vy6vi48LYAYHoZnz0XsOf1PRX-JYntG0WH3fj0oy/pub?gid=0&single=true&output=csv, {
+                Papa.parse(GOOGLE_SHEET_CSV_URL, {
                     download: true,
                     header: true,
                     skipEmptyLines: true,

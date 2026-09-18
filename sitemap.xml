@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-       <loc>https://www.agas88.com/</loc>
-       <lastmod>2026-09-18T07:06:40+00:00</lastmod>
-       <priority>1.0000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/tim</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/armada</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/tentang</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/layanan</loc>
-       <lastmod>2026-09-18T07:06:40+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/profil</loc>
-       <lastmod>2026-09-18T07:06:40+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/kontak</loc>
-       <lastmod>2026-09-18T07:06:40+00:00</lastmod>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/eta</loc>
-       <lastmod>2026-09-18T07:06:40+00:00</lastmod>
-       <priority>0.6400</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/index.html</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.6400</priority>
-  </url>
-  <url>
-       <loc>https://www.agas88.com/web</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.6400</priority>
-  </url>
     <url>
-       <loc>https://www.agas88.com/agas</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.6400</priority>
-  </url>
+        <loc>https://www.agas88.com/</loc>
+    </url>
+
     <url>
-       <loc>https://www.agas88.com/revisi</loc>
-       <lastmod>2026-09-18T07:06:41+00:00</lastmod>
-       <priority>0.6400</priority>
-  </url>
+        <loc>https://www.agas88.com/layanan</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/profil</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/kontak</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/agas</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/revisi</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/nama-kapal</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/logo-pt-agas88.png</loc>
+    </url>
+
+    <url>
+        <loc>https://agas88.web.id/leave</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/copy</loc>
+    </url>
+
+    <url>
+        <loc>https://www.agas88.com/info</loc>
+    </url>
+    
+    <url>
+        <loc>https://www.agas88.com/tim</loc>
+    </url>
+    <url>
+        <loc>https://www.agas88.com/armada</loc>
+    </url>
+    <url>
+        <loc>https://www.agas88.com/tentang</loc>
+    </url>
+    <url>
+        <loc>https://www.agas88.com/eta</loc>
+    </url>
+       <url>
+        <loc>https://www.agas88.com/web</loc>
+    </url>
+
 </urlset>

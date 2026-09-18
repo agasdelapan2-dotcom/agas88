@@ -32,18 +32,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
+</style>
+
 </head>
 <body class="bg-slate-100 font-sans p-4 md:p-10">
 
     <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-        <!-- Header Tabel -->
+        <!-- Header Tabel dengan Foto Header Syams Operator -->
         <div class="bg-navy-800 text-white p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="anchor" class="text-ocean w-7 h-7"></i>
-                    <h1 class="text-2xl font-bold tracking-wide">PT. AGAS88</h1>
+            <div class="flex items-center space-x-4">
+                <!-- Foto Header -->
+                <img src="https://www.agas88.com/syams-operator.png" alt="Syams Operator PT AGAS88" class="h-14 w-auto object-contain rounded-lg bg-white/10 p-1 border border-white/20">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="anchor" class="text-ocean w-7 h-7"></i>
+                        <h1 class="text-2xl font-bold tracking-wide">PT. AGAS88</h1>
+                    </div>
+                    <p class="text-slate-300 text-sm mt-1">Jadwal Keberangkatan & Kedatangan Kapal KLM Hari Ini</p>
                 </div>
-                <p class="text-slate-300 text-sm mt-1">Jadwal Keberangkatan & Kedatangan Kapal KLM Hari Ini</p>
             </div>
             
             <div class="flex items-center gap-3">
@@ -54,14 +104,27 @@
             </div>
         </div>
 
-        <!-- Filter / Pencarian -->
-        <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <div class="relative w-full sm:w-80">
+        <!-- Filter / Pencarian & Hari Tanggal Waktu (Persis di Tengah) -->
+        <div class="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            <!-- Kolom Kiri: Input Pencarian -->
+            <div class="relative w-full">
                 <input type="text" id="search-input" onkeyup="filterTabel()" placeholder="Cari Nama Kapal / Pelabuhan..." 
                        class="w-full pl-10 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-ocean text-sm">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
             </div>
-            <span class="text-xs text-slate-500 font-medium">*Terhubung langsung dengan Google Sheets resmi PT. AGAS88</span>
+
+            <!-- Kolom Tengah: Hari, Tanggal & Waktu Real-Time (Posisi 'Date') -->
+            <div class="text-center bg-white md:bg-transparent p-2 md:p-0 rounded-xl border md:border-none border-slate-200 shadow-sm md:shadow-none">
+                <div id="live-datetime" class="font-bold text-navy-800 text-sm md:text-base flex items-center justify-center gap-2">
+                    <i data-lucide="calendar" class="w-4 h-4 text-ocean"></i>
+                    <span>Memuat Waktu...</span>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Teks Informasi Google Sheets -->
+            <div class="text-right hidden md:block">
+                <span class="text-xs text-slate-500 font-medium">*Terhubung langsung dengan Google Sheets resmi PT. AGAS88</span>
+            </div>
         </div>
 
         <!-- Container Tabel -->
@@ -89,10 +152,32 @@
     </div>
 
     <script>
-        // URL GOOGLE SHEETS RESMI ANDA
+        // URL GOOGLE SHEETS RESMI
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAfZnehsTlyCCwQ0iZjEleqEmgcxedIknGX1H9Vy6vi48LYAYHoZnz0XsOf1PRX-JYntG0WH3fj0oy/pub?gid=0&single=true&output=csv";
 
         let dataKapalLengkap = [];
+
+        // Fungsi memperbarui Jam, Hari, dan Tanggal secara Real-time
+        function updateLiveDateTime() {
+            const sekarang = new Date();
+            const opsiFormat = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const tanggalStr = sekarang.toLocaleDateString('id-ID', opsiFormat);
+            const waktuStr = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            const liveElement = document.getElementById("live-datetime");
+            if (liveElement) {
+                liveElement.innerHTML = `
+                    <i data-lucide="calendar" class="w-4 h-4 text-ocean"></i>
+                    <span>${tanggalStr} — ${waktuStr} WITA</span>
+                `;
+                lucide.createIcons();
+            }
+        }
 
         function cariNilai(row, kataKunciList) {
             const keys = Object.keys(row);
@@ -151,14 +236,12 @@
             let jumlahBarisValid = 0;
 
             data.forEach(item => {
-                // Fleksibel mendeteksi kolom baik menggunakan [ ] maupun tanpa [ ]
                 const namaKapal = cariNilai(item, ["nama kapal", "nama_kapal", "kapal"]);
                 const asal = cariNilai(item, ["pelabuhan asal", "asal", "dari"]);
                 const tujuan = cariNilai(item, ["tujuan", "ke", "pelabuhan tujuan"]);
                 const eta = cariNilai(item, ["eta", "etd", "waktu", "eta / etd"]);
                 const status = cariNilai(item, ["status", "keterangan"]);
 
-                // Abaikan baris kosong
                 if (!namaKapal && !asal && !tujuan) return;
 
                 jumlahBarisValid++;
@@ -197,7 +280,7 @@
                 bodyTabel.innerHTML = `
                     <tr>
                         <td colspan="5" class="text-center py-8 text-slate-400">
-                            Format header Google Sheets tidak sesuai. Pastikan ada baris judul (Nama Kapal, Pelabuhan Asal, Tujuan, ETA, Status).
+                            Format header Google Sheets tidak sesuai.
                         </td>
                     </tr>`;
             }
@@ -218,8 +301,16 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             muatJadwalKapal();
+            updateLiveDateTime();
+            setInterval(updateLiveDateTime, 1000); // Update jam setiap detik
             lucide.createIcons();
         });
     </script>
+<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
 </body>
 </html>

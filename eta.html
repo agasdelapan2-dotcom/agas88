@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kapal Harian KLM AGAS88</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B192C',
+                            900: '#1E3E62',
+                        },
+                        ocean: '#00ADB5',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- PapaParse untuk memproses CSV dari Google Sheets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-100 font-sans p-4 md:p-10">
+
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+        <!-- Header Tabel -->
+        <div class="bg-navy-800 text-white p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="anchor" class="text-ocean w-7 h-7"></i>
+                    <h1 class="text-2xl font-bold tracking-wide">PT. AGAS88</h1>
+                </div>
+                <p class="text-slate-300 text-sm mt-1">Jadwal Keberangkatan & Kedatangan Kapal KLM Hari Ini</p>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <span id="last-updated" class="text-xs text-slate-300">Memuat data...</span>
+                <button onclick="muatJadwalKapal()" class="bg-ocean hover:bg-teal-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition flex items-center gap-1 shadow">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Refresh Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter / Pencarian -->
+        <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full sm:w-80">
+                <input type="text" id="search-input" onkeyup="filterTabel()" placeholder="Cari Nama Kapal / Pelabuhan..." 
+                       class="w-full pl-10 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-ocean text-sm">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+            </div>
+            <span class="text-xs text-slate-500 font-medium">*Data diperbarui secara otomatis dari sistem operasional lapangan</span>
+        </div>
+
+        <!-- Container Tabel -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm" id="tabel-jadwal">
+                <thead class="bg-slate-200 text-navy-800 uppercase font-bold text-xs tracking-wider">
+                    <tr>
+                        <th class="p-4">Nama Kapal</th>
+                        <th class="p-4">Pelabuhan Asal</th>
+                        <th class="p-4">Tujuan</th>
+                        <th class="p-4">ETA / ETD</th>
+                        <th class="p-4 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="jadwal-body" class="divide-y divide-slate-100 text-slate-700">
+                    <!-- Data dari Google Sheets akan disisipkan di sini secara otomatis -->
+                    <tr>
+                        <td colspan="5" class="text-center py-12 text-slate-400">
+                            <i data-lucide="loader-2" class="w-8 h-8 animate-spin mx-auto mb-2 text-ocean"></i>
+                            Sedang mengambil data jadwal kapal dari Google Sheets...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // MASUKKAN URL CSV DARI GOOGLE SHEETS ANDA DI SINI
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_EXAMPLE_URL_HERE/pub?output=csv";
+
+        let dataKapalLengkap = [];
+
+        async function muatJadwalKapal() {
+            const bodyTabel = document.getElementById("jadwal-body");
+            const timeStamp = document.getElementById("last-updated");
+
+            try {
+                // Membaca file CSV dari Google Sheets
+                Papa.parse(https://docs.google.com/spreadsheets/d/e/2PACX-1vSAfZnehsTlyCCwQ0iZjEleqEmgcxedIknGX1H9Vy6vi48LYAYHoZnz0XsOf1PRX-JYntG0WH3fj0oy/pub?gid=0&single=true&output=csv, {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        dataKapalLengkap = results.data;
+                        tampilkanTabel(dataKapalLengkap);
+                        
+                        const sekarang = new Date();
+                        timeStamp.innerText = `Update: ${sekarang.toLocaleTimeString('id-ID')} WITA`;
+                    },
+                    error: function(err) {
+                        console.error("Gagal membaca Google Sheets:", err);
+                        bodyTabel.innerHTML = `
+                            <tr>
+                                <td colspan="5" class="text-center py-8 text-red-500 font-semibold">
+                                    Gagal memuat jadwal. Pastikan Google Sheets sudah dipublikasikan ke Web sebagai CSV.
+                                </td>
+                            </tr>`;
+                    }
+                });
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        function tampilkanTabel(data) {
+            const bodyTabel = document.getElementById("jadwal-body");
+            bodyTabel.innerHTML = "";
+
+            if (data.length === 0) {
+                bodyTabel.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-slate-400">
+                            Tidak ada data jadwal kapal ditemukan.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            data.forEach(item => {
+                const namaKapal = item["Nama Kapal"] || item["nama_kapal"] || "-";
+                const asal = item["Pelabuhan Asal"] || item["asal"] || "-";
+                const tujuan = item["Tujuan"] || item["tujuan"] || "-";
+                const eta = item["ETA"] || item["eta"] || "-";
+                const status = (item["Status"] || item["status"] || "-").trim();
+
+                let badgeClass = "bg-slate-100 text-slate-700";
+                if (status.toLowerCase() === "sandar") {
+                    badgeClass = "bg-emerald-100 text-emerald-800 border border-emerald-300";
+                } else if (status.toLowerCase() === "berlayar") {
+                    badgeClass = "bg-blue-100 text-blue-800 border border-blue-300";
+                } else if (status.toLowerCase() === "persiapan") {
+                    badgeClass = "bg-amber-100 text-amber-800 border border-amber-300";
+                }
+
+                const baris = `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-bold text-navy-800 flex items-center gap-2">
+                            <i data-lucide="ship" class="w-4 h-4 text-ocean"></i>
+                            ${namaKapal}
+                        </td>
+                        <td class="p-4">${asal}</td>
+                        <td class="p-4">${tujuan}</td>
+                        <td class="p-4 font-semibold text-slate-600">${eta}</td>
+                        <td class="p-4 text-center">
+                            <span class="${badgeClass} px-3 py-1 rounded-full text-xs font-bold tracking-wide inline-block">
+                                ${status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                bodyTabel.innerHTML += baris;
+            });
+
+            // Re-render icon
+            lucide.createIcons();
+        }
+
+        function filterTabel() {
+            const kataKunci = document.getElementById("search-input").value.toLowerCase();
+            const hasilFilter = dataKapalLengkap.filter(item => {
+                const nama = (item["Nama Kapal"] || "").toLowerCase();
+                const asal = (item["Pelabuhan Asal"] || "").toLowerCase();
+                const tujuan = (item["Tujuan"] || "").toLowerCase();
+                return nama.includes(kataKunci) || asal.includes(kataKunci) || tujuan.includes(kataKunci);
+            });
+            tampilkanTabel(hasilFilter);
+        }
+
+        // Jalankan saat pertama kali halaman dimuat
+        document.addEventListener("DOMContentLoaded", () => {
+            muatJadwalKapal();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

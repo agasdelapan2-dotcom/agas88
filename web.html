@@ -421,6 +421,15 @@
       });
   });
 </script>
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
+    sheet.appendRow([new Date(), e.parameter.Nama, e.parameter.Email, e.parameter.Pesan]);
+    return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+  } catch (err) {
+    return ContentService.createTextOutput("Error").setMimeType(ContentService.MimeType.TEXT);
+  }
+}
 
     <!-- 10. Footer Profesional -->
     <footer class="bg-navy-800 text-slate-400 py-8 border-t border-white/10 text-center text-sm">

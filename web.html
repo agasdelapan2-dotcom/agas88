@@ -421,6 +421,7 @@
       });
   });
 </script>
+<script>
 function doPost(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
@@ -430,7 +431,7 @@ function doPost(e) {
     return ContentService.createTextOutput("Error").setMimeType(ContentService.MimeType.TEXT);
   }
 }
-
+</script>
     <!-- 10. Footer Profesional -->
     <footer class="bg-navy-800 text-slate-400 py-8 border-t border-white/10 text-center text-sm">
         <div class="max-w-7xl mx-auto px-4">

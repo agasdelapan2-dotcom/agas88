@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armada Kapal - PT. AGAS88</title>
+
+     <!-- Favicon & App Icon untuk Google Search & Browser -->
+     <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
+     <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
+     <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
+     <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B192C',
+                            900: '#1E3E62',
+                        },
+                        ocean: '#00ADB5',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
+</style>
+</head>
+<body class="bg-slate-100 font-sans p-4 md:p-10">
+
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+        
+        <!-- BANNER ATAS (SAMA PANJANG DENGAN TABEL) -->
+        <div class="w-full overflow-hidden bg-navy-900">
+            <img src="https://www.agas88.com/syams-operator.png" 
+                 alt="Banner PT AGAS88" 
+                 class="w-full h-auto min-h-[140px] max-h-[280px] object-cover md:object-fill block">
+        </div>
+
+        <!-- HEADER HALAMAN -->
+        <div class="bg-navy-800 text-white p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="bg-ocean/20 p-3 rounded-xl border border-ocean/30">
+                    <i data-lucide="ship-wheel" class="text-ocean w-8 h-8"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide">Daftar Armada KLM PT. AGAS88</h1>
+                    <p class="text-slate-300 text-sm mt-0.5">Spesifikasi Kapal Layar Motor (KLM) Keagenan Resmi Pelayaran</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Navigasi ke Jadwal -->
+                <a href="index.html" 
+                   class="bg-ocean hover:bg-teal-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow">
+                    <i data-lucide="calendar" class="w-4 h-4"></i> Lihat Jadwal Kapal
+                </a>
+
+                <!-- Tombol Update Data -->
+                <a href="https://docs.google.com/spreadsheets/d/1l7JH7cmZugU9rM8PRysa-pEmsCWKHK3eRAqw1nErIaA/edit?usp=sharing" 
+                   target="_blank" 
+                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Update Data
+                </a>
+            </div>
+        </div>
+
+        <!-- STATISTIK RINGKAS & PENCARIAN -->
+        <div class="p-6 bg-slate-50 border-b border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                
+                <!-- Card Total Kapal -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                        <i data-lucide="anchor" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Total Armada registered</p>
+                        <p class="text-xl font-bold text-navy-800" id="total-kapal">16 Kapal</p>
+                    </div>
+                </div>
+
+                <!-- Card Jenis Armada -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Tipe Armada</p>
+                        <p class="text-xl font-bold text-navy-800">KLM (Kapal Layar Motor)</p>
+                    </div>
+                </div>
+
+                <!-- Card Call Sign Active -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+                        <i data-lucide="radio" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Sinyal Panggilan / Call Sign</p>
+                        <p class="text-xl font-bold text-navy-800">Terintegrasi BKI/Kemenhub</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Input Pencarian Armada -->
+            <div class="relative w-full">
+                <input type="text" id="search-armada" onkeyup="cariArmada()" placeholder="Cari Nama Kapal, Nomor GT, atau Call Sign..." 
+                       class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-ocean text-sm shadow-sm">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+            </div>
+        </div>
+
+        <!-- TABEL DATA ARMADA -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm" id="tabel-armada">
+                <thead class="bg-slate-200 text-navy-800 uppercase font-bold text-xs tracking-wider">
+                    <tr>
+                        <th class="p-4 w-12 text-center">No</th>
+                        <th class="p-4">Nama Kapal</th>
+                        <th class="p-4">Nomor GT (Gross Tonnage)</th>
+                        <th class="p-4">Nomor Call Sign</th>
+                        <th class="p-4 text-center">Status Keagenan</th>
+                    </tr>
+                </thead>
+                <tbody id="armada-body" class="divide-y divide-slate-100 text-slate-700">
+                    <!-- Data dimasukkan melalui Script HTML -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FOOTER HALAMAN -->
+        <div class="p-4 bg-slate-50 border-t border-slate-200 text-center md:text-right">
+            <span class="text-xs text-slate-500 font-medium">*Data Armada Resmi Terdaftar PT. AGAS88 - Keagenan Kapal Laut Nasional</span>
+        </div>
+
+    </div>
+
+    <script>
+        // DATA ARMADA KAPAL PT. AGAS88
+        const dataArmada = [
+            { nama: "KLM.SUMBER RIZKY", gt: "GT.68/21", callSign: "YC8032" },
+            { nama: "KLM.SUMBER RIZKY 02", gt: "GT.68/21", callSign: "YC8033" },
+            { nama: "KLM.SUMBER REZKY A", gt: "GT.83/25", callSign: "YC8040" },
+            { nama: "KLM.ADI RAHMATULLAH PUTRA", gt: "GT.93 No.199/LLy", callSign: "YC8042" },
+            { nama: "KLM.SUMBER REZKY B", gt: "GT.96/29", callSign: "-" },
+            { nama: "KLM.QUDRAT ILAHI", gt: "GT.40/12", callSign: "YC7521" },
+            { nama: "KLM.FIRDAH JAYA 03", gt: "GT.30/9", callSign: "YB7293" },
+            { nama: "KLM.SYUKRAN 3", gt: "GT.30/9", callSign: "-" },
+            { nama: "KLM.SYUKRAN 03", gt: "GT.32/10", callSign: "YB7291" },
+            { nama: "KLM.BUNGA RIZKA", gt: "GT.70", callSign: "YC8036" },
+            { nama: "KLM.SURYA UTAMA 77", gt: "GT.29/9", callSign: "YB8202" },
+            { nama: "KLM.MARHABAN 02", gt: "GT.40/12", callSign: "YC8033" },
+            { nama: "KLM.BERKAT SABAR 05", gt: "GT.40/12", callSign: "-" },
+            { nama: "KLM.BERKAH ILAHI 99", gt: "GT/NT. 32/10", callSign: "-" },
+            { nama: "KLM.SUMBER REZKY 88", gt: "GT.99 No.240/LLy", callSign: "-" },
+            { nama: "KLM.ANUGERAH REZKY PUTRA", gt: "GT.97 No.241/LLy", callSign: "-" }
+        ];
+
+        function tampilkanArmada(data) {
+            const bodyTabel = document.getElementById("armada-body");
+            bodyTabel.innerHTML = "";
+
+            if (data.length === 0) {
+                bodyTabel.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-slate-400">
+                            Kapal tidak ditemukan.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            data.forEach((kapal, index) => {
+                const callSignBadge = kapal.callSign !== "-" 
+                    ? `<span class="bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-md text-xs font-mono font-bold">${kapal.callSign}</span>`
+                    : `<span class="text-slate-400 font-mono">-</span>`;
+
+                const row = `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 text-center font-bold text-slate-400">${index + 1}</td>
+                        <td class="p-4 font-bold text-navy-800 flex items-center gap-2">
+                            <i data-lucide="ship" class="w-4 h-4 text-ocean"></i>
+                            ${kapal.nama}
+                        </td>
+                        <td class="p-4 font-semibold text-slate-600">${kapal.gt}</td>
+                        <td class="p-4">${callSignBadge}</td>
+                        <td class="p-4 text-center">
+                            <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-full text-xs font-bold tracking-wide inline-block">
+                                Active / Keagenan
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                bodyTabel.innerHTML += row;
+            });
+
+            lucide.createIcons();
+        }
+
+        function cariArmada() {
+            const kataKunci = document.getElementById("search-armada").value.toLowerCase();
+            const hasilFilter = dataArmada.filter(item => {
+                return item.nama.toLowerCase().includes(kataKunci) || 
+                       item.gt.toLowerCase().includes(kataKunci) || 
+                       item.callSign.toLowerCase().includes(kataKunci);
+            });
+            tampilkanArmada(hasilFilter);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            tampilkanArmada(dataArmada);
+            document.getElementById("total-kapal").innerText = `${dataArmada.length} Kapal`;
+            lucide.createIcons();
+        });
+    </script>
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
+
+</body>
+</html>

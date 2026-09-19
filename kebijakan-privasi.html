@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi - PT. AGAS88</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent-color: #3182ce;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 0;
+        }
+
+        /* Top Navigation Header */
+        .site-header {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand-title h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            color: #cbd5e0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-date {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-print {
+            background-color: var(--primary-light);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-print:hover {
+            background-color: #3182ce;
+        }
+
+        /* Main Layout */
+        .layout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Sticky Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin-bottom: 8px;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-list a:hover {
+            background-color: #ebf8ff;
+            color: var(--primary-light);
+            padding-left: 14px;
+        }
+
+        /* Main Content Panel */
+        .content {
+            flex-grow: 1;
+            max-width: 840px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .doc-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .doc-header h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .intro-lead {
+            font-size: 1.05rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        section {
+            margin-bottom: 35px;
+            scroll-margin-top: 30px;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--text-color);
+            font-size: 0.98rem;
+            text-align: justify;
+        }
+
+        ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 0.98rem;
+        }
+
+        .info-box {
+            background-color: #ebf8ff;
+            border-left: 4px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #2c5282;
+        }
+
+        .contact-card {
+            background-color: #f7fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .contact-item strong {
+            width: 140px;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 25px 0;
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .layout-container {
+                flex-direction: column;
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .sticky-nav {
+                position: relative;
+                top: 0;
+                margin-bottom: 20px;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .doc-header h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .contact-item {
+                flex-direction: column;
+            }
+
+            .contact-item strong {
+                width: 100%;
+                margin-bottom: 2px;
+            }
+        }
+
+        /* Print Media Styles */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+
+            .site-header, .sidebar, .btn-print, footer {
+                display: none !important;
+            }
+
+            .layout-container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .card {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            a {
+                text-decoration: none;
+                color: #000000;
+            }
+
+            h3 {
+                border-bottom: 1px solid #000;
+                page-break-after: avoid;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <div class="brand-title">
+                <h1>PT. AGAS88</h1>
+                <div class="brand-subtitle">Pernyataan & Komitmen Perlindungan Data Pribadi</div>
+            </div>
+            <div class="header-actions">
+                <span class="badge-date">Terakhir Diperbarui: 19 September 2026</span>
+                <button class="btn-print" onclick="window.print()">
+                    🖨️ Cetak
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <nav class="sticky-nav">
+                <div class="nav-title">Daftar Isi</div>
+                <ul class="nav-list">
+                    <li><a href="#pendahuluan">1. Pendahuluan</a></li>
+                    <li><a href="#informasi-dikumpulkan">2. Informasi Ditinggalkan</a></li>
+                    <li><a href="#penggunaan-informasi">3. Penggunaan Informasi</a></li>
+                    <li><a href="#pengungkapan-pihak-ketiga">4. Pihak Ketiga</a></li>
+                    <li><a href="#keamanan-data">5. Keamanan Data</a></li>
+                    <li><a href="#hak-pengguna">6. Hak-Hak Pengguna</a></li>
+                    <li><a href="#penggunaan-cookies">7. Penggunaan Cookies</a></li>
+                    <li><a href="#tautan-luar">8. Tautan Pihak Ketiga</a></li>
+                    <li><a href="#perubahan-kebijakan">9. Perubahan Kebijakan</a></li>
+                    <li><a href="#kontak-kami">10. Kontak Kami</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <div class="card">
+                <div class="doc-header">
+                    <h2>Kebijakan Privasi PT. AGAS88</h2>
+                    <p class="intro-lead">
+                        PT. AGAS88 berkomitmen penuh untuk melindungi dan menghormati privasi serta keamanan data pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, mengelola, dan melindungi data pribadi yang Anda berikan saat mengakses atau menggunakan situs web dan layanan kami.
+                    </p>
+                </div>
+
+                <section id="pendahuluan">
+                    <h3>1. Pendahuluan</h3>
+                    <p>
+                        Dengan menggunakan situs web dan/atau layanan PT. AGAS88, Anda mengonfirmasi bahwa Anda telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam Kebijakan Privasi ini. Kebijakan ini merupakan bagian yang tidak terpisahkan dari Ketentuan Penggunaan Situs Web PT. AGAS88.
+                    </p>
+                    <p>
+                        Kami memproses data pribadi Anda berdasarkan prinsip legalitas, keadilan, transparansi, serta kepatuhan terhadap peraturan perundang-undangan mengenai perlindungan data pribadi yang berlaku di Republik Indonesia.
+                    </p>
+                </section>
+
+                <section id="informasi-dikumpulkan">
+                    <h3>2. Informasi yang Kami Kumpulkan</h3>
+                    <p>
+                        Kami dapat mengumpulkan dan memproses beberapa jenis informasi dan data pribadi dari Anda, termasuk namun tidak terbatas pada:
+                    </p>
+                    <ul>
+                        <li><strong>Data Identitas Pribadi:</strong> Nama lengkap, nomor identitas (KTP/Paspor), tanggal lahir, jenis kelamin, dan foto identitas (jika diperlukan untuk verifikasi layanan).</li>
+                        <li><strong>Data Kontak:</strong> Alamat email, nomor telepon, alamat surat-menyurat, serta informasi kontak darurat.</li>
+                        <li><strong>Data Teknis & Perangkat:</strong> Alamat Protokol Internet (IP address), jenis dan versi peramban (browser), pengaturan zona waktu, jenis perangkat, Operating System (OS), serta Identifier unik perangkat (seperti MAC address).</li>
+                        <li><strong>Data Interaksi & Penggunaan:</strong> Catatan aktivitas penelusuran di situs web kami, waktu akses, halaman yang dilihat, durasi kunjungan, serta tautan yang Anda klik.</li>
+                    </ul>
+                </section>
+
+                <section id="penggunaan-informasi">
+                    <h3>3. Penggunaan Informasi</h3>
+                    <p>
+                        Data dan informasi pribadi yang kami kumpulkan dipergunakan untuk tujuan resmi perusahaan, antara lain:
+                    </p>
+                    <ul>
+                        <li>Menyediakan, mengoperasikan, dan memelihara kualitas layanan serta fitur situs web kami.</li>
+                        <li>Memproses permintaan, transaksi, atau pendaftaran layanan yang Anda ajukan.</li>
+                        <li>Mengirimkan pemberitahuan administratif, pembaruan keamanan, informasi layanan, atau materi pemasaran yang relevan.</li>
+                        <li>Meningkatkan pengalaman pengguna, melakukan analisis statistik, serta pengembangan produk dan layanan baru.</li>
+                        <li>Mencegah, mendeteksi, dan menindaklanjuti potensi tindakan penipuan, pelanggaran keamanan, atau aktivitas ilegal lainnya.</li>
+                        <li>Memenuhi kewajiban hukum, peraturan perundang-undangan, atau permintaan sah dari otoritas yang berwenang.</li>
+                    </ul>
+                </section>
+
+                <section id="pengungkapan-pihak-ketiga">
+                    <h3>4. Pengungkapan Informasi kepada Pihak Ketiga</h3>
+                    <p>
+                        PT. AGAS88 <strong>tidak akan menjual, menyewakan, atau memperdagangkan</strong> data pribadi Anda kepada pihak mana pun. Kami hanya dapat mengungkapkan data pribadi Anda kepada pihak ketiga dalam situasi berikut:
+                    </p>
+                    <ul>
+                        <li><strong>Penyedia Layanan Mitra:</strong> Pihak ketiga terpercaya yang membantu operasional bisnis kami (seperti penyedia infrastruktur server, analitik data, dan pemrosesan pembayaran) yang terikat perjanjian kerahasiaan ketat.</li>
+                        <li><strong>Kepatuhan Hukum:</strong> Apabila diwajibkan oleh hukum, perintah pengadilan, atau perintah resmi dari lembaga penegak hukum maupun otoritas pemerintah yang berwenang.</li>
+                        <li><strong>Pengalihan Bisnis:</strong> Dalam hal konsolidasi, akuisisi, restrukturisasi perusahaan, atau penjualan aset, di mana data pelanggan dapat dialihkan sebagai salah satu aset perusahaan dengan pemberitahuan previa.</li>
+                    </ul>
+                </section>
+
+                <section id="keamanan-data">
+                    <h3>5. Keamanan Data</h3>
+                    <p>
+                        Keamanan data pribadi Anda adalah prioritas utama kami. PT. AGAS88 menerapkan langkah-langkah teknis, fisik, dan administratif yang dirancang untuk melindungi data Anda dari akses tidak sah, pengubahan, pengungkapan, atau penghancuran yang tidak sah.
+                    </p>
+                    <div class="info-box">
+                        🔒 <strong>Perlindungan Tambahan:</strong> Seluruh transmisi data sensitif di situs web kami dilindungi menggunakan teknologi enkripsi SSL/TLS standard industri.
+                    </div>
+                </section>
+
+                <section id="hak-pengguna">
+                    <h3>6. Hak-Hak Pengguna</h3>
+                    <p>
+                        Sesuai dengan ketentuan hukum perlindungan data pribadi yang berlaku, Anda memiliki hak-hak berikut sehubungan dengan data pribadi Anda:
+                    </p>
+                    <ul>
+                        <li><strong>Hak Akses:</strong> Meminta salinan dari data pribadi Anda yang kami simpan.</li>
+                        <li><strong>Hak Koreksi:</strong> Meminta pembaruan atau perbaikan atas data pribadi yang tidak akurat atau tidak lengkap.</li>
+                        <li><strong>Hak Penghapusan (Pemusnahan):</strong> Meminta penghapusan data pribadi Anda dari sistem kami, selama tidak bertentangan dengan kewajiban penyimpanan data menurut hukum.</li>
+                        <li><strong>Penarikan Persetujuan:</strong> Membatalkan persetujuan pemrosesan data pribadi Anda yang sebelumnya telah diberikan.</li>
+                    </ul>
+                </section>
+
+                <section id="penggunaan-cookies">
+                    <h3>7. Penggunaan Cookies</h3>
+                    <p>
+                        Situs web kami menggunakan <em>cookies</em> dan teknologi pelacak serupa untuk mengenali perangkat Anda, meningkatkan navigasi situs, serta menganalisis lalu lintas pengguna.
+                    </p>
+                    <p>
+                        Anda memiliki pilihan untuk mengatur peramban (browser) Anda agar menolak semua atau sebagian cookies, atau memberikan peringatan saat cookies dikirimkan. Harap dicatat bahwa jika Anda menonaktifkan cookies, beberapa bagian dari situs web ini mungkin tidak dapat berfungsi dengan optimal.
+                    </p>
+                </section>
+
+                <section id="tautan-luar">
+                    <h3>8. Tautan ke Situs Web Pihak Ketiga</h3>
+                    <p>
+                        Situs web PT. AGAS88 dapat memuat tautan menuju situs web pihak ketiga yang tidak dioperasikan oleh kami. Kami tidak memiliki kendali atas konten, kebijakan privasi, atau praktik dari situs web pihak ketiga tersebut. Kami sangat menyarankan Anda untuk membaca kebijakan privasi dari setiap situs web yang Anda kunjungi.
+                    </p>
+                </section>
+
+                <section id="perubahan-kebijakan">
+                    <h3>9. Perubahan Kebijakan Privasi</h3>
+                    <p>
+                        PT. AGAS88 berhak untuk memperbarui atau mengubah Kebijakan Privasi ini sewaktu-waktu tanpa pemberitahuan sebelumnya. Perubahan akan berlaku efektif segera setelah diunggah ke halaman situs web ini dengan menyertakan tanggal pembaruan terbaru di bagian atas dokumen.
+                    </p>
+                </section>
+
+                <section id="kontak-kami">
+                    <h3>10. Kontak Kami</h3>
+                    <p>
+                        Jika Anda memiliki pertanyaan, keluhan, atau ingin melaksanakan hak-hak Anda terkait Kebijakan Privasi ini, Anda dapat menghubungi Petugas Perlindungan Data (Data Protection Officer) PT. AGAS88 melalui detail kontak berikut:
+                    </p>
+                    
+                    <div class="contact-card">
+                        <div class="contact-item">
+                            <strong>Nama Perusahaan:</strong>
+                            <span>PT. AGAS88</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Email Layanan:</strong>
+                            <span>privacy@agas88.co.id / cs@agas88.co.id</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Telepon:</strong>
+                            <span>+62 (021) 500-8888</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Alamat Kantor:</strong>
+                            <span>Gedung AGAS88 Tower, Lt. 18, Jl. Jend. Sudirman Kav. 88, Jakarta Selatan 12190, Indonesia</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 PT. AGAS88. Hak Cipta Dilindungi Undang-Undang.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kebijakan Privasi - PT. AGAS88</title>
-     <!-- Favicon & App Icon untuk Google Search & Browser -->
-  <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
-  <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
-  <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
-  <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
+    
+    <!-- Favicon & App Icon -->
+    <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
+    <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
+    <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
+
     <style>
         :root {
             --primary-color: #1a365d;
@@ -41,64 +43,32 @@
         .site-header {
             background-color: var(--primary-color);
             color: #ffffff;
-            padding: 20px 0;
+            padding: 30px 0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
-        .brand-title h1 {
-            font-size: 1.6rem;
+        .header-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .site-header h1 {
+            font-size: 1.8rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            margin-bottom: 5px;
         }
 
-        .brand-subtitle {
-            font-size: 0.85rem;
+        .header-date {
             color: #cbd5e0;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .badge-date {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            color: #e2e8f0;
-            backdrop-filter: blur(4px);
-        }
-
-        .btn-print {
-            background-color: var(--primary-light);
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: background 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-print:hover {
-            background-color: #3182ce;
+            font-size: 0.9rem;
         }
 
         /* Main Layout */
@@ -107,7 +77,8 @@
             margin: 40px auto;
             padding: 0 24px;
             display: flex;
-            gap: 40px;
+            gap: 30px;
+            width: 100%;
         }
 
         /* Sticky Sidebar Navigation */
@@ -165,7 +136,7 @@
         /* Main Content Panel */
         .content {
             flex-grow: 1;
-            max-width: 840px;
+            width: calc(100% - var(--sidebar-width) - 30px);
         }
 
         .card {
@@ -174,6 +145,7 @@
             padding: 40px;
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            width: 100%;
         }
 
         .doc-header {
@@ -253,8 +225,54 @@
         }
 
         .contact-item strong {
-            width: 140px;
+            width: 160px;
             color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        /* Floating Button Neon */
+        .float-home-neon {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 9999;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .float-home-neon .home-icon {
+            width: 20px;
+            height: 20px;
+            fill: #00f2fe;
+            transition: transform 0.3s ease;
+        }
+
+        .float-home-neon:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(15, 23, 42, 0.95);
+            border-color: #00f2fe;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            color: #00f2fe;
+        }
+
+        .float-home-neon:hover .home-icon {
+            transform: scale(1.2);
+            fill: #00f2fe;
         }
 
         /* Footer */
@@ -280,22 +298,17 @@
                 width: 100%;
             }
 
+            .content {
+                width: 100%;
+            }
+
             .sticky-nav {
                 position: relative;
                 top: 0;
-                margin-bottom: 20px;
             }
 
             .card {
                 padding: 25px;
-            }
-
-            .doc-header h2 {
-                font-size: 1.5rem;
-            }
-
-            h3 {
-                font-size: 1.2rem;
             }
 
             .contact-item {
@@ -315,7 +328,7 @@
                 color: #000000;
             }
 
-            .site-header, .sidebar, .btn-print, footer {
+            .site-header, .sidebar, .float-home-neon, footer {
                 display: none !important;
             }
 
@@ -325,111 +338,26 @@
                 padding: 0;
             }
 
+            .content {
+                width: 100%;
+            }
+
             .card {
                 border: none;
                 box-shadow: none;
                 padding: 0;
             }
-
-            a {
-                text-decoration: none;
-                color: #000000;
-            }
-
-            h3 {
-                border-bottom: 1px solid #000;
-                page-break-after: avoid;
-            }
-
-            section {
-                page-break-inside: avoid;
-            }
         }
-.float-home-neon {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50px;
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  z-index: 9999;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.float-home-neon .home-icon {
-  width: 20px;
-  height: 20px;
-  fill: #00f2fe;
-  transition: transform 0.3s ease;
-}
-
-.float-home-neon:hover {
-  transform: translateY(-5px) scale(1.05);
-  background: rgba(15, 23, 42, 0.9);
-  border-color: #00f2fe;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-  color: #00f2fe;
-}
-
-.float-home-neon:hover .home-icon {
-  transform: scale(1.2);
-  fill: #00f2fe;
-}
-
-
-  /* Menghilangkan batasan lebar (max-width) dan membuat lebar 100% */
-  .privacy-container {
-    width: 50% !important;
-    max-width: 700px; /* Sesuaikan dengan lebar max header Anda (misal: 1200px atau 100%) */
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-  }
-
-.banner-biru {
-    width: 100% !important;
-    max-width: 100% !important;
-    background-color: #1e3a5f; /* Sesuaikan kode warna biru Anda */
-    box-sizing: border-box;
-}
-
-.konten-kebijakan {
-    width: 100% !important;
-    max-width: 1200px; /* Sesuaikan dengan max-width header web Anda */
-    margin: 0 auto; /* Mengatur posisi ke tengah */
-    box-sizing: border-box;
-}
-
     </style>
 </head>
 <body>
 
     <header class="site-header">
         <div class="header-container">
-       <div class="container">
-    <!-- Gambar di Atas Halaman -->
-    <img src="https://www.agas88.com/syams-operator.png" alt="Logo PT.AGAS88" class="header-img">
-    
-    <h1>Kebijakan Privasi PT.AGAS88</h1>
-    <p style="text-align: center; color: #7f8c8d;">Tanggal Efektif: Kamis,25 Januari 2024</p>
-    
-</div>
+            <img src="https://www.agas88.com/syams-operator.png" alt="Logo PT. AGAS88" class="header-img">
+            <h1>Kebijakan Privasi PT. AGAS88</h1>
+            <p class="header-date">Tanggal Efektif: Kamis, 25 Januari 2024</p>
+        </div>
     </header>
 
     <div class="layout-container">
@@ -518,7 +446,7 @@
                         Keamanan data pribadi Anda adalah prioritas utama kami. PT. AGAS88 menerapkan langkah-langkah teknis, fisik, dan administratif yang dirancang untuk melindungi data Anda dari akses tidak sah, pengubahan, pengungkapan, atau penghancuran yang tidak sah.
                     </p>
                     <div class="info-box">
-                        🔒 <strong>Perlindungan Tambahan:</strong> Seluruh transmisi data sensitif di situs web kami dilindungi menggunakan teknologi enkripsi SSL/TLS standard industri.
+                        🔒 <strong>Perlindungan Tambahan:</strong> Seluruh transmisi data sensitif di situs web kami dilindungi menggunakan teknologi enkripsi SSL/TLS standar industri.
                     </div>
                 </section>
 
@@ -580,7 +508,7 @@
                         </div>
                         <div class="contact-item">
                             <strong>Alamat Kantor:</strong>
-                            <span>JL.Mutiara Wani Dua,Tanantovea,Donggala,Sulawesi Tengah 94352, Indonesia</span>
+                            <span>JL. Mutiara Wani Dua, Tanantovea, Donggala, Sulawesi Tengah 94352, Indonesia</span>
                         </div>
                     </div>
                 </section>
@@ -589,16 +517,18 @@
     </div>
 
     <footer>
-        <div class="container">
+        <div class="header-container">
             <p>&copy; 2026 PT. AGAS88. Hak Cipta Dilindungi Undang-Undang.</p>
         </div>
     </footer>
-<!-- Tombol Melayang Neon/Glassmorphism -->
-<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
-  <svg viewBox="0 0 24 24" class="home-icon">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-  <span class="home-text">HOME</span>
-</a>
+
+    <!-- Tombol Melayang Neon -->
+    <a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+        <svg viewBox="0 0 24 24" class="home-icon">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        <span class="home-text">HOME</span>
+    </a>
+
 </body>
 </html>

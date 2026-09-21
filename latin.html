@@ -3,124 +3,661 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pencarian Data Buah & Sayur</title>
+  <title>Pencarian Data Botanis - Google Sheets API</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-      background-color: #f9f9f9;
+      font-family: 'Inter', sans-serif;
     }
-
-    h2 {
-      text-align: center;
-      color: #333;
+    
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
     }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 16px;
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
     }
-
-    th, td {
-      padding: 10px 12px;
-      border: 1px solid #ddd;
-      text-align: left;
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
-
-    th {
-      background-color: #4CAF50;
-      color: white;
+    
+    @keyframes popIn {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
+    .animate-pop-in {
+      animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
   </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <h2>Pencarian Data Buah & Sayur</h2>
-  <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Cari nama umum atau nama latin...">
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-md shadow-emerald-200">
+          <i data-lucide="sprout" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-slate-900 leading-tight">Data Botanis</h1>
+          <p class="text-xs text-slate-500">Pencarian Data Terintegrasi Google Sheets</p>
+        </div>
+      </div>
+      
+      <!-- API Status & Config -->
+      <div class="flex items-center space-x-3">
+        <span id="dataStatusBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200/60">
+          <span class="w-2 h-2 mr-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+          Mode Data Demo
+        </span>
+        <button id="openApiModalBtn" class="p-2 text-slate-600 hover:text-emerald-600 hover:bg-slate-100 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-medium border border-slate-200" title="Pengaturan URL Google Sheets">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Atur Sheet API</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Kategori</th>
-        <th>Nama Umum</th>
-        <th>Nama Latin</th>
-      </tr>
-    </thead>
-    <tbody id="dataTable">
-      <tr><td colspan="3">Memuat data...</td></tr>
-    </tbody>
-  </table>
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Search & Filter Card -->
+    <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 mb-6 transition-all hover:shadow-md">
+      <div class="flex flex-col md:flex-row gap-4">
+        
+        <!-- Search Input -->
+        <div class="relative flex-grow">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </div>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Cari nama umum, nama latin, atau deskripsi (contoh: Rambutan)..." 
+            class="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all"
+            onkeyup="handleSearch()"
+          >
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+            <i data-lucide="x-circle" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Filter Dropdown -->
+        <div class="w-full md:w-56">
+          <select 
+            id="categoryFilter" 
+            onchange="handleSearch()" 
+            class="w-full py-3 px-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm text-slate-700 cursor-pointer"
+          >
+            <option value="ALL">Semua Kategori</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Quick Stats & Counter -->
+      <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-slate-500 gap-2">
+        <span id="resultCounter" class="font-medium text-slate-600">Menampilkan 0 data</span>
+        <span class="inline-flex items-center gap-1.5 text-slate-500">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-emerald-600"></i>
+          Klik icon <i data-lucide="copy" class="w-3 h-3 inline"></i> di sebelah teks untuk menyalin langsung.
+        </span>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              <th class="py-4 px-6">Kategori</th>
+              <th class="py-4 px-6">Nama Umum</th>
+              <th class="py-4 px-6">Nama Latin</th>
+              <th class="py-4 px-6 hidden lg:table-cell">Rincian Singkat</th>
+              <th class="py-4 px-6 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 text-sm">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading Spinner State -->
+      <div id="loadingState" class="hidden py-16 text-center">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-emerald-500 border-t-transparent"></div>
+        <p class="mt-3 text-sm text-slate-500 font-medium">Mengambil data dari Google Sheets...</p>
+      </div>
+
+      <!-- Empty Result State -->
+      <div id="emptyState" class="hidden py-16 text-center">
+        <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="search-x" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-base font-semibold text-slate-700">Tidak ada data ditemukan</h3>
+        <p class="text-xs text-slate-500 mt-1">Coba gunakan kata kunci lain atau ubah filter kategori.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs opacity-0 transition-opacity duration-200">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden transform scale-95 transition-transform duration-200" id="modalContainer">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 px-6 py-5 text-white flex justify-between items-start">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span id="modalCategory" class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/20 text-emerald-100 backdrop-blur-xs">
+              Kategori
+            </span>
+          </div>
+          <h3 id="modalNamaUmum" class="text-xl font-bold leading-snug">Nama Umum</h3>
+          <p id="modalNamaLatin" class="text-sm text-emerald-100 italic">Nama Latin</p>
+        </div>
+        <button onclick="closeModal()" class="text-emerald-100 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto custom-scrollbar">
+        
+        <!-- Field 1: Nama Umum -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 flex justify-between items-center">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Nama Umum</span>
+            <span id="modalFieldNamaUmum" class="text-sm font-semibold text-slate-800">Rambutan</span>
+          </div>
+          <button 
+            id="btnCopyModalNamaUmum"
+            onclick="copySpecificField('modalFieldNamaUmum', 'btnCopyModalNamaUmum')" 
+            class="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors border border-slate-200/80 flex items-center gap-1.5 text-xs"
+            title="Salin Nama Umum"
+          >
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>Salin</span>
+          </button>
+        </div>
+
+        <!-- Field 2: Nama Latin -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 flex justify-between items-center">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Nama Latin</span>
+            <span id="modalFieldNamaLatin" class="text-sm font-semibold italic text-slate-800">Nephelium lappaceum</span>
+          </div>
+          <button 
+            id="btnCopyModalNamaLatin"
+            onclick="copySpecificField('modalFieldNamaLatin', 'btnCopyModalNamaLatin')" 
+            class="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors border border-slate-200/80 flex items-center gap-1.5 text-xs"
+            title="Salin Nama Latin"
+          >
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>Salin</span>
+          </button>
+        </div>
+
+        <!-- Field 3: Deskripsi / Rincian -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Rincian Lengkap</span>
+            <button 
+              id="btnCopyModalRincian"
+              onclick="copySpecificField('modalRincianText', 'btnCopyModalRincian')" 
+              class="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-1 text-xs border border-slate-200/60"
+              title="Salin Rincian"
+            >
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Salin Rincian</span>
+            </button>
+          </div>
+          <p id="modalRincianText" class="text-slate-700 text-sm leading-relaxed whitespace-pre-line">
+            Detail rincian data akan ditampilkan di sini...
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-100 flex justify-end">
+        <button onclick="closeModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-sm font-medium transition-colors">
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="apiModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-slate-800">Hubungkan Google Sheets</h3>
+        <button onclick="closeApiModal()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+        Masukkan URL <strong>Web App Google Apps Script</strong> milikmu untuk membaca spreadsheet secara gratis dan otomatis.
+      </p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Web App API URL</label>
+          <input 
+            type="url" 
+            id="apiUrlInput" 
+            placeholder="https://script.google.com/macros/s/.../exec"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+          >
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end space-x-2">
+        <button onclick="resetToDemoData()" class="px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+          Gunakan Data Demo
+        </button>
+        <button onclick="saveApiUrl()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded-xl shadow-sm transition-colors">
+          Simpan & Muat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 text-sm border border-slate-700/50 transition-all duration-300 transform translate-y-2 opacity-0 max-w-md">
+    <div class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-xl flex-shrink-0">
+      <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+    </div>
+    <div class="overflow-hidden">
+      <p id="toastMessage" class="text-xs font-medium text-slate-200 truncate">Berhasil disalin!</p>
+    </div>
+  </div>
 
   <script>
-    // Ganti dengan Web App URL dari Google Apps Script kamu
-    const SPREADSHEET_API_URL = "https://script.google.com/macros/s/AKfycbyreeSw0FEljuS600H4gUJY2NI9vBHcExEEAlag0VDU6iKrpAcE7YxIrHupsU5YjglvPg/exec"; 
-    let allData = [];
+    // --- REALISTIC BOTANICAL DUMMY DATA ---
+    const DUMMY_DATA = [
+      {
+        "Kategori": "Buah",
+        "Nama Umum": "Buah Naga",
+        "Nama Latin": "Hylocereus polyrhizus",
+        "Rincian": "Buah naga merah kaya akan antioksidan, vitamin C, dan serat tinggi. Sangat baik untuk pencernaan dan mengontrol kadar gula darah."
+      },
+      {
+        "Kategori": "Buah",
+        "Nama Umum": "Alpukat",
+        "Nama Latin": "Persea americana",
+        "Rincian": "Mengandung lemak tak jenuh tunggal yang sehat untuk jantung, potassium tinggi, serta vitamin E dan K."
+      },
+      {
+        "Kategori": "Buah",
+        "Nama Umum": "Rambutan",
+        "Nama Latin": "Nephelium lappaceum",
+        "Rincian": "Buah tropis dengan daging manis berair. Mengandung karbohidrat, zat besi, serat, dan vitamin C untuk kekebalan tubuh."
+      },
+      {
+        "Kategori": "Buah",
+        "Nama Umum": "Mangga",
+        "Nama Latin": "Mangifera indica",
+        "Rincian": "Kaya akan beta-karoten, vitamin A, dan vitamin C. Mendukung kesehatan mata dan imunitas."
+      },
+      {
+        "Kategori": "Buah",
+        "Nama Umum": "Durian",
+        "Nama Latin": "Durio zibethinus",
+        "Rincian": "Dikenal sebagai Raja Buah. Memiliki aroma kuat, tekstur krimi, tinggi energi, kalium, dan vitamin B-kompleks."
+      },
+      {
+        "Kategori": "Sayuran",
+        "Nama Umum": "Kol / Kubis",
+        "Nama Latin": "Brassica oleracea var. capitata",
+        "Rincian": "Sayuran daun padat kaya akan vitamin K dan vitamin C. Membantu sistem pencernaan dan peradangan."
+      },
+      {
+        "Kategori": "Sayuran",
+        "Nama Umum": "Sawi",
+        "Nama Latin": "Brassica rapa",
+        "Rincian": "Sayuran hijau kaya kalsium, zat besi, dan vitamin A. Sangat bermanfaat untuk kesehatan tulang."
+      },
+      {
+        "Kategori": "Sayuran",
+        "Nama Umum": "Terong",
+        "Nama Latin": "Solanum melongena",
+        "Rincian": "Memiliki kulit ungu khas dengan kandungan nasunin (antioksidan pelindung sel otak) serta serat tinggi."
+      },
+      {
+        "Kategori": "Sayuran",
+        "Nama Umum": "Labu Siam",
+        "Nama Latin": "Sechium edule",
+        "Rincian": "Sayuran rendah kalori kaya folat dan kalium. Sangat baik untuk membantu menurunkan tekanan darah."
+      }
+    ];
 
-    // Mengambil data dari Google Sheets
-    fetch(SPREADSHEET_API_URL)
-      .then(response => response.json())
-      .then(data => {
-        allData = data;
-        renderTable(allData);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        document.getElementById('dataTable').innerHTML = '<tr><td colspan="3">Gagal memuat data.</td></tr>';
+    let rawData = [];
+    let currentFilteredData = [];
+    let selectedItem = null;
+
+    window.onload = function() {
+      lucide.createIcons();
+      loadData();
+    };
+
+    function loadData() {
+      const savedUrl = localStorage.getItem('gsheet_api_url');
+      const badge = document.getElementById('dataStatusBadge');
+
+      if (savedUrl) {
+        badge.className = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200";
+        badge.innerHTML = `<span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-500"></span>Terhubung Google Sheets`;
+        fetchFromGoogleSheets(savedUrl);
+      } else {
+        badge.className = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200/60";
+        badge.innerHTML = `<span class="w-2 h-2 mr-1.5 rounded-full bg-amber-500 animate-pulse"></span>Mode Data Demo`;
+        rawData = [...DUMMY_DATA];
+        setupCategories();
+        handleSearch();
+      }
+    }
+
+    function fetchFromGoogleSheets(url) {
+      showLoading(true);
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error("Gagal mengambil data dari Google Sheets");
+          return response.json();
+        })
+        .then(data => {
+          rawData = data;
+          setupCategories();
+          handleSearch();
+          showToast("Data terbaru dari Google Sheets berhasil dimuat!");
+        })
+        .catch(err => {
+          console.error(err);
+          showToast("Gagal memuat API. Beralih ke data demo.");
+          rawData = [...DUMMY_DATA];
+          setupCategories();
+          handleSearch();
+        })
+        .finally(() => {
+          showLoading(false);
+        });
+    }
+
+    function setupCategories() {
+      const categoryFilter = document.getElementById('categoryFilter');
+      const categories = [...new Set(rawData.map(item => item.Kategori || 'Lainnya'))].filter(Boolean);
+
+      categoryFilter.innerHTML = '<option value="ALL">Semua Kategori</option>';
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categoryFilter.appendChild(option);
+      });
+    }
+
+    function handleSearch() {
+      const searchKeyword = document.getElementById('searchInput').value.toLowerCase().trim();
+      const selectedCat = document.getElementById('categoryFilter').value;
+      const clearBtn = document.getElementById('clearSearchBtn');
+
+      clearBtn.classList.toggle('hidden', searchKeyword === '');
+
+      currentFilteredData = rawData.filter(item => {
+        const matchCategory = selectedCat === 'ALL' || (item.Kategori || '').toLowerCase() === selectedCat.toLowerCase();
+        
+        const namaUmum = (item["Nama Umum"] || '').toLowerCase();
+        const namaLatin = (item["Nama Latin"] || '').toLowerCase();
+        const rincian = (item["Rincian"] || item["Deskripsi"] || '').toLowerCase();
+        
+        const matchSearch = namaUmum.includes(searchKeyword) || 
+                            namaLatin.includes(searchKeyword) || 
+                            rincian.includes(searchKeyword);
+
+        return matchCategory && matchSearch;
       });
 
-    // Menampilkan data ke tabel HTML
+      renderTable(currentFilteredData);
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      handleSearch();
+    }
+
     function renderTable(data) {
-      const tbody = document.getElementById('dataTable');
+      const tbody = document.getElementById('tableBody');
+      const emptyState = document.getElementById('emptyState');
+      const counter = document.getElementById('resultCounter');
+
       tbody.innerHTML = '';
+      counter.textContent = `Menampilkan ${data.length} dari ${rawData.length} data`;
 
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3">Data tidak ditemukan</td></tr>';
+        emptyState.classList.remove('hidden');
         return;
       }
 
-      data.forEach(item => {
+      emptyState.classList.add('hidden');
+
+      data.forEach((item, index) => {
         const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/80 transition-colors group";
+        
+        const rincianText = item.Rincian || item.Deskripsi || '-';
+        const truncatedRincian = rincianText.length > 50 ? rincianText.substring(0, 50) + '...' : rincianText;
+        
+        const namaUmumVal = item["Nama Umum"] || '-';
+        const namaLatinVal = item["Nama Latin"] || '-';
+
         tr.innerHTML = `
-          <td>${item["Kategori"] || ''}</td>
-          <td>${item["Nama Umum"] || ''}</td>
-          <td><i>${item["Nama Latin"] || ''}</i></td>
+          <td class="py-3.5 px-6">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+              ${item.Kategori || 'Umum'}
+            </span>
+          </td>
+          
+          <!-- Column: Nama Umum + Copy Button -->
+          <td class="py-3.5 px-6">
+            <div class="flex items-center space-x-2">
+              <button 
+                onclick="openDetailModal(${index})" 
+                class="text-emerald-700 hover:text-emerald-800 font-semibold text-left hover:underline focus:outline-none"
+                title="Klik untuk melihat detail lengkap"
+              >
+                ${namaUmumVal}
+              </button>
+              <button 
+                onclick="copyToClipboard('${escapeJsString(namaUmumVal)}', this)" 
+                class="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg border border-transparent hover:border-emerald-200 transition-all flex-shrink-0"
+                title="Salin ${namaUmumVal}"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </td>
+
+          <!-- Column: Nama Latin + Copy Button -->
+          <td class="py-3.5 px-6">
+            <div class="flex items-center space-x-2">
+              <span class="italic text-slate-700 font-serif">${namaLatinVal}</span>
+              <button 
+                onclick="copyToClipboard('${escapeJsString(namaLatinVal)}', this)" 
+                class="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg border border-transparent hover:border-emerald-200 transition-all flex-shrink-0"
+                title="Salin ${namaLatinVal}"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </td>
+
+          <td class="py-3.5 px-6 text-slate-500 text-xs hidden lg:table-cell max-w-xs truncate">
+            ${truncatedRincian}
+          </td>
+
+          <td class="py-3.5 px-6 text-center">
+            <button 
+              onclick="openDetailModal(${index})" 
+              class="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200/80 transition-colors inline-flex items-center space-x-1"
+            >
+              <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+              <span>Detail</span>
+            </button>
+          </td>
         `;
         tbody.appendChild(tr);
       });
+
+      lucide.createIcons();
     }
 
-    // Fungsi pencarian
-    function searchData() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const filteredData = allData.filter(item => {
-        const namaUmum = (item["Nama Umum"] || '').toLowerCase();
-        const namaLatin = (item["Nama Latin"] || '').toLowerCase();
-        const kategori = (item["Kategori"] || '').toLowerCase();
-        
-        return namaUmum.includes(keyword) || namaLatin.includes(keyword) || kategori.includes(keyword);
-      });
+    // Helper to safely escape strings inside inline JS
+    function escapeJsString(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
 
-      renderTable(filteredData);
+    function copyToClipboard(text, btnElement) {
+      if (!text || text === '-') return;
+
+      // Fallback copy method compatible with iFrames & WebViews
+      const dummyInput = document.createElement("textarea");
+      document.body.appendChild(dummyInput);
+      dummyInput.value = text;
+      dummyInput.select();
+
+      try {
+        document.execCommand("copy");
+        
+        // Visual checkmark feedback on icon button
+        if (btnElement) {
+          const originalHTML = btnElement.innerHTML;
+          btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>`;
+          btnElement.classList.add('bg-emerald-100', 'border-emerald-300');
+          lucide.createIcons();
+
+          setTimeout(() => {
+            btnElement.innerHTML = originalHTML;
+            btnElement.classList.remove('bg-emerald-100', 'border-emerald-300');
+            lucide.createIcons();
+          }, 1800);
+        }
+
+        // Trigger Notification Toast
+        showToast(`Berhasil disalin: "${text}"!`);
+
+      } catch (err) {
+        showToast("Gagal menyalin teks.");
+      } finally {
+        document.body.removeChild(dummyInput);
+      }
+    }
+
+    function copySpecificField(elementId, btnId) {
+      const text = document.getElementById(elementId).textContent.trim();
+      const btn = document.getElementById(btnId);
+      copyToClipboard(text, btn);
+    }
+
+    function openDetailModal(index) {
+      selectedItem = currentFilteredData[index];
+      if (!selectedItem) return;
+
+      document.getElementById('modalCategory').textContent = selectedItem.Kategori || 'Umum';
+      document.getElementById('modalNamaUmum').textContent = selectedItem["Nama Umum"] || '-';
+      document.getElementById('modalNamaLatin').textContent = selectedItem["Nama Latin"] || '-';
+      
+      document.getElementById('modalFieldNamaUmum').textContent = selectedItem["Nama Umum"] || '-';
+      document.getElementById('modalFieldNamaLatin').textContent = selectedItem["Nama Latin"] || '-';
+      document.getElementById('modalRincianText').textContent = selectedItem.Rincian || selectedItem.Deskripsi || 'Tidak ada rincian data.';
+
+      const modal = document.getElementById('detailModal');
+      const container = document.getElementById('modalContainer');
+      modal.classList.remove('hidden');
+      
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        container.classList.remove('scale-95');
+        container.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('detailModal');
+      const container = document.getElementById('modalContainer');
+      
+      modal.classList.add('opacity-0');
+      container.classList.remove('scale-100');
+      container.classList.add('scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    document.getElementById('openApiModalBtn').addEventListener('click', () => {
+      document.getElementById('apiUrlInput').value = localStorage.getItem('gsheet_api_url') || '';
+      document.getElementById('apiModal').classList.remove('hidden');
+    });
+
+    function closeApiModal() {
+      document.getElementById('apiModal').classList.add('hidden');
+    }
+
+    function saveApiUrl() {
+      const url = document.getElementById('apiUrlInput').value.trim();
+      if (url) {
+        localStorage.setItem('gsheet_api_url', url);
+        closeApiModal();
+        loadData();
+      } else {
+        showToast("Masukkan URL Apps Script yang valid!");
+      }
+    }
+
+    function resetToDemoData() {
+      localStorage.removeItem('gsheet_api_url');
+      closeApiModal();
+      loadData();
+      showToast("Berhasil beralih ke Mode Data Demo");
+    }
+
+    function showLoading(isLoading) {
+      document.getElementById('loadingState').classList.toggle('hidden', !isLoading);
+      document.getElementById('tableBody').classList.toggle('hidden', isLoading);
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      
+      clearTimeout(toastTimeout);
+      toastMsg.textContent = message;
+
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+      }, 10);
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 3000);
     }
   </script>
-
 </body>
 </html>

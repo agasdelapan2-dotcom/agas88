@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Buah & Sayur</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Pencarian Data Buah & Sayur</h2>
+  <input type="text" id="searchInput" onkeyup="searchData()" placeholder="Cari nama umum atau nama latin...">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Kategori</th>
+        <th>Nama Umum</th>
+        <th>Nama Latin</th>
+      </tr>
+    </thead>
+    <tbody id="dataTable">
+      <tr><td colspan="3">Memuat data...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Ganti dengan Web App URL dari Google Apps Script kamu
+    const SPREADSHEET_API_URL = "URL_WEB_APP_APPS_SCRIPT_KAMU"; 
+    let allData = [];
+
+    // Mengambil data dari Google Sheets
+    fetch(SPREADSHEET_API_URL)
+      .then(response => response.json())
+      .then(data => {
+        allData = data;
+        renderTable(allData);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('dataTable').innerHTML = '<tr><td colspan="3">Gagal memuat data.</td></tr>';
+      });
+
+    // Menampilkan data ke tabel HTML
+    function renderTable(data) {
+      const tbody = document.getElementById('dataTable');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">Data tidak ditemukan</td></tr>';
+        return;
+      }
+
+      data.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item["Kategori"] || ''}</td>
+          <td>${item["Nama Umum"] || ''}</td>
+          <td><i>${item["Nama Latin"] || ''}</i></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Fungsi pencarian
+    function searchData() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const filteredData = allData.filter(item => {
+        const namaUmum = (item["Nama Umum"] || '').toLowerCase();
+        const namaLatin = (item["Nama Latin"] || '').toLowerCase();
+        const kategori = (item["Kategori"] || '').toLowerCase();
+        
+        return namaUmum.includes(keyword) || namaLatin.includes(keyword) || kategori.includes(keyword);
+      });
+
+      renderTable(filteredData);
+    }
+  </script>
+
+</body>
+</html>

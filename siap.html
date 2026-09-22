@@ -2,10 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="noindex, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Data Kapal & Dokumen</title>
-    <link rel="canonical" href="https://www.agas88.com/siap" />
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font -->
@@ -54,7 +52,7 @@
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Ketik nama kapal, jenis, nomor registrasi, atau kata kunci..." 
+                    placeholder="Ketik nama kapal, trayek, status dokumen, atau kata kunci..." 
                     class="w-full bg-slate-900 border border-slate-600 rounded-lg py-3.5 pl-11 pr-10 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                 >
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -71,13 +69,13 @@
         <!-- Status Displays -->
         <div id="loading" class="text-center py-20">
             <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p class="text-slate-400 text-sm">Menghubungkan ke Google Apps Script API...</p>
+            <p class="text-slate-400 text-sm">Menghubungkan & memproses seluruh data kapal...</p>
         </div>
 
         <div id="errorMsg" class="hidden bg-red-950/40 border border-red-800 text-red-200 rounded-xl p-6 text-center max-w-lg mx-auto">
             <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
             <h3 class="font-semibold text-lg mb-1">Gagal Memuat Data</h3>
-            <p class="text-xs text-red-300 mb-4" id="errorText">Pastikan URL Apps Script sudah diatur dengan akses 'Anyone'.</p>
+            <p class="text-xs text-red-300 mb-4" id="errorText">Gagal mengambil data dari Google Apps Script.</p>
             <button onclick="fetchData()" class="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition">Coba Lagi</button>
         </div>
 
@@ -135,12 +133,12 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Google Apps Script API Direct Integration
+        Multi-Row Auto Parsing Engine
     </footer>
 
     <script>
-        // TEMPELKAN URL APPS SCRIPT ANDA DI SINI (Gantikan URL contoh di bawah ini)
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSv9eSAezp-U0_1e8Jxp9sen1mlMMRbA42-iyelntxLqQZ_rJQcjnxWofMUcxzCiIa/exec';
+        // MASUKKAN URL APPS SCRIPT ANDA DI SINI
+        const APPS_SCRIPT_URL = 'PASTE_URL_APPS_SCRIPT_ANDA_DI_SINI';
 
         let vesselList = [];
         let columnHeaders = [];
@@ -165,24 +163,38 @@
             showState('loading');
             try {
                 const response = await fetch(APPS_SCRIPT_URL);
-                if (!response.ok) throw new Error('Network error');
+                if (!response.ok) throw new Error('Network response error');
                 
                 const rawData = await response.json();
                 
-                if (!rawData || rawData.length < 2) {
+                if (!rawData || rawData.length === 0) {
                     showState('empty');
                     return;
                 }
 
-                // Proses data dari JSON Apps Script
-                columnHeaders = rawData[0].map(h => String(h).trim());
-                vesselList = rawData.slice(1).map((row, idx) => {
-                    let item = { _id: idx };
-                    columnHeaders.forEach((head, i) => {
-                        item[head] = row[i] !== undefined && row[i] !== null && String(row[i]).trim() !== '' ? String(row[i]).trim() : '-';
-                    });
-                    return item;
-                });
+                // Cari baris yang berisi header 'Nama Kapal' secara otomatis
+                let headerIndex = rawData.findIndex(row => 
+                    row.some(cell => String(cell).toLowerCase().includes('nama kapal'))
+                );
+
+                if (headerIndex === -1) headerIndex = 0; // default ke baris pertama jika tidak ketemu
+
+                columnHeaders = rawData[headerIndex].map((h, i) => String(h).trim() || `Kolom_${i+1}`);
+
+                // Ambil seluruh data kapal di bawah baris header
+                vesselList = [];
+                for (let r = headerIndex + 1; r < rawData.length; r++) {
+                    let row = rawData[r];
+                    // Cek jika setidaknya ada 1 isi data di baris tersebut
+                    if (row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')) {
+                        let item = { _id: vesselList.length };
+                        columnHeaders.forEach((head, c) => {
+                            let val = row[c];
+                            item[head] = (val !== undefined && val !== null && String(val).trim() !== '') ? String(val).trim() : '-';
+                        });
+                        vesselList.push(item);
+                    }
+                }
 
                 dataCount.innerText = vesselList.length;
                 renderGrid(vesselList);
@@ -236,8 +248,8 @@
                 const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
                 const vesselName = item[nameKey] || 'Kapal Tanpa Nama';
 
-                const subKey = columnHeaders.find(h => /tipe|jenis|flag|bendera|type/i.test(h)) || columnHeaders[1] || '';
-                const subVal = item[subKey] || 'Vessel';
+                const subKey = columnHeaders.find(h => /bulan|tipe|jenis|flag|bendera|trayek/i.test(h)) || columnHeaders[1] || '';
+                const subVal = item[subKey] || 'KAPAL';
 
                 const hasDoc = Object.values(item).some(val => isValidURL(val));
 
@@ -247,7 +259,7 @@
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-[11px] font-semibold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded">
+                            <span class="text-[11px] font-semibold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded uppercase">
                                 ${subVal}
                             </span>
                             ${hasDoc ? `<span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-paperclip"></i> Dokumen</span>` : ''}
@@ -256,7 +268,7 @@
                             ${vesselName}
                         </h3>
                         <div class="text-xs text-slate-400 space-y-1">
-                            ${columnHeaders.slice(1, 4).map(col => `
+                            ${columnHeaders.slice(0, 4).map(col => `
                                 <div class="flex justify-between border-b border-slate-700/50 py-1">
                                     <span class="text-slate-500">${col}:</span>
                                     <span class="font-medium text-slate-300 truncate max-w-[150px]">

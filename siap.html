@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vessel Intelligence - Modern Ship Search</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            500: '#0066ff',
+                            600: '#0052cc',
+                            900: '#0a192f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #060913;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 102, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 102, 255, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 102, 255, 0.3);
+        }
+        .glass-modal {
+            background: rgba(10, 15, 30, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<text class="text-slate-200 font-sans min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-30 glass-card border-b border-slate-800/80 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid font-bold fa-ship text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white tracking-wide">VesselExplorer Pro</h1>
+                    <p class="text-xs text-slate-400">Sistem Informasi & Monitoring Data Kapal</p>
+                </div>
+            </div>
+
+            <!-- Stats Badge -->
+            <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 rounded-full px-4 py-1.5 text-xs text-slate-300">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Database Terhubung: <strong id="totalData" class="text-white">0</strong> Kapal</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
+        
+        <!-- Search & Filter Bar -->
+        <div class="mb-8">
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Cari nama kapal, tipe, callsign, atau kata kunci lainnya..." 
+                    class="w-full pl-12 pr-12 py-4 bg-slate-900/90 border border-slate-700/60 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 shadow-xl"
+                >
+                <button id="clearSearch" class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="flex flex-col items-center justify-center py-20 gap-4">
+            <div class="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+            <p class="text-slate-400 text-sm animate-pulse">Memuat data dari Google Sheets...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden flex-col items-center justify-center py-16 text-center">
+            <div class="w-16 h-16 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center text-2xl mb-4">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-1">Gagal Memuat Data</h3>
+            <p class="text-slate-400 text-sm max-w-md mb-4">Terjadi kesalahan saat mengambil data dari spreadsheet. Pastikan koneksi internet stabil.</p>
+            <button onclick="fetchData()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl text-sm transition">Coba Lagi</button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center">
+            <div class="w-16 h-16 rounded-full bg-slate-800 text-slate-500 flex items-center justify-center text-2xl mb-4">
+                <i class="fa-solid fa-ship"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-1">Kapal Tidak Ditemukan</h3>
+            <p class="text-slate-400 text-sm">Tidak ada data yang cocok dengan kata kunci pencarian Anda.</p>
+        </div>
+
+        <!-- Ship Cards Grid -->
+        <div id="shipGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+            <!-- Dynamic cards will be rendered here -->
+        </div>
+
+    </main>
+
+    <!-- Modal Detail Kapal -->
+    <div id="shipModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-modal w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 border border-slate-700/50 flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="relative bg-gradient-to-r from-blue-900/60 to-slate-900/90 p-6 border-b border-slate-700/50">
+                <button id="closeModal" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div class="flex items-center gap-3 mb-2">
+                    <span id="modalBadge" class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full border border-blue-500/30">KAPAL</span>
+                </div>
+                <h2 id="modalTitle" class="text-2xl font-bold text-white tracking-wide pr-10">Nama Kapal</h2>
+                <p id="modalSubtitle" class="text-slate-400 text-sm mt-1">Informasi Detail Registrasi & Spesifikasi</p>
+            </div>
+
+            <!-- Modal Content (Scrollable Grid) -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-grow">
+                
+                <div id="modalDetailsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Dynamic key-value detail pairs will be populated here -->
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-900/80 border-t border-slate-800 flex justify-end gap-3">
+                <button id="closeModalBtn" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-xl transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 VesselExplorer • Real-time Data Sync dari Google Spreadsheet</p>
+    </footer>
+
+    <!-- Application Script -->
+    <script>
+        // URL CSV Google Sheets dari link publik yang diberikan
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSe0GgxvkAslstv8Y_hXOzvJWuet_UnOyK7KnAy3c_s8A7IPJotTiQnbcfTNfKenigELFKb1E9gScfq/pub?gid=0&single=true&output=csv';
+
+        let shipsData = [];
+        let headers = [];
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const shipGrid = document.getElementById('shipGrid');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const emptyState = document.getElementById('emptyState');
+        const totalData = document.getElementById('totalData');
+
+        // Modal Elements
+        const shipModal = document.getElementById('shipModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalDetailsGrid = document.getElementById('modalDetailsGrid');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // Fetch Data dari CSV
+        async function fetchData() {
+            showState('loading');
+            try {
+                const response = await fetch(CSV_URL);
+                if (!response.ok) throw new Error("Gagal mengambil data");
+                
+                const csvText = await response.text();
+                parseCSV(csvText);
+            } catch (err) {
+                console.error(err);
+                showState('error');
+            }
+        }
+
+        // Parsing CSV ke JSON Array
+        function parseCSV(text) {
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) {
+                showState('empty');
+                return;
+            }
+
+            headers = parseCSVLine(lines[0]);
+            
+            shipsData = lines.slice(1).map((line, index) => {
+                const values = parseCSVLine(line);
+                let obj = { _id: index };
+                headers.forEach((header, i) => {
+                    obj[header.trim()] = values[i] ? values[i].trim() : '-';
+                });
+                return obj;
+            });
+
+            totalData.innerText = shipsData.length;
+            renderCards(shipsData);
+            showState('grid');
+        }
+
+        // CSV Helper (Menangani Koma di Dalam Tanda Kutip)
+        function parseCSVLine(line) {
+            let result = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"' || char === "'") {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+            return result;
+        }
+
+        // Render Kartu Kapal
+        function renderCards(data) {
+            shipGrid.innerHTML = '';
+
+            if (data.length === 0) {
+                showState('empty');
+                return;
+            }
+
+            showState('grid');
+
+            data.forEach(ship => {
+                // Tentukan nama utama (mengambil kolom pertama atau kolom yang mengandung kata 'Nama')
+                const nameKey = headers.find(h => /nama|kapal|vessel|name/i.test(h)) || headers[0];
+                const shipName = ship[nameKey] || 'Tanpa Nama';
+
+                // Tentukan sub-info untuk kartu
+                const subKey = headers.find(h => /tipe|jenis|flag|bendera|panggilan|call/i.test(h)) || headers[1] || '';
+                const subInfo = ship[subKey] || '';
+
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group relative overflow-hidden";
+                
+                card.innerHTML = `
+                    <div class="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 text-white text-8xl transition-all duration-300">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-[10px] font-bold tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-md uppercase">
+                                ${subInfo ? subInfo : 'KAPAL'}
+                            </span>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1 mb-1">
+                            ${shipName}
+                        </h3>
+                        <p class="text-xs text-slate-400 line-clamp-2">
+                            ${headers.slice(1, 3).map(h => `${h}: <span class="text-slate-300">${ship[h] || '-'}</span>`).join(' • ')}
+                        </p>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-blue-400"></i> Klik untuk rincian
+                        </span>
+                        <span class="text-blue-400 font-medium group-hover:underline">Detail</span>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => openModal(ship));
+                shipGrid.appendChild(card);
+            });
+        }
+
+        // Buka Modal & Tampilkan Rincian Lengkap
+        function openModal(ship) {
+            const nameKey = headers.find(h => /nama|kapal|vessel|name/i.test(h)) || headers[0];
+            modalTitle.innerText = ship[nameKey] || 'Detail Kapal';
+            
+            modalDetailsGrid.innerHTML = '';
+
+            // Tampilkan seluruh kolom dari spreadsheet ke dalam grid modal
+            headers.forEach(header => {
+                const value = ship[header];
+                if (header.trim() === '') return;
+
+                const detailCard = document.createElement('div');
+                detailCard.className = "bg-slate-900/60 border border-slate-800/80 rounded-xl p-3.5 flex flex-col justify-center";
+                detailCard.innerHTML = `
+                    <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">${header}</span>
+                    <span class="text-sm font-semibold text-slate-100 break-words">${value && value !== '' ? value : '-'}</span>
+                `;
+                modalDetailsGrid.appendChild(detailCard);
+            });
+
+            // Tampilkan modal dengan efek fade-in & scale-up
+            shipModal.classList.remove('opacity-0', 'pointer-events-none');
+            shipModal.querySelector('div').classList.remove('scale-95');
+            shipModal.querySelector('div').classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Tutup Modal
+        function hideModal() {
+            shipModal.classList.add('opacity-0', 'pointer-events-none');
+            shipModal.querySelector('div').classList.remove('scale-100');
+            shipModal.querySelector('div').classList.add('scale-95');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModal.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        shipModal.addEventListener('click', (e) => {
+            if (e.target === shipModal) hideModal();
+        });
+
+        // Fitur Pencarian / Filtering Live
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length > 0) {
+                clearSearch.classList.remove('hidden');
+            } else {
+                clearSearch.classList.add('hidden');
+            }
+
+            const filtered = shipsData.filter(ship => {
+                return Object.values(ship).some(val => 
+                    String(val).toLowerCase().includes(query)
+                );
+            });
+
+            renderCards(filtered);
+        });
+
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearch.classList.add('hidden');
+            renderCards(shipsData);
+            searchInput.focus();
+        });
+
+        // Toggle State Tampilan UI
+        function showState(state) {
+            loadingState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            shipGrid.classList.add('hidden');
+
+            if (state === 'loading') loadingState.classList.remove('hidden');
+            if (state === 'error') errorState.classList.remove('hidden');
+            if (state === 'empty') emptyState.classList.remove('hidden');
+            if (state === 'grid') shipGrid.classList.remove('hidden');
+        }
+
+        // Inisialisasi Aplikasi saat Pertama Kali Diberdayakan
+        fetchData();
+    </script>
+</body>
+</html>

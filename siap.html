@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pencarian Data Kapal - Link Dokumen Aktif</title>
+    <title>Pencarian Data Kapal - Fix Loading Data</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font - Inter -->
@@ -14,8 +14,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Slate 900 */
-            color: #f8fafc; /* Slate 50 */
+            background-color: #0f172a;
+            color: #f8fafc;
         }
         .modal-scroll::-webkit-scrollbar {
             width: 6px;
@@ -44,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- Total Counter -->
             <div class="bg-slate-900/80 border border-slate-700 px-4 py-2 rounded-lg flex items-center gap-3">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="text-xs font-medium text-slate-300">Total Terdata: <strong id="dataCount" class="text-white">0</strong> Kapal</span>
@@ -87,7 +86,7 @@
         <div id="errorMsg" class="hidden bg-red-950/40 border border-red-800 text-red-200 rounded-xl p-6 text-center max-w-lg mx-auto">
             <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
             <h3 class="font-semibold text-lg mb-1">Gagal Memuat Data</h3>
-            <p class="text-xs text-red-300 mb-4">Pastikan koneksi internet terhubung dan spreadsheet dipublikasikan.</p>
+            <p class="text-xs text-red-300 mb-4">Pastikan spreadsheet sudah dipublikasikan ke web.</p>
             <button onclick="loadData()" class="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition">Coba Lagi</button>
         </div>
 
@@ -99,7 +98,7 @@
 
         <!-- Grid Cards Kapal -->
         <div id="cardGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <!-- Kapal Cards di-render di sini -->
+            <!-- Dynamic Cards -->
         </div>
 
     </main>
@@ -108,7 +107,6 @@
     <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-opacity duration-200">
         <div class="bg-slate-800 border border-slate-700 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-200">
             
-            <!-- Header Modal -->
             <div class="bg-slate-900 px-6 py-5 border-b border-slate-700 flex items-start justify-between gap-4">
                 <div>
                     <span id="modalCategory" class="inline-block px-2.5 py-0.5 bg-blue-950 text-blue-300 border border-blue-800 text-[11px] font-semibold rounded mb-1">RINCIAN KAPAL</span>
@@ -119,32 +117,22 @@
                 </button>
             </div>
 
-            <!-- Body Modal (Scrollable Content) -->
             <div class="p-6 overflow-y-auto modal-scroll flex-grow space-y-6">
-                
-                <!-- Section Rincian utama -->
                 <div class="bg-slate-900/60 rounded-xl border border-slate-700/80 p-4">
                     <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-circle-info"></i> Informasi Utama
                     </h3>
-                    <div id="primaryDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Items injected here -->
-                    </div>
+                    <div id="primaryDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                 </div>
 
-                <!-- Section Rincian Lengkap / Dokumen -->
                 <div class="bg-slate-900/60 rounded-xl border border-slate-700/80 p-4">
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-folder-open"></i> Spesifikasi & Link Dokumen
                     </h3>
-                    <div id="secondaryDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Items injected here -->
-                    </div>
+                    <div id="secondaryDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                 </div>
-
             </div>
 
-            <!-- Footer Modal -->
             <div class="bg-slate-900 px-6 py-4 border-t border-slate-700 flex justify-end">
                 <button id="closeModalBtn" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-lg transition">
                     Tutup Rincian
@@ -156,17 +144,17 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Google Sheets Integration • Tautan Dokumen Dapat Diklik Otomatis
+        Google Sheets Integration • Viz API Mode
     </footer>
 
-    <!-- Script Logika -->
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSe0GgxvkAslstv8Y_hXOzvJWuet_UnOyK7KnAy3c_s8A7IPJotTiQnbcfTNfKenigELFKb1E9gScfq/pub?gid=0&single=true&output=csv';
+        // Menggunakan Google Visualization API (Bebas Masalah CORS)
+        const SPREADSHEET_ID = '2PACX-1vSe0GgxvkAslstv8Y_hXOzvJWuet_UnOyK7KnAy3c_s8A7IPJotTiQnbcfTNfKenigELFKb1E9gScfq';
+        const GVIZ_URL = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
 
         let vesselList = [];
         let columnHeaders = [];
 
-        // DOM Elements
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         const cardGrid = document.getElementById('cardGrid');
@@ -176,7 +164,6 @@
         const dataCount = document.getElementById('dataCount');
         const searchResultCount = document.getElementById('searchResultCount');
 
-        // Modal Elements
         const detailModal = document.getElementById('detailModal');
         const modalTitle = document.getElementById('modalTitle');
         const primaryDetails = document.getElementById('primaryDetails');
@@ -184,34 +171,31 @@
         const closeModalX = document.getElementById('closeModalX');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Fetch CSV Data
         async function loadData() {
             showState('loading');
             try {
-                const response = await fetch(CSV_URL);
-                if (!response.ok) throw new Error('Network error');
-                const csvData = await response.text();
-                processCSV(csvData);
+                const response = await fetch(GVIZ_URL);
+                const text = await response.text();
+                
+                // Parsing response dari Google Viz JSON
+                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const json = JSON.parse(jsonString);
+
+                processGvizData(json.table);
             } catch (err) {
-                console.error(err);
+                console.error("Gagal mengambil data:", err);
                 showState('error');
             }
         }
 
-        // Process CSV Text into Objects
-        function processCSV(text) {
-            const rows = text.split('\n').filter(r => r.trim() !== '');
-            if (rows.length < 2) {
-                showState('empty');
-                return;
-            }
+        function processGvizData(table) {
+            columnHeaders = table.cols.map(c => (c.label ? c.label.trim() : 'Kolom'));
 
-            columnHeaders = parseCSVRow(rows[0]);
-            vesselList = rows.slice(1).map((row, idx) => {
-                const vals = parseCSVRow(row);
+            vesselList = table.rows.map((row, idx) => {
                 let item = { _id: idx };
-                columnHeaders.forEach((head, i) => {
-                    item[head.trim()] = vals[i] ? vals[i].trim() : '-';
+                row.c.forEach((cell, i) => {
+                    const headerName = columnHeaders[i] || `Kolom_${i+1}`;
+                    item[headerName] = cell && cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : '-';
                 });
                 return item;
             });
@@ -220,35 +204,12 @@
             renderGrid(vesselList);
         }
 
-        // CSV Helper Function
-        function parseCSVRow(rowStr) {
-            let res = [];
-            let curr = '';
-            let inQuote = false;
-
-            for (let i = 0; i < rowStr.length; i++) {
-                let char = rowStr[i];
-                if (char === '"' || char === "'") {
-                    inQuote = !inQuote;
-                } else if (char === ',' && !inQuote) {
-                    res.push(curr);
-                    curr = '';
-                } else {
-                    curr += char;
-                }
-            }
-            res.push(curr);
-            return res;
-        }
-
-        // Helper: Cek apakah string merupakan URL
         function isValidURL(string) {
             if (!string || string === '-') return false;
             const str = string.trim();
             return str.startsWith('http://') || str.startsWith('https://') || str.startsWith('www.');
         }
 
-        // Helper: Format tampilan sel (Teks biasa vs Tombol Link)
         function formatDetailContent(val) {
             if (!val || val === '-') {
                 return `<span class="text-slate-500 italic">-</span>`;
@@ -271,7 +232,6 @@
             return `<span class="text-sm font-semibold text-slate-100 break-words">${cleanVal}</span>`;
         }
 
-        // Render Cards to Grid
         function renderGrid(data) {
             cardGrid.innerHTML = '';
 
@@ -291,7 +251,6 @@
                 const subKey = columnHeaders.find(h => /tipe|jenis|flag|bendera|type/i.test(h)) || columnHeaders[1] || '';
                 const subVal = item[subKey] || 'Vessel';
 
-                // Cek apakah kapal memiliki dokumen/link
                 const hasDoc = Object.values(item).some(val => isValidURL(val));
 
                 const card = document.createElement('div');
@@ -303,7 +262,7 @@
                             <span class="text-[11px] font-semibold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded">
                                 ${subVal}
                             </span>
-                            ${hasDoc ? `<span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-paperclip"></i> Dokumen Ada</span>` : ''}
+                            ${hasDoc ? `<span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-paperclip"></i> Dokumen</span>` : ''}
                         </div>
                         <h3 class="text-base font-bold text-white group-hover:text-blue-300 transition-colors mb-2 line-clamp-1">
                             ${vesselName}
@@ -330,7 +289,6 @@
             });
         }
 
-        // Open Modal
         function openDetailModal(vessel) {
             const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
             modalTitle.innerText = vessel[nameKey] || 'Rincian Kapal';
@@ -363,14 +321,12 @@
                 }
             });
 
-            // Show modal
             detailModal.classList.remove('opacity-0', 'pointer-events-none');
             detailModal.querySelector('div').classList.remove('scale-95');
             detailModal.querySelector('div').classList.add('scale-100');
             document.body.style.overflow = 'hidden';
         }
 
-        // Close Modal
         function closeModal() {
             detailModal.classList.add('opacity-0', 'pointer-events-none');
             detailModal.querySelector('div').classList.remove('scale-100');
@@ -384,7 +340,6 @@
             if (e.target === detailModal) closeModal();
         });
 
-        // Filter/Search Input
         searchInput.addEventListener('input', (e) => {
             const val = e.target.value.toLowerCase().trim();
             if (val.length > 0) {
@@ -407,7 +362,6 @@
             searchInput.focus();
         });
 
-        // UI State Switcher
         function showState(state) {
             loading.classList.add('hidden');
             errorMsg.classList.add('hidden');

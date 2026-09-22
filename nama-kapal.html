@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Nama Kapal</title>
-
-    <!-- Favicon & App Icon untuk Google Search & Browser -->
-    <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="48x48">
-    <link rel="icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/png" sizes="192x192">
-    <link rel="shortcut icon" href="https://www.agas88.com/logo-pt-agas88.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="https://www.agas88.com/logo-pt-agas88.png">
+    <title>Daftar Nama Kapal - PT. AGAS88</title>
+    <link rel="canonical" href="https://www.agas88.com/nama-kapal" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -128,7 +123,87 @@
   z-index: 1;
 }
 
+@keyframes pulse-animation {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.7);
+  }
+  70% {
+    transform: scale(1.4);
+    box-shadow: 0 0 0 12px rgba(255, 0, 127, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 127, 0);
+  }
+}
 
+.float-home-pulse:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+/* Sembunyikan kursor bawaan pada seluruh halaman */
+body, button, a {
+  cursor: none !important;
+}
+
+/* Titik Utama Kursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* Lingkaran Pelacak (Follower) */
+.cursor-follower {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(56, 189, 248, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Efek Membesar Saat Hover di Tombol / Link */
+a:hover ~ .cursor-follower,
+button:hover ~ .cursor-follower,
+body:has(a:hover, button:hover) .cursor-follower {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+a:hover ~ .cursor-dot,
+button:hover ~ .cursor-dot,
+body:has(a:hover, button:hover) .cursor-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #60a5fa;
+}
+
+/* Matikan kursor kustom di perangkat seluler/touchscreen */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-follower {
+    display: none !important;
+  }
+  body, button, a {
+    cursor: auto !important;
+  }
+}
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-red-900 to-red-800 min-h-screen">

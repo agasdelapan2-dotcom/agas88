@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pencarian Data Kapal - JSONP Fix</title>
+    <title>Pencarian Data Kapal - Live GitHub Deploy</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font - Inter -->
@@ -20,7 +20,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-900 text-slate-100 antialiased">
 
-    <!-- Header Navigation -->
+    <!-- Navigation Header -->
     <header class="bg-slate-800/90 border-b border-slate-700 sticky top-0 z-20 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-3">
@@ -28,11 +28,12 @@
                     <i class="fa-solid fa-ship"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">Database Kapal & Dokumen</h1>
-                    <p class="text-xs text-slate-400">Pencarian Real-time (JSONP Engine - No CORS Error)</p>
+                    <h1 class="text-lg font-bold text-white leading-tight">Vessel Intelligence System</h1>
+                    <p class="text-xs text-slate-400">Database Real-time & Dokumen Kapal</p>
                 </div>
             </div>
 
+            <!-- Data Counter -->
             <div class="bg-slate-900/80 border border-slate-700 px-4 py-2 rounded-lg flex items-center gap-3">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="text-xs font-medium text-slate-300">Total Terdata: <strong id="dataCount" class="text-white">0</strong> Kapal</span>
@@ -43,16 +44,16 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
         
-        <!-- Search Box Section -->
+        <!-- Search Box -->
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 mb-8 shadow-xl">
             <label for="searchInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-                <i class="fa-solid fa-magnifying-glass mr-1"></i> Cari Informasi Kapal / Dokumen
+                <i class="fa-solid fa-magnifying-glass mr-1"></i> Cari Kapal / Dokumen
             </label>
             <div class="relative">
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Ketikan nama kapal, tipe, nomor registrasi, atau kata kunci dokumen..." 
+                    placeholder="Ketik nama kapal, jenis, nomor registrasi, atau kata kunci..." 
                     class="w-full bg-slate-900 border border-slate-600 rounded-lg py-3.5 pl-11 pr-10 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                 >
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -61,28 +62,30 @@
                 </button>
             </div>
             <div class="mt-2 text-xs text-slate-400 flex items-center justify-between">
-                <span>* Klik kartu nama kapal untuk melihat rincian lengkap & tautan dokumen.</span>
+                <span>* Klik nama/kartu kapal untuk melihat rincian lengkap & tautan dokumen.</span>
                 <span id="searchResultCount" class="font-medium text-blue-400"></span>
             </div>
         </div>
 
-        <!-- Status Displays -->
+        <!-- Loading State -->
         <div id="loading" class="text-center py-20">
             <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p class="text-slate-400 text-sm">Menghubungkan ke Google Spreadsheet...</p>
+            <p class="text-slate-400 text-sm">Mengunduh data dari Google Sheets...</p>
         </div>
 
+        <!-- Error State -->
         <div id="errorMsg" class="hidden bg-red-950/40 border border-red-800 text-red-200 rounded-xl p-6 text-center max-w-lg mx-auto">
             <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
             <h3 class="font-semibold text-lg mb-1">Gagal Memuat Data</h3>
-            <p class="text-xs text-red-300 mb-4" id="errorText">Gagal mengambil data dari Google Sheets. Pastikan spreadsheet dalam status publik.</p>
+            <p class="text-xs text-red-300 mb-4">Pastikan spreadsheet publikasi Anda aktif.</p>
             <button onclick="loadDataJSONP()" class="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition">Coba Lagi</button>
         </div>
 
+        <!-- Empty State -->
         <div id="emptyMsg" class="hidden text-center py-16 bg-slate-800/40 rounded-xl border border-slate-800">
             <i class="fa-solid fa-box-open text-4xl text-slate-600 mb-3"></i>
-            <p class="text-slate-300 font-medium">Tidak ada data kapal yang sesuai</p>
-            <p class="text-slate-500 text-xs mt-1">Coba gunakan kata kunci pencarian yang lain.</p>
+            <p class="text-slate-300 font-medium">Data kapal tidak ditemukan</p>
+            <p class="text-slate-500 text-xs mt-1">Gunakan kata kunci pencarian yang lain.</p>
         </div>
 
         <!-- Grid Cards Kapal -->
@@ -133,7 +136,7 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Google Sheets Integration • Automatic JSONP Payload
+        Deployed on GitHub Pages • Connected to Google Sheets
     </footer>
 
     <script>
@@ -156,17 +159,14 @@
         const closeModalX = document.getElementById('closeModalX');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Panggil data Google Sheets dengan metode JSONP Script Tag (Tembus CORS)
         function loadDataJSONP() {
             showState('loading');
             
-            // Hapus script lama jika ada
             const oldScript = document.getElementById('gvizScript');
             if (oldScript) oldScript.remove();
 
             const script = document.createElement('script');
             script.id = 'gvizScript';
-            // Tautan endpoint GViz Google Sheets
             script.src = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSe0GgxvkAslstv8Y_hXOzvJWuet_UnOyK7KnAy3c_s8A7IPJotTiQnbcfTNfKenigELFKb1E9gScfq/gviz/tq?tqx=responseHandler:handleGvizResponse';
             
             script.onerror = function() {
@@ -176,7 +176,6 @@
             document.body.appendChild(script);
         }
 
-        // Handler penerima data otomatis dari Google Sheets
         window.handleGvizResponse = function(response) {
             try {
                 if (!response || !response.table) {
@@ -191,7 +190,6 @@
                     let item = { _id: idx };
                     row.c.forEach((cell, i) => {
                         const colName = columnHeaders[i] || `Kolom_${i+1}`;
-                        // Mengambil nilai teks atau formatted value
                         item[colName] = (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '-';
                     });
                     return item;
@@ -375,7 +373,7 @@
             if (state === 'grid') cardGrid.classList.remove('hidden');
         }
 
-        // Inisialisasi
+        // Jalankan saat halaman diakses di GitHub
         loadDataJSONP();
     </script>
 </body>

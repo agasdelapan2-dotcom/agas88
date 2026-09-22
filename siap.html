@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pencarian Data Kapal - Clean & Professional</title>
+    <title>Pencarian Data Kapal - Link Dokumen Aktif</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font - Inter & Plus Jakarta Sans -->
+    <!-- Google Font - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,7 +31,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-900 text-slate-100 antialiased">
 
-    <!-- Top Navigation -->
+    <!-- Header Navigation -->
     <header class="bg-slate-800/90 border-b border-slate-700 sticky top-0 z-20 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-3">
@@ -39,8 +39,8 @@
                     <i class="fa-solid fa-ship"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">Database Kapal</h1>
-                    <p class="text-xs text-slate-400">Pencarian & Rincian Data Real-time</p>
+                    <h1 class="text-lg font-bold text-white leading-tight">Database Kapal & Dokumen</h1>
+                    <p class="text-xs text-slate-400">Pencarian Real-time dengan Link Dokumen Aktif</p>
                 </div>
             </div>
 
@@ -52,19 +52,19 @@
         </div>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
         
         <!-- Search Box Section -->
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 mb-8 shadow-xl">
             <label for="searchInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-                <i class="fa-solid fa-magnifying-glass mr-1"></i> Cari Informasi Kapal
+                <i class="fa-solid fa-magnifying-glass mr-1"></i> Cari Informasi Kapal / Dokumen
             </label>
             <div class="relative">
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Ketikan nama kapal, tipe, kode, atau data lainnya..." 
+                    placeholder="Ketikan nama kapal, tipe, nomor registrasi, atau kata kunci dokumen..." 
                     class="w-full bg-slate-900 border border-slate-600 rounded-lg py-3.5 pl-11 pr-10 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                 >
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -73,7 +73,7 @@
                 </button>
             </div>
             <div class="mt-2 text-xs text-slate-400 flex items-center justify-between">
-                <span>* Klik salah satu nama kapal untuk menampilkan rincian lengkapnya.</span>
+                <span>* Klik kartu nama kapal untuk melihat rincian lengkap & tautan dokumen.</span>
                 <span id="searchResultCount" class="font-medium text-blue-400"></span>
             </div>
         </div>
@@ -87,14 +87,14 @@
         <div id="errorMsg" class="hidden bg-red-950/40 border border-red-800 text-red-200 rounded-xl p-6 text-center max-w-lg mx-auto">
             <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
             <h3 class="font-semibold text-lg mb-1">Gagal Memuat Data</h3>
-            <p class="text-xs text-red-300 mb-4">Pastikan koneksi internet terhubung dan URL spreadsheet dapat diakses.</p>
+            <p class="text-xs text-red-300 mb-4">Pastikan koneksi internet terhubung dan spreadsheet dipublikasikan.</p>
             <button onclick="loadData()" class="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition">Coba Lagi</button>
         </div>
 
         <div id="emptyMsg" class="hidden text-center py-16 bg-slate-800/40 rounded-xl border border-slate-800">
             <i class="fa-solid fa-box-open text-4xl text-slate-600 mb-3"></i>
             <p class="text-slate-300 font-medium">Tidak ada data kapal yang sesuai</p>
-            <p class="text-slate-500 text-xs mt-1">Coba gunakan kata kunci pencarian yang berbeda.</p>
+            <p class="text-slate-500 text-xs mt-1">Coba gunakan kata kunci pencarian yang lain.</p>
         </div>
 
         <!-- Grid Cards Kapal -->
@@ -111,7 +111,7 @@
             <!-- Header Modal -->
             <div class="bg-slate-900 px-6 py-5 border-b border-slate-700 flex items-start justify-between gap-4">
                 <div>
-                    <span id="modalCategory" class="inline-block px-2.5 py-0.5 bg-blue-950 text-blue-300 border border-blue-800 text-[11px] font-semibold rounded mb-1">DETAIL KAPAL</span>
+                    <span id="modalCategory" class="inline-block px-2.5 py-0.5 bg-blue-950 text-blue-300 border border-blue-800 text-[11px] font-semibold rounded mb-1">RINCIAN KAPAL</span>
                     <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white">Nama Kapal</h2>
                 </div>
                 <button id="closeModalX" class="text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
@@ -132,10 +132,10 @@
                     </div>
                 </div>
 
-                <!-- Section Rincian Lengkap/Lainnya -->
+                <!-- Section Rincian Lengkap / Dokumen -->
                 <div class="bg-slate-900/60 rounded-xl border border-slate-700/80 p-4">
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check"></i> Rincian Spesifikasi & Registrasi
+                        <i class="fa-solid fa-folder-open"></i> Spesifikasi & Link Dokumen
                     </h3>
                     <div id="secondaryDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <!-- Items injected here -->
@@ -156,7 +156,7 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Google Sheets Integration • Tampilan Data Otomatis & Terstruktur
+        Google Sheets Integration • Tautan Dokumen Dapat Diklik Otomatis
     </footer>
 
     <!-- Script Logika -->
@@ -179,7 +179,6 @@
         // Modal Elements
         const detailModal = document.getElementById('detailModal');
         const modalTitle = document.getElementById('modalTitle');
-        const modalCategory = document.getElementById('modalCategory');
         const primaryDetails = document.getElementById('primaryDetails');
         const secondaryDetails = document.getElementById('secondaryDetails');
         const closeModalX = document.getElementById('closeModalX');
@@ -242,6 +241,36 @@
             return res;
         }
 
+        // Helper: Cek apakah string merupakan URL
+        function isValidURL(string) {
+            if (!string || string === '-') return false;
+            const str = string.trim();
+            return str.startsWith('http://') || str.startsWith('https://') || str.startsWith('www.');
+        }
+
+        // Helper: Format tampilan sel (Teks biasa vs Tombol Link)
+        function formatDetailContent(val) {
+            if (!val || val === '-') {
+                return `<span class="text-slate-500 italic">-</span>`;
+            }
+
+            const cleanVal = val.trim();
+
+            if (isValidURL(cleanVal)) {
+                let fullUrl = cleanVal.startsWith('www.') ? 'https://' + cleanVal : cleanVal;
+                return `
+                    <a href="${fullUrl}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center gap-2 mt-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs rounded-lg transition-colors shadow-sm group">
+                        <i class="fa-solid fa-file-arrow-down text-sm"></i>
+                        <span>Buka / Unduh Dokumen</span>
+                        <i class="fa-solid fa-up-right-from-square text-[10px] opacity-70 group-hover:opacity-100"></i>
+                    </a>
+                `;
+            }
+
+            return `<span class="text-sm font-semibold text-slate-100 break-words">${cleanVal}</span>`;
+        }
+
         // Render Cards to Grid
         function renderGrid(data) {
             cardGrid.innerHTML = '';
@@ -256,13 +285,14 @@
             searchResultCount.innerText = `${data.length} kapal ditemukan`;
 
             data.forEach(item => {
-                // Determine Title Field
                 const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
                 const vesselName = item[nameKey] || 'Kapal Tanpa Nama';
 
-                // Secondary Info
                 const subKey = columnHeaders.find(h => /tipe|jenis|flag|bendera|type/i.test(h)) || columnHeaders[1] || '';
                 const subVal = item[subKey] || 'Vessel';
+
+                // Cek apakah kapal memiliki dokumen/link
+                const hasDoc = Object.values(item).some(val => isValidURL(val));
 
                 const card = document.createElement('div');
                 card.className = "bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-blue-500/50 rounded-xl p-5 cursor-pointer transition-all duration-200 flex flex-col justify-between shadow-md hover:shadow-blue-900/10 group";
@@ -273,7 +303,7 @@
                             <span class="text-[11px] font-semibold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded">
                                 ${subVal}
                             </span>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"></i>
+                            ${hasDoc ? `<span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-paperclip"></i> Dokumen Ada</span>` : ''}
                         </div>
                         <h3 class="text-base font-bold text-white group-hover:text-blue-300 transition-colors mb-2 line-clamp-1">
                             ${vesselName}
@@ -282,13 +312,15 @@
                             ${columnHeaders.slice(1, 4).map(col => `
                                 <div class="flex justify-between border-b border-slate-700/50 py-1">
                                     <span class="text-slate-500">${col}:</span>
-                                    <span class="font-medium text-slate-300 truncate max-w-[150px]">${item[col] || '-'}</span>
+                                    <span class="font-medium text-slate-300 truncate max-w-[150px]">
+                                        ${isValidURL(item[col]) ? '[Link Dokumen]' : (item[col] || '-')}
+                                    </span>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-700/80 flex items-center justify-between text-xs text-blue-400 font-semibold">
-                        <span>Lihat Rincian</span>
+                        <span>Lihat Rincian & Dokumen</span>
                         <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </div>
                 `;
@@ -298,7 +330,7 @@
             });
         }
 
-        // Open Modal with Clear Information
+        // Open Modal
         function openDetailModal(vessel) {
             const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
             modalTitle.innerText = vessel[nameKey] || 'Rincian Kapal';
@@ -310,14 +342,20 @@
                 const val = vessel[col];
                 if (!col.trim()) return;
 
+                const isLink = isValidURL(val);
+
                 const detailBox = document.createElement('div');
-                detailBox.className = "bg-slate-800 border border-slate-700/70 rounded-lg p-3";
+                detailBox.className = `bg-slate-800 border ${isLink ? 'border-blue-600/50 bg-blue-950/20' : 'border-slate-700/70'} rounded-lg p-3 flex flex-col justify-between`;
+                
                 detailBox.innerHTML = `
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">${col}</p>
-                    <p class="text-sm font-semibold text-slate-100 ${val === '-' ? 'text-slate-500 italic' : ''}">${val || '-'}</p>
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-wider ${isLink ? 'text-blue-400' : 'text-slate-400'} mb-1 flex items-center gap-1.5">
+                            ${isLink ? '<i class="fa-solid fa-link text-xs"></i>' : ''} ${col}
+                        </p>
+                        <div>${formatDetailContent(val)}</div>
+                    </div>
                 `;
 
-                // Split into primary (first 4 fields) and secondary (rest)
                 if (index < 4) {
                     primaryDetails.appendChild(detailBox);
                 } else {

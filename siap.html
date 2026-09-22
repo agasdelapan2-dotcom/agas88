@@ -137,8 +137,7 @@
     </footer>
 
     <script>
-        // MASUKKAN URL APPS SCRIPT ANDA DI SINI
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-MvHAADSmoPG0ZdurdWbVR51t1N9iS7hFhJKie0i-nz5HVoN2OP7fGKsLCSYrne8n/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCV8Dmx1hrQDwccsiPeU_GbAbX8B_a6f0j3hHRZDfEF6_ai15XpOPmk73VcVPkjEXq/exec';
 
         let vesselList = [];
         let columnHeaders = [];
@@ -148,6 +147,7 @@
         const cardGrid = document.getElementById('cardGrid');
         const loading = document.getElementById('loading');
         const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
         const emptyMsg = document.getElementById('emptyMsg');
         const dataCount = document.getElementById('dataCount');
         const searchResultCount = document.getElementById('searchResultCount');
@@ -162,31 +162,33 @@
         async function fetchData() {
             showState('loading');
             try {
-                const response = await fetch(APPS_SCRIPT_URL);
-                if (!response.ok) throw new Error('Network response error');
+                const response = await fetch(APPS_SCRIPT_URL, { redirect: 'follow' });
+                if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
                 
                 const rawData = await response.json();
                 
-                if (!rawData || rawData.length === 0) {
+                if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
                     showState('empty');
                     return;
                 }
 
-                // Cari baris yang berisi header 'Nama Kapal' secara otomatis
+                // Deteksi otomatis baris header (Mencari sel yang mengandung kata nama/kapal/vessel/no)
                 let headerIndex = rawData.findIndex(row => 
-                    row.some(cell => String(cell).toLowerCase().includes('nama kapal'))
+                    Array.isArray(row) && row.some(cell => /nama|kapal|vessel|no|id/i.test(String(cell)))
                 );
 
-                if (headerIndex === -1) headerIndex = 0; // default ke baris pertama jika tidak ketemu
+                if (headerIndex === -1) headerIndex = 0;
 
-                columnHeaders = rawData[headerIndex].map((h, i) => String(h).trim() || `Kolom_${i+1}`);
+                columnHeaders = rawData[headerIndex].map((h, i) => {
+                    const cleanH = String(h).trim();
+                    return cleanH !== '' ? cleanH : `Kolom_${i+1}`;
+                });
 
-                // Ambil seluruh data kapal di bawah baris header
+                // Memproses baris data di bawah header
                 vesselList = [];
                 for (let r = headerIndex + 1; r < rawData.length; r++) {
                     let row = rawData[r];
-                    // Cek jika setidaknya ada 1 isi data di baris tersebut
-                    if (row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')) {
+                    if (Array.isArray(row) && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')) {
                         let item = { _id: vesselList.length };
                         columnHeaders.forEach((head, c) => {
                             let val = row[c];
@@ -196,10 +198,16 @@
                     }
                 }
 
+                if (vesselList.length === 0) {
+                    showState('empty');
+                    return;
+                }
+
                 dataCount.innerText = vesselList.length;
                 renderGrid(vesselList);
             } catch (err) {
                 console.error("Fetch Error:", err);
+                errorText.innerText = "Gagal memuat data: " + err.message;
                 showState('error');
             }
         }
@@ -248,7 +256,7 @@
                 const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
                 const vesselName = item[nameKey] || 'Kapal Tanpa Nama';
 
-                const subKey = columnHeaders.find(h => /bulan|tipe|jenis|flag|bendera|trayek/i.test(h)) || columnHeaders[1] || '';
+                const subKey = columnHeaders.find(h => /bulan|tipe|jenis|flag|bendera|trayek|status/i.test(h)) || columnHeaders[1] || '';
                 const subVal = item[subKey] || 'KAPAL';
 
                 const hasDoc = Object.values(item).some(val => isValidURL(val));
@@ -269,8 +277,8 @@
                         </h3>
                         <div class="text-xs text-slate-400 space-y-1">
                             ${columnHeaders.slice(0, 4).map(col => `
-                                <div class="flex justify-between border-b border-slate-700/50 py-1">
-                                    <span class="text-slate-500">${col}:</span>
+                                <div class="flex justify-between border-b border-slate-700/50 py-1 gap-2">
+                                    <span class="text-slate-500 truncate">${col}:</span>
                                     <span class="font-medium text-slate-300 truncate max-w-[150px]">
                                         ${isValidURL(item[col]) ? '[Link Dokumen]' : (item[col] || '-')}
                                     </span>

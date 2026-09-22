@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold text-white leading-tight">Database Kapal & Dokumen</h1>
-                    <p class="text-xs text-slate-400">Pencarian Data Real-time</p>
+                    <p class="text-xs text-slate-400">Pencarian Data Real-Time</p>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                 </button>
             </div>
             <div class="mt-2 text-xs text-slate-400 flex items-center justify-between">
-                <span>* Klik nama/kartu kapal untuk melihat rincian lengkap & tautan dokumen.</span>
+                <span>* Klik kartu nama kapal untuk melihat rincian lengkap & tautan dokumen.</span>
                 <span id="searchResultCount" class="font-medium text-blue-400"></span>
             </div>
         </div>
@@ -69,13 +69,13 @@
         <!-- Status Displays -->
         <div id="loading" class="text-center py-20">
             <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p class="text-slate-400 text-sm">Menghubungkan & memproses seluruh data kapal...</p>
+            <p class="text-slate-400 text-sm">Menghubungkan ke Google Spreadsheet...</p>
         </div>
 
         <div id="errorMsg" class="hidden bg-red-950/40 border border-red-800 text-red-200 rounded-xl p-6 text-center max-w-lg mx-auto">
             <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
             <h3 class="font-semibold text-lg mb-1">Gagal Memuat Data</h3>
-            <p class="text-xs text-red-300 mb-4" id="errorText">Gagal mengambil data dari Google Apps Script.</p>
+            <p class="text-xs text-red-300 mb-4" id="errorText">Gagal mengambil data dari spreadsheet.</p>
             <button onclick="fetchData()" class="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition">Coba Lagi</button>
         </div>
 
@@ -133,11 +133,12 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Multi-Row Auto Parsing Engine
+        Direct HTML Table Auto-Parser
     </footer>
 
     <script>
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCV8Dmx1hrQDwccsiPeU_GbAbX8B_a6f0j3hHRZDfEF6_ai15XpOPmk73VcVPkjEXq/exec';
+        const GOOGLE_PUB_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSe0GgxvkAslstv8Y_hXOzvJWuet_UnOyK7KnAy3c_s8A7IPJotTiQnbcfTNfKenigELFKb1E9gScfq/pubhtml?gid=0&single=true';
+        const PROXY_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(GOOGLE_PUB_URL);
 
         let vesselList = [];
         let columnHeaders = [];
@@ -147,7 +148,6 @@
         const cardGrid = document.getElementById('cardGrid');
         const loading = document.getElementById('loading');
         const errorMsg = document.getElementById('errorMsg');
-        const errorText = document.getElementById('errorText');
         const emptyMsg = document.getElementById('emptyMsg');
         const dataCount = document.getElementById('dataCount');
         const searchResultCount = document.getElementById('searchResultCount');
@@ -162,54 +162,76 @@
         async function fetchData() {
             showState('loading');
             try {
-                const response = await fetch(APPS_SCRIPT_URL, { redirect: 'follow' });
-                if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
+                const response = await fetch(PROXY_URL);
+                if (!response.ok) throw new Error('Response error');
                 
-                const rawData = await response.json();
-                
-                if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
-                    showState('empty');
-                    return;
-                }
+                const data = await response.json();
+                if (!data || !data.contents) throw new Error('Data kosong');
 
-                // Deteksi otomatis baris header (Mencari sel yang mengandung kata nama/kapal/vessel/no)
-                let headerIndex = rawData.findIndex(row => 
-                    Array.isArray(row) && row.some(cell => /nama|kapal|vessel|no|id/i.test(String(cell)))
-                );
-
-                if (headerIndex === -1) headerIndex = 0;
-
-                columnHeaders = rawData[headerIndex].map((h, i) => {
-                    const cleanH = String(h).trim();
-                    return cleanH !== '' ? cleanH : `Kolom_${i+1}`;
-                });
-
-                // Memproses baris data di bawah header
-                vesselList = [];
-                for (let r = headerIndex + 1; r < rawData.length; r++) {
-                    let row = rawData[r];
-                    if (Array.isArray(row) && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')) {
-                        let item = { _id: vesselList.length };
-                        columnHeaders.forEach((head, c) => {
-                            let val = row[c];
-                            item[head] = (val !== undefined && val !== null && String(val).trim() !== '') ? String(val).trim() : '-';
-                        });
-                        vesselList.push(item);
-                    }
-                }
-
-                if (vesselList.length === 0) {
-                    showState('empty');
-                    return;
-                }
-
-                dataCount.innerText = vesselList.length;
-                renderGrid(vesselList);
+                // Ekstrak isi tabel HTML dari Google Sheets
+                parseTableHTML(data.contents);
             } catch (err) {
                 console.error("Fetch Error:", err);
-                errorText.innerText = "Gagal memuat data: " + err.message;
                 showState('error');
             }
+        }
+
+        function parseTableHTML(htmlText) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            const table = doc.querySelector('table');
+
+            if (!table) {
+                showState('empty');
+                return;
+            }
+
+            const trs = Array.from(table.querySelectorAll('tr'));
+            let validRows = [];
+
+            trs.forEach(tr => {
+                const tds = Array.from(tr.querySelectorAll('td, th')).map(td => {
+                    const a = td.querySelector('a');
+                    if (a && a.href) return a.href;
+                    return td.innerText.trim();
+                });
+                
+                // Ambil baris yang memiliki setidaknya 1 isi teks
+                if (tds.some(val => val !== '')) {
+                    validRows.push(tds);
+                }
+            });
+
+            if (validRows.length < 2) {
+                showState('empty');
+                return;
+            }
+
+            // Cari baris header (yang mengandung kata nama/kapal/bulan/vessel)
+            let headerIdx = validRows.findIndex(row => 
+                row.some(cell => {
+                    let text = String(cell).toLowerCase();
+                    return text.includes('nama') || text.includes('kapal') || text.includes('bulan') || text.includes('vessel');
+                })
+            );
+
+            if (headerIdx === -1) headerIdx = 0;
+
+            columnHeaders = validRows[headerIdx].map((h, i) => h || `Kolom_${i+1}`);
+
+            vesselList = [];
+            for (let i = headerIdx + 1; i < validRows.length; i++) {
+                let row = validRows[i];
+                let item = { _id: vesselList.length };
+                columnHeaders.forEach((head, colIdx) => {
+                    let val = row[colIdx];
+                    item[head] = (val && String(val).trim() !== '') ? String(val).trim() : '-';
+                });
+                vesselList.push(item);
+            }
+
+            dataCount.innerText = vesselList.length;
+            renderGrid(vesselList);
         }
 
         function isValidURL(string) {
@@ -256,7 +278,7 @@
                 const nameKey = columnHeaders.find(h => /nama|kapal|vessel|name/i.test(h)) || columnHeaders[0];
                 const vesselName = item[nameKey] || 'Kapal Tanpa Nama';
 
-                const subKey = columnHeaders.find(h => /bulan|tipe|jenis|flag|bendera|trayek|status/i.test(h)) || columnHeaders[1] || '';
+                const subKey = columnHeaders.find(h => /bulan|tipe|jenis|flag|bendera|trayek/i.test(h)) || columnHeaders[1] || '';
                 const subVal = item[subKey] || 'KAPAL';
 
                 const hasDoc = Object.values(item).some(val => isValidURL(val));
@@ -277,8 +299,8 @@
                         </h3>
                         <div class="text-xs text-slate-400 space-y-1">
                             ${columnHeaders.slice(0, 4).map(col => `
-                                <div class="flex justify-between border-b border-slate-700/50 py-1 gap-2">
-                                    <span class="text-slate-500 truncate">${col}:</span>
+                                <div class="flex justify-between border-b border-slate-700/50 py-1">
+                                    <span class="text-slate-500">${col}:</span>
                                     <span class="font-medium text-slate-300 truncate max-w-[150px]">
                                         ${isValidURL(item[col]) ? '[Link Dokumen]' : (item[col] || '-')}
                                     </span>

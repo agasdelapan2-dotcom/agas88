@@ -1,392 +1,638 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full bg-slate-900">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Laporan Kapal WhatsApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laporan Kapal WA - Android App</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
-        .preview-scroll::-webkit-scrollbar {
-            width: 6px;
+
+        /* Custom Scrollbar for Mobile App Look */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
         }
-        .preview-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .preview-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 10px;
         }
-        .preview-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+
+        /* Active tab indicator animation */
+        .tab-indicator {
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Ripple effect */
+        .touch-effect:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        /* Input highlight styling */
+        .mobile-input:focus-within {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        /* Custom styling for WhatsApp preview bubble */
+        .wa-bubble {
+            background-color: #ffffff;
+            border-top-left-radius: 0px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-12">
+<body class="h-full bg-slate-900 text-slate-800 antialiased flex justify-center items-center sm:py-6">
 
-    <!-- Header Navbar -->
-            <!-- Form Input (7 Cols Desktop) -->
-            <div class="lg:col-span-7 space-y-6">
-
-                <!-- Form Keberangkatan Card -->
-                <div id="cardDeparture" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300">
-                    <div class="bg-gradient-to-r from-blue-700 to-indigo-700 px-5 py-3.5 text-white flex justify-between items-center">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-plane-departure text-amber-300"></i>
-                            <h2 class="font-bold tracking-wide text-sm sm:text-base">KEBERANGKATAN KAPAL</h2>
-                        </div>
-                        <span class="text-xs bg-blue-800/80 px-2.5 py-1 rounded-full text-blue-100 font-mono">OUTBOUND</span>
-                    </div>
-                    <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">KLM (Pilih Nama Kapal)</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-ship absolute left-3 top-3 text-slate-400 text-sm z-10 pointer-events-none"></i>
-                                <select id="depKlmSelect" class="w-full pl-9 pr-8 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white font-medium text-slate-700">
-                                    <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
-                                    <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
-                                    <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
-                                    <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
-                                    <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
-                                    <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
-                                    <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
-                                    <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
-                                    <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
-                                    <option value="KLM.BUNGA RIZKA" selected>KLM.BUNGA RIZKA</option>
-                                    <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
-                                    <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
-                                    <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
-                                    <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
-                                    <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
-                                    <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
-                                    <option value="CUSTOM">-- Custom / Input Manual --</option>
-                                </select>
-                                <i class="fa-solid fa-chevron-down absolute right-3 top-3 text-slate-400 text-xs pointer-events-none"></i>
-                            </div>
-                            <div id="depKlmCustomContainer" class="mt-2 hidden">
-                                <input type="text" id="depKlmCustom" placeholder="Ketik nama KLM manual..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">TUJUAN</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-location-dot absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="depTujuan" value="SAMARINDA" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">BRKT. TGL</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-calendar-days absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="depTgl" value="24-9-2026" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">JAM</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-clock absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="depJam" value="04:00" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">CREW (Jumlah ABK)</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-users absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="depCrew" value="4" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Form Kedatangan Card -->
-                <div id="cardArrival" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300">
-                    <div class="bg-gradient-to-r from-teal-700 to-emerald-700 px-5 py-3.5 text-white flex justify-between items-center">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-plane-arrival text-emerald-300"></i>
-                            <h2 class="font-bold tracking-wide text-sm sm:text-base">KEDATANGAN KAPAL</h2>
-                        </div>
-                        <span class="text-xs bg-teal-800/80 px-2.5 py-1 rounded-full text-emerald-100 font-mono">INBOUND</span>
-                    </div>
-                    <div class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">KLM (Pilih Nama Kapal)</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-ship absolute left-3 top-3 text-slate-400 text-sm z-10 pointer-events-none"></i>
-                                <select id="arrKlmSelect" class="w-full pl-9 pr-8 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 appearance-none bg-white font-medium text-slate-700">
-                                    <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
-                                    <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
-                                    <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
-                                    <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
-                                    <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
-                                    <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
-                                    <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
-                                    <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
-                                    <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
-                                    <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
-                                    <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
-                                    <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
-                                    <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
-                                    <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
-                                    <option value="KLM.SUMBER REZKY 88" selected>KLM.SUMBER REZKY 88</option>
-                                    <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
-                                    <option value="CUSTOM">-- Custom / Input Manual --</option>
-                                </select>
-                                <i class="fa-solid fa-chevron-down absolute right-3 top-3 text-slate-400 text-xs pointer-events-none"></i>
-                            </div>
-                            <div id="arrKlmCustomContainer" class="mt-2 hidden">
-                                <input type="text" id="arrKlmCustom" placeholder="Ketik nama KLM manual..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 uppercase">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ASAL</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-location-arrow absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="arrAsal" value="SAMARINDA" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 uppercase">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">TIBA. TGL</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-calendar-check absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="arrTgl" value="24/9/2026" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">JAM</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-clock absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="arrJam" value="06:00" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">CREW (Jumlah ABK)</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-users absolute left-3 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="arrCrew" value="5" class="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+    <!-- Mobile App Container (Mimics Phone Viewport on Desktop, Full Screen on Mobile) -->
+    <div id="appContainer" class="w-full max-w-md h-full sm:h-[844px] bg-slate-50 sm:rounded-[40px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border-[8px] sm:border-slate-800">
+        
+        <!-- Android Top Status Bar Simulator (Hidden on small screen touch) -->
+        <div class="bg-slate-900 text-white text-xs px-6 pt-2 pb-1 flex justify-between items-center z-50 select-none font-medium">
+            <span id="currentTime">09:41</span>
+            <div class="flex items-center space-x-2 text-[10px]">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-battery-full text-emerald-400"></i>
             </div>
-
-            <!-- Live Preview Panel (5 Cols Desktop) -->
-            <div class="lg:col-span-5">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sticky top-24 space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-eye text-emerald-600"></i>
-                            <h3 class="font-bold text-slate-800">Pratinjau Pesan WA</h3>
-                        </div>
-                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold flex items-center gap-1">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Output
-                        </span>
-                    </div>
-
-                    <!-- Visual Box Tampilan Pesan WhatsApp -->
-                    <div class="bg-[#efeae2] border border-slate-300 rounded-xl p-4 shadow-inner relative min-h-[220px]">
-                        <!-- Background Pattern Mock Chat WA -->
-                        <div class="absolute inset-0 opacity-10 pointer-events-none rounded-xl" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 12px 12px;"></div>
-                        
-                        <!-- Bubble Chat WA -->
-                        <div class="bg-white rounded-lg p-3.5 shadow-sm text-slate-800 font-mono text-sm leading-snug whitespace-pre relative z-10 overflow-x-auto preview-scroll max-h-[380px]" id="previewText">
-                            <!-- Text render injected via Javascript -->
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="pt-2 space-y-3">
-                        <!-- Send to WA Button -->
-                        <button onclick="shareWhatsApp()" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-base group">
-                            <i class="fa-brands fa-whatsapp text-2xl group-hover:scale-110 transition-transform"></i>
-                            <span>Kirim ke WhatsApp</span>
-                        </button>
-
-                        <!-- Copy to Clipboard Button -->
-                        <button onclick="copyMessage()" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold rounded-xl border border-slate-300 transition-all flex items-center justify-center space-x-2 text-sm">
-                            <i class="fa-regular fa-copy text-slate-500"></i>
-                            <span>Salin Teks Pesan</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </main>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <span id="toastMessage" class="text-sm font-medium">Pesan berhasil disalin!</span>
+        <!-- Android App Top Navigation Header -->
+        <header class="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 text-white px-4 py-3.5 flex items-center justify-between shadow-md z-40">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
+                    <i class="fa-solid fa-anchor text-amber-300 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base tracking-tight leading-tight">Laporan Kapal</h1>
+                    <p class="text-[11px] text-blue-200 flex items-center gap-1 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WA Generator v2.0
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Action Options Header -->
+            <button onclick="resetAllForms()" class="text-xs bg-white/10 hover:bg-white/20 active:bg-white/30 px-3 py-1.5 rounded-lg text-blue-100 flex items-center gap-1.5 transition-all touch-effect font-medium">
+                <i class="fa-solid fa-rotate-right text-amber-300"></i>
+                <span>Reset</span>
+            </button>
+        </header>
+
+        <!-- Main Content Area (Scrollable Screen) -->
+        <main class="flex-1 overflow-y-auto pb-24 relative bg-slate-100/80">
+
+            <!-- PAGE 1: FORM INPUT VIEW -->
+            <div id="pageForm" class="p-4 space-y-4">
+
+                <!-- Mode Selection Toggle (Segmented Control Android Style) -->
+                <div class="bg-slate-200/80 p-1 rounded-xl flex text-xs font-semibold text-slate-600 shadow-inner">
+                    <button type="button" onclick="setReportType('both')" id="btnTypeBoth" class="flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 bg-white text-blue-700 shadow-sm">
+                        <i class="fa-solid fa-layer-group"></i> Semuanya
+                    </button>
+                    <button type="button" onclick="setReportType('departure')" id="btnTypeDep" class="flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-plane-departure text-blue-600"></i> Berangkat
+                    </button>
+                    <button type="button" onclick="setReportType('arrival')" id="btnTypeArr" class="flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-plane-arrival text-emerald-600"></i> Kedatangan
+                    </button>
+                </div>
+
+                <!-- CARD 1: FORM KEBERANGKATAN -->
+                <div id="cardDeparture" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 space-y-3.5 transition-all">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">
+                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                            </span>
+                            <h2 class="font-bold text-slate-800 text-sm tracking-wide uppercase">KEBERANGKATAN</h2>
+                        </div>
+                        <span class="text-[10px] bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded-md border border-blue-200">OUTBOUND</span>
+                    </div>
+
+                    <!-- Dropdown Nama Kapal Keberangkatan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">KLM (Nama Kapal)</label>
+                        <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50 transition-all">
+                            <i class="fa-solid fa-ship absolute left-3.5 top-3 text-slate-400 text-sm pointer-events-none"></i>
+                            <select id="depKlmSelect" onchange="handleShipSelect('dep')" class="w-full pl-10 pr-9 py-2.5 text-xs font-bold text-slate-800 bg-transparent rounded-xl appearance-none focus:outline-none">
+                                <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+                                <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+                                <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+                                <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+                                <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+                                <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+                                <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+                                <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+                                <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+                                <option value="KLM.BUNGA RIZKA" selected>KLM.BUNGA RIZKA</option>
+                                <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+                                <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+                                <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+                                <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+                                <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
+                                <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
+                                <option value="CUSTOM">+ Masukkan Nama Kapal Lain...</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-3.5 top-3 text-slate-400 text-xs pointer-events-none"></i>
+                        </div>
+                        <div id="depCustomBox" class="mt-2 hidden">
+                            <input type="text" id="depKlmCustom" placeholder="Ketik nama KLM manual..." class="w-full px-3.5 py-2 text-xs font-semibold border border-blue-400 rounded-xl focus:outline-none uppercase bg-blue-50/30">
+                        </div>
+                    </div>
+
+                    <!-- Input Tujuan & Tanggal Berangkat -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TUJUAN</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-location-dot absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="depTujuan" value="SAMARINDA" class="w-full pl-8 pr-2.5 py-2 text-xs font-bold text-slate-800 bg-transparent uppercase focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">BRKT. TGL</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-calendar-days absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="depTgl" value="24-9-2026" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Jam & Crew -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">JAM</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-clock absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="depJam" value="04:00" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">CREW (ABK)</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-users absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="number" id="depCrew" value="4" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: FORM KEDATANGAN -->
+                <div id="cardArrival" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 space-y-3.5 transition-all">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">
+                                <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                            </span>
+                            <h2 class="font-bold text-slate-800 text-sm tracking-wide uppercase">KEDATANGAN</h2>
+                        </div>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-md border border-emerald-200">INBOUND</span>
+                    </div>
+
+                    <!-- Dropdown Nama Kapal Kedatangan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">KLM (Nama Kapal)</label>
+                        <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50 transition-all">
+                            <i class="fa-solid fa-ship absolute left-3.5 top-3 text-slate-400 text-sm pointer-events-none"></i>
+                            <select id="arrKlmSelect" onchange="handleShipSelect('arr')" class="w-full pl-10 pr-9 py-2.5 text-xs font-bold text-slate-800 bg-transparent rounded-xl appearance-none focus:outline-none">
+                                <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+                                <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+                                <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+                                <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+                                <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+                                <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+                                <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+                                <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+                                <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+                                <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
+                                <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+                                <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+                                <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+                                <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+                                <option value="KLM.SUMBER REZKY 88" selected>KLM.SUMBER REZKY 88</option>
+                                <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
+                                <option value="CUSTOM">+ Masukkan Nama Kapal Lain...</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-3.5 top-3 text-slate-400 text-xs pointer-events-none"></i>
+                        </div>
+                        <div id="arrCustomBox" class="mt-2 hidden">
+                            <input type="text" id="arrKlmCustom" placeholder="Ketik nama KLM manual..." class="w-full px-3.5 py-2 text-xs font-semibold border border-emerald-400 rounded-xl focus:outline-none uppercase bg-emerald-50/30">
+                        </div>
+                    </div>
+
+                    <!-- Input Asal & Tanggal Tiba -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ASAL</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-compass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="arrAsal" value="SAMARINDA" class="w-full pl-8 pr-2.5 py-2 text-xs font-bold text-slate-800 bg-transparent uppercase focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TIBA. TGL</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-calendar-check absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="arrTgl" value="24/9/2026" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Jam & Crew Kedatangan -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">JAM</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-clock absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="arrJam" value="06:00" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">CREW (ABK)</label>
+                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
+                                <i class="fa-solid fa-users absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="number" id="arrCrew" value="5" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PAGE 2: LIVE PREVIEW & SHARE VIEW -->
+            <div id="pagePreview" class="p-4 space-y-4 hidden">
+                <div class="bg-emerald-950/10 border border-emerald-200 p-3 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-2.5">
+                        <i class="fa-brands fa-whatsapp text-2xl text-emerald-600"></i>
+                        <div>
+                            <h3 class="font-bold text-xs text-slate-800">Tampilan Pesan WA</h3>
+                            <p class="text-[10px] text-slate-500">Persis dengan format pesan yang akan dikirim</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Ready
+                    </span>
+                </div>
+
+                <!-- Chat Simulation Box -->
+                <div class="bg-[#e5ddd5] p-3 rounded-2xl border border-slate-300 shadow-inner min-h-[300px] relative overflow-hidden flex flex-col justify-between" style="background-image: radial-gradient(#000 0.7px, transparent 0.7px); background-size: 10px 10px; background-opacity: 0.05;">
+                    
+                    <!-- Date Header Simulated -->
+                    <div class="text-center my-1">
+                        <span class="bg-white/80 backdrop-blur-sm text-[10px] font-semibold text-slate-600 px-3 py-1 rounded-md shadow-sm uppercase tracking-wide">Hari ini</span>
+                    </div>
+
+                    <!-- WhatsApp Message Bubble -->
+                    <div class="wa-bubble p-3 rounded-lg max-w-[92%] my-2 self-start shadow-sm border border-slate-200">
+                        <div id="previewText" class="font-mono text-xs text-slate-900 leading-snug whitespace-pre select-all">
+                            <!-- Text Injected Here -->
+                        </div>
+                        <div class="text-[9px] text-slate-400 text-right mt-1.5 font-sans flex items-center justify-end gap-1">
+                            <span id="waTime">09:41</span>
+                            <i class="fa-solid fa-check-double text-sky-500"></i>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] text-center text-slate-500 bg-white/60 backdrop-blur-sm py-1 px-2 rounded-lg">
+                        <i class="fa-solid fa-shield-halved text-emerald-600"></i> Siap dikirimkan ke grup/kontak WhatsApp
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 3: ABOUT / INFO PAGE -->
+            <div id="pageInfo" class="p-4 space-y-4 hidden">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 text-center space-y-3">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                        <i class="fa-solid fa-ship"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">Laporan Kapal Mobile</h3>
+                        <p class="text-xs text-slate-500 mt-1">Aplikasi Praktis Output Share WhatsApp Pelabuhan / Logistik KLM</p>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3 text-left space-y-2 text-xs text-slate-600">
+                        <div class="flex justify-between py-1 border-b border-slate-50">
+                            <span class="text-slate-400">Versi</span>
+                            <span class="font-semibold text-slate-700">2.0 Mobile Edition</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-50">
+                            <span class="text-slate-400">Dukungan Dropdown</span>
+                            <span class="font-semibold text-emerald-600">16 Kapal KLM + Custom</span>
+                        </div>
+                        <div class="flex justify-between py-1">
+                            <span class="text-slate-400">Target Platform</span>
+                            <span class="font-semibold text-blue-600">WhatsApp Android & iOS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Floating Main Action Buttons Bar (Always Visible Above Nav Bar) -->
+        <div class="absolute bottom-[68px] left-0 right-0 p-3 bg-gradient-to-t from-slate-100 via-slate-100/90 to-transparent z-30 space-y-2">
+            <div class="grid grid-cols-5 gap-2">
+                <!-- Main WhatsApp Share Button (Primary Big Action) -->
+                <button onclick="shareWhatsApp()" class="col-span-3 py-3 px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-[0.98] text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 text-xs transition-all touch-effect">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Kirim ke WhatsApp</span>
+                </button>
+
+                <!-- Copy Text Button -->
+                <button onclick="copyMessage()" class="col-span-2 py-3 px-3 bg-white hover:bg-slate-50 active:scale-[0.98] text-slate-700 font-bold rounded-2xl border border-slate-300 shadow-sm flex items-center justify-center space-x-1.5 text-xs transition-all touch-effect">
+                    <i class="fa-regular fa-copy text-slate-500"></i>
+                    <span>Salin</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Android Native Bottom Navigation Bar -->
+        <nav class="bg-white border-t border-slate-200/80 px-6 py-2.5 flex justify-between items-center z-40 relative">
+            <button onclick="switchPage('form')" id="navForm" class="flex flex-col items-center space-y-1 text-blue-600 transition-all touch-effect">
+                <i class="fa-solid fa-pen-to-square text-lg"></i>
+                <span class="text-[10px] font-bold">Form Input</span>
+            </button>
+            <button onclick="switchPage('preview')" id="navPreview" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition-all touch-effect">
+                <i class="fa-solid fa-eye text-lg"></i>
+                <span class="text-[10px] font-semibold">Preview WA</span>
+            </button>
+            <button onclick="switchPage('info')" id="navInfo" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition-all touch-effect">
+                <i class="fa-solid fa-circle-info text-lg"></i>
+                <span class="text-[10px] font-semibold">Info App</span>
+            </button>
+        </nav>
+
+        <!-- Android Toast Notification Component -->
+        <div id="toast" class="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-md text-white text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 z-50 transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+            <span id="toastMsg" class="font-medium">Pesan berhasil disalin!</span>
+        </div>
+
     </div>
 
     <script>
-        // DOM Elements
+        // State variables
+        let currentReportType = 'both'; // 'both', 'departure', 'arrival'
+
+        // Elements
         const depKlmSelect = document.getElementById('depKlmSelect');
-        const depKlmCustomContainer = document.getElementById('depKlmCustomContainer');
         const depKlmCustom = document.getElementById('depKlmCustom');
+        const depCustomBox = document.getElementById('depCustomBox');
         const depTujuan = document.getElementById('depTujuan');
         const depTgl = document.getElementById('depTgl');
         const depJam = document.getElementById('depJam');
         const depCrew = document.getElementById('depCrew');
 
         const arrKlmSelect = document.getElementById('arrKlmSelect');
-        const arrKlmCustomContainer = document.getElementById('arrKlmCustomContainer');
         const arrKlmCustom = document.getElementById('arrKlmCustom');
+        const arrCustomBox = document.getElementById('arrCustomBox');
         const arrAsal = document.getElementById('arrAsal');
         const arrTgl = document.getElementById('arrTgl');
         const arrJam = document.getElementById('arrJam');
         const arrCrew = document.getElementById('arrCrew');
 
-        const previewText = document.getElementById('previewText');
-        const reportTypeRadios = document.querySelectorAll('input[name="reportType"]');
         const cardDeparture = document.getElementById('cardDeparture');
         const cardArrival = document.getElementById('cardArrival');
+        const previewText = document.getElementById('previewText');
 
-        // Helper to format KLM name (remove KLM. prefix if present to match target output format cleanly)
-        function cleanShipName(value) {
-            if (!value) return '';
-            return value.replace(/^KLM\.\s*/i, '').trim();
-        }
-
-        // Get actual chosen ship name
-        function getShipName(selectEl, customEl) {
-            if (selectEl.value === 'CUSTOM') {
-                return customEl.value.trim() || '-';
+        // Haptic feedback simulation for mobile touch
+        function triggerHaptic() {
+            if (navigator.vibrate) {
+                navigator.vibrate(15);
             }
-            return cleanShipName(selectEl.value);
         }
 
-        // Generate formatted text string
+        // Clock display update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            document.getElementById('currentTime').textContent = timeString;
+            document.getElementById('waTime').textContent = timeString;
+        }
+
+        // Helper to format ship name cleanly
+        function formatShipName(selectEl, customEl) {
+            if (selectEl.value === 'CUSTOM') {
+                return customEl.value.trim().toUpperCase() || '-';
+            }
+            return selectEl.value.replace(/^KLM\.\s*/i, '').trim();
+        }
+
+        // Generate Exact Requested WhatsApp Output Text Format
         function generateMessageText() {
-            const selectedType = document.querySelector('input[name="reportType"]:checked').value;
-            let text = '';
+            const depShip = formatShipName(depKlmSelect, depKlmCustom);
+            const arrShip = formatShipName(arrKlmSelect, arrKlmCustom);
 
-            const depShip = getShipName(depKlmSelect, depKlmCustom);
-            const arrShip = getShipName(arrKlmSelect, arrKlmCustom);
-
-            const departurePart = 
+            const departureBlock = 
 `KEBERANGKATAN 
 KLM  : ${depShip}
-TUJUAN    : ${depTujuan.value.trim()}
+TUJUAN    : ${depTujuan.value.trim().toUpperCase()}
 BRKT. TGL : ${depTgl.value.trim()}
-JAM.           : ${depJam.value.trim()}
+JAM           : ${depJam.value.trim()}
 CREW         : ${depCrew.value.trim()}`;
 
-            const arrivalPart = 
+            const arrivalBlock = 
 `KEDATANGAN
 KLM  : ${arrShip}
-Asal  : ${arrAsal.value.trim()}
+Asal  : ${arrAsal.value.trim().toUpperCase()}
 Tiba. : ${arrTgl.value.trim()}
 Jam  : ${arrJam.value.trim()}
 Crew : ${arrCrew.value.trim()}`;
 
-            if (selectedType === 'both') {
-                text = `${departurePart}\n\n\n${arrivalPart}`;
-            } else if (selectedType === 'departure') {
-                text = departurePart;
-            } else if (selectedType === 'arrival') {
-                text = arrivalPart;
+            if (currentReportType === 'both') {
+                return `${departureBlock}\n\n\n${arrivalBlock}`;
+            } else if (currentReportType === 'departure') {
+                return departureBlock;
+            } else if (currentReportType === 'arrival') {
+                return arrivalBlock;
             }
-
-            return text;
+            return '';
         }
 
-        // Handle custom ship input toggles
-        function handleDropdownChange(selectEl, containerEl) {
-            if (selectEl.value === 'CUSTOM') {
-                containerEl.classList.remove('hidden');
+        // Toggle Ship Custom Input Visibility
+        function handleShipSelect(type) {
+            triggerHaptic();
+            if (type === 'dep') {
+                if (depKlmSelect.value === 'CUSTOM') {
+                    depCustomBox.classList.remove('hidden');
+                    depKlmCustom.focus();
+                } else {
+                    depCustomBox.classList.add('hidden');
+                }
             } else {
-                containerEl.classList.add('hidden');
+                if (arrKlmSelect.value === 'CUSTOM') {
+                    arrCustomBox.classList.remove('hidden');
+                    arrKlmCustom.focus();
+                } else {
+                    arrCustomBox.classList.add('hidden');
+                }
             }
-            updatePreview();
+            updateLivePreview();
         }
 
-        // Update Live Preview Box & Toggle Card Visibility
-        function updatePreview() {
-            const selectedType = document.querySelector('input[name="reportType"]:checked').value;
-            
-            if (selectedType === 'both') {
+        // Mode Type Switcher
+        function setReportType(type) {
+            triggerHaptic();
+            currentReportType = type;
+
+            const btnBoth = document.getElementById('btnTypeBoth');
+            const btnDep = document.getElementById('btnTypeDep');
+            const btnArr = document.getElementById('btnTypeArr');
+
+            // Reset active tab classes
+            [btnBoth, btnDep, btnArr].forEach(btn => {
+                btn.className = "flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 text-slate-600";
+            });
+
+            if (type === 'both') {
+                btnBoth.className = "flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 bg-white text-blue-700 shadow-sm";
                 cardDeparture.classList.remove('hidden');
                 cardArrival.classList.remove('hidden');
-            } else if (selectedType === 'departure') {
+            } else if (type === 'departure') {
+                btnDep.className = "flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 bg-white text-blue-700 shadow-sm";
                 cardDeparture.classList.remove('hidden');
                 cardArrival.classList.add('hidden');
-            } else if (selectedType === 'arrival') {
+            } else if (type === 'arrival') {
+                btnArr.className = "flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 bg-white text-emerald-700 shadow-sm";
                 cardDeparture.classList.add('hidden');
                 cardArrival.classList.remove('hidden');
             }
 
+            updateLivePreview();
+        }
+
+        // Update Live Output
+        function updateLivePreview() {
             previewText.textContent = generateMessageText();
         }
 
-        // Share Message to WhatsApp
+        // Bottom Navigation Page Switcher
+        function switchPage(page) {
+            triggerHaptic();
+            const pageForm = document.getElementById('pageForm');
+            const pagePreview = document.getElementById('pagePreview');
+            const pageInfo = document.getElementById('pageInfo');
+
+            const navForm = document.getElementById('navForm');
+            const navPreview = document.getElementById('navPreview');
+            const navInfo = document.getElementById('navInfo');
+
+            // Hide all pages
+            pageForm.classList.add('hidden');
+            pagePreview.classList.add('hidden');
+            pageInfo.classList.add('hidden');
+
+            // Reset nav colors
+            [navForm, navPreview, navInfo].forEach(nav => {
+                nav.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition-all touch-effect";
+            });
+
+            if (page === 'form') {
+                pageForm.classList.remove('hidden');
+                navForm.className = "flex flex-col items-center space-y-1 text-blue-600 transition-all touch-effect font-bold";
+            } else if (page === 'preview') {
+                pagePreview.classList.remove('hidden');
+                navPreview.className = "flex flex-col items-center space-y-1 text-blue-600 transition-all touch-effect font-bold";
+            } else if (page === 'info') {
+                pageInfo.classList.remove('hidden');
+                navInfo.className = "flex flex-col items-center space-y-1 text-blue-600 transition-all touch-effect font-bold";
+            }
+        }
+
+        // Direct Share to WhatsApp
         function shareWhatsApp() {
-            const rawText = generateMessageText();
-            const encodedText = encodeURIComponent(rawText);
+            triggerHaptic();
+            const text = generateMessageText();
+            const encodedText = encodeURIComponent(text);
             const waUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
             window.open(waUrl, '_blank');
         }
 
-        // Copy message to clipboard using document.execCommand fallback
+        // Copy Text Function
         function copyMessage() {
-            const textToCopy = generateMessageText();
+            triggerHaptic();
+            const text = generateMessageText();
             
-            const tempArea = document.createElement('textarea');
-            tempArea.value = textToCopy;
-            document.body.appendChild(tempArea);
-            tempArea.select();
-            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+
             try {
                 document.execCommand('copy');
-                showToast('Pesan berhasil disalin ke clipboard!');
-            } catch (err) {
+                showToast('Pesan laporan disalin ke clipboard!');
+            } catch (e) {
                 showToast('Gagal menyalin pesan.');
-            } font-semibold {
-                document.body.removeChild(tempArea);
+            } finally {
+                document.body.removeChild(tempInput);
             }
         }
 
-        // Toast Notification Function
+        // Toast Notification Display
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
+            const toastMsg = document.getElementById('toastMsg');
             
-            toastMessage.textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
+            toastMsg.textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
 
             setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 2000);
         }
 
-        // Attach Event Listeners
-        depKlmSelect.addEventListener('change', () => handleDropdownChange(depKlmSelect, depKlmCustomContainer));
-        arrKlmSelect.addEventListener('change', () => handleDropdownChange(arrKlmSelect, arrKlmCustomContainer));
+        // Reset All Input Fields
+        function resetAllForms() {
+            triggerHaptic();
+            depKlmSelect.value = 'KLM.BUNGA RIZKA';
+            depKlmCustom.value = '';
+            depCustomBox.classList.add('hidden');
+            depTujuan.value = 'SAMARINDA';
+            depTgl.value = '24-9-2026';
+            depJam.value = '04:00';
+            depCrew.value = '4';
 
+            arrKlmSelect.value = 'KLM.SUMBER REZKY 88';
+            arrKlmCustom.value = '';
+            arrCustomBox.classList.add('hidden');
+            arrAsal.value = 'SAMARINDA';
+            arrTgl.value = '24/9/2026';
+            arrJam.value = '06:00';
+            arrCrew.value = '5';
+
+            setReportType('both');
+            showToast('Form telah direset ke default');
+        }
+
+        // Add Input Listeners
         const allInputs = [depKlmCustom, depTujuan, depTgl, depJam, depCrew, arrKlmCustom, arrAsal, arrTgl, arrJam, arrCrew];
         allInputs.forEach(input => {
-            input.addEventListener('input', updatePreview);
+            input.addEventListener('input', updateLivePreview);
         });
 
-        reportTypeRadios.forEach(radio => {
-            radio.addEventListener('change', updatePreview);
-        });
-
-        // Initialize display on startup
+        // Initialize App on Load
         window.onload = function() {
-            updatePreview();
+            updateClock();
+            setInterval(updateClock, 30000);
+            updateLivePreview();
         };
     </script>
 </body>

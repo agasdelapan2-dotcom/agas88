@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Laporan Kapal WA - Android App</title>
-    <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
+    <!-- Google Fonts Inter / Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -32,12 +31,7 @@
             border-radius: 10px;
         }
 
-        /* Active tab indicator animation */
-        .tab-indicator {
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Ripple effect */
+        /* Touch ripple / Press scale effect */
         .touch-effect:active {
             transform: scale(0.97);
             opacity: 0.9;
@@ -55,6 +49,19 @@
             border-top-left-radius: 0px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
         }
+
+        /* Bottom sheet animation */
+        .modal-sheet-enter {
+            transform: translateY(100%);
+        }
+        .modal-sheet-active {
+            transform: translateY(0%);
+            transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
+        }
+        .modal-sheet-exit {
+            transform: translateY(100%);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 1, 1);
+        }
     </style>
 </head>
 <body class="h-full bg-slate-900 text-slate-800 antialiased flex justify-center items-center sm:py-6">
@@ -62,8 +69,8 @@
     <!-- Mobile App Container (Mimics Phone Viewport on Desktop, Full Screen on Mobile) -->
     <div id="appContainer" class="w-full max-w-md h-full sm:h-[844px] bg-slate-50 sm:rounded-[40px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border-[8px] sm:border-slate-800">
         
-        <!-- Android Top Status Bar Simulator (Hidden on small screen touch) -->
-        <div class="bg-slate-900 text-white text-xs px-6 pt-2 pb-1 flex justify-between items-center z-50 select-none font-medium">
+        <!-- Android Top Status Bar Simulator -->
+        <div class="bg-slate-900 text-white text-xs px-6 pt-2 pb-1 flex justify-between items-center z-40 select-none font-medium">
             <span id="currentTime">09:41</span>
             <div class="flex items-center space-x-2 text-[10px]">
                 <i class="fa-solid fa-signal"></i>
@@ -81,7 +88,7 @@
                 <div>
                     <h1 class="font-bold text-base tracking-tight leading-tight">Laporan Kapal</h1>
                     <p class="text-[11px] text-blue-200 flex items-center gap-1 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WA Generator v2.0
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WA Generator Mobile
                     </p>
                 </div>
             </div>
@@ -99,7 +106,7 @@
             <!-- PAGE 1: FORM INPUT VIEW -->
             <div id="pageForm" class="p-4 space-y-4">
 
-                <!-- Mode Selection Toggle (Segmented Control Android Style) -->
+                <!-- Mode Selection Toggle -->
                 <div class="bg-slate-200/80 p-1 rounded-xl flex text-xs font-semibold text-slate-600 shadow-inner">
                     <button type="button" onclick="setReportType('both')" id="btnTypeBoth" class="flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 bg-white text-blue-700 shadow-sm">
                         <i class="fa-solid fa-layer-group"></i> Semuanya
@@ -155,7 +162,7 @@
                         </div>
                     </div>
 
-                    <!-- Input Tujuan & Tanggal Berangkat -->
+                    <!-- Input Tujuan & Tanggal Berangkat dengan Modal Trigger -->
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TUJUAN</label>
@@ -166,9 +173,11 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">BRKT. TGL</label>
-                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
-                                <i class="fa-solid fa-calendar-days absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                                <input type="text" id="depTgl" value="24-9-2026" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            <!-- Clickable Date Input Field Opening Modal -->
+                            <div onclick="openDateModal('dep')" class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50 cursor-pointer hover:border-blue-500 transition-all active:bg-blue-50/50 touch-effect">
+                                <i class="fa-solid fa-calendar-days absolute left-3 top-2.5 text-blue-600 text-xs"></i>
+                                <input type="text" id="depTgl" value="24-9-2026" readonly class="w-full pl-8 pr-6 py-2 text-xs font-bold text-slate-800 bg-transparent cursor-pointer focus:outline-none select-none">
+                                <i class="fa-solid fa-pen-to-square absolute right-2.5 top-2.5 text-slate-400 text-[10px]"></i>
                             </div>
                         </div>
                     </div>
@@ -235,7 +244,7 @@
                         </div>
                     </div>
 
-                    <!-- Input Asal & Tanggal Tiba -->
+                    <!-- Input Asal & Tanggal Tiba dengan Modal Trigger -->
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ASAL</label>
@@ -246,9 +255,11 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TIBA. TGL</label>
-                            <div class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50">
-                                <i class="fa-solid fa-calendar-check absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                                <input type="text" id="arrTgl" value="24/9/2026" class="w-full pl-8 pr-2.5 py-2 text-xs font-semibold text-slate-800 bg-transparent focus:outline-none">
+                            <!-- Clickable Date Input Field Opening Modal -->
+                            <div onclick="openDateModal('arr')" class="relative mobile-input rounded-xl border border-slate-300 bg-slate-50/50 cursor-pointer hover:border-emerald-500 transition-all active:bg-emerald-50/50 touch-effect">
+                                <i class="fa-solid fa-calendar-check absolute left-3 top-2.5 text-emerald-600 text-xs"></i>
+                                <input type="text" id="arrTgl" value="24/9/2026" readonly class="w-full pl-8 pr-6 py-2 text-xs font-bold text-slate-800 bg-transparent cursor-pointer focus:outline-none select-none">
+                                <i class="fa-solid fa-pen-to-square absolute right-2.5 top-2.5 text-slate-400 text-[10px]"></i>
                             </div>
                         </div>
                     </div>
@@ -280,8 +291,8 @@
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-brands fa-whatsapp text-2xl text-emerald-600"></i>
                         <div>
-                            <h3 class="font-bold text-xs text-slate-800">Tampilan Pesan WA</h3>
-                            <p class="text-[10px] text-slate-500">Persis dengan format pesan yang akan dikirim</p>
+                            <h3 class="font-bold text-xs text-slate-800">Pratinjau Pesan WA</h3>
+                            <p class="text-[10px] text-slate-500">Format teks siap dikirimkan ke grup WhatsApp</p>
                         </div>
                     </div>
                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full flex items-center gap-1">
@@ -298,7 +309,7 @@
                     </div>
 
                     <!-- WhatsApp Message Bubble -->
-                    <div class="wa-bubble p-3 rounded-lg max-w-[92%] my-2 self-start shadow-sm border border-slate-200">
+                    <div class="wa-bubble p-3 rounded-lg max-w-[95%] my-2 self-start shadow-sm border border-slate-200">
                         <div id="previewText" class="font-mono text-xs text-slate-900 leading-snug whitespace-pre select-all">
                             <!-- Text Injected Here -->
                         </div>
@@ -309,7 +320,7 @@
                     </div>
 
                     <div class="text-[10px] text-center text-slate-500 bg-white/60 backdrop-blur-sm py-1 px-2 rounded-lg">
-                        <i class="fa-solid fa-shield-halved text-emerald-600"></i> Siap dikirimkan ke grup/kontak WhatsApp
+                        <i class="fa-solid fa-shield-halved text-emerald-600"></i> Siap dikirimkan langsung tanpa error
                     </div>
                 </div>
             </div>
@@ -322,20 +333,20 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-slate-800 text-base">Laporan Kapal Mobile</h3>
-                        <p class="text-xs text-slate-500 mt-1">Aplikasi Praktis Output Share WhatsApp Pelabuhan / Logistik KLM</p>
+                        <p class="text-xs text-slate-500 mt-1">Aplikasi Output Share Pesan WhatsApp Pelabuhan KLM</p>
                     </div>
                     <div class="border-t border-slate-100 pt-3 text-left space-y-2 text-xs text-slate-600">
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span class="text-slate-400">Versi</span>
-                            <span class="font-semibold text-slate-700">2.0 Mobile Edition</span>
+                            <span class="text-slate-400">Versi App</span>
+                            <span class="font-semibold text-slate-700">2.1 Native Datepicker</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span class="text-slate-400">Dukungan Dropdown</span>
+                            <span class="text-slate-400">Pilihan Kapal</span>
                             <span class="font-semibold text-emerald-600">16 Kapal KLM + Custom</span>
                         </div>
                         <div class="flex justify-between py-1">
-                            <span class="text-slate-400">Target Platform</span>
-                            <span class="font-semibold text-blue-600">WhatsApp Android & iOS</span>
+                            <span class="text-slate-400">Fitur Modal Tanggal</span>
+                            <span class="font-semibold text-blue-600">Preset + Pick Kalender</span>
                         </div>
                     </div>
                 </div>
@@ -343,10 +354,79 @@
 
         </main>
 
-        <!-- Floating Main Action Buttons Bar (Always Visible Above Nav Bar) -->
+        <!-- CUSTOM DATE PICKER MODAL (ANDROID BOTTOM SHEET STYLE) -->
+        <div id="dateModalBackdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs z-50 transition-opacity duration-200 opacity-0 pointer-events-none flex flex-col justify-end">
+            <!-- Modal Card Sheet -->
+            <div id="dateModalSheet" class="bg-white rounded-t-3xl p-5 shadow-2xl space-y-4 transform translate-y-full transition-transform duration-250 ease-out border-t border-slate-100">
+                
+                <!-- Modal Top Header & Handle bar -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-1 bg-slate-300 rounded-full mb-3"></div>
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-calendar-day text-blue-600 text-base"></i>
+                            <h3 id="dateModalTitle" class="font-bold text-slate-800 text-sm">Pilih Tanggal Keberangkatan</h3>
+                        </div>
+                        <button onclick="closeDateModal()" class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 active:scale-95 transition-all">
+                            <i class="fa-solid fa-xmark text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fast Preset Buttons -->
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Pilihan Cepat (Preset)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="applyDatePreset('today')" class="py-2.5 px-3 bg-blue-50 text-blue-700 hover:bg-blue-100 active:scale-95 font-semibold text-xs rounded-xl flex flex-col items-center justify-center gap-0.5 border border-blue-200/60 touch-effect">
+                            <span>Hari Ini</span>
+                            <span id="presetTodayText" class="text-[9px] opacity-75 font-normal">24/09</span>
+                        </button>
+                        <button onclick="applyDatePreset('tomorrow')" class="py-2.5 px-3 bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95 font-semibold text-xs rounded-xl flex flex-col items-center justify-center gap-0.5 border border-slate-200 touch-effect">
+                            <span>Besok</span>
+                            <span id="presetTomorrowText" class="text-[9px] opacity-75 font-normal">25/09</span>
+                        </button>
+                        <button onclick="applyDatePreset('next')" class="py-2.5 px-3 bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95 font-semibold text-xs rounded-xl flex flex-col items-center justify-center gap-0.5 border border-slate-200 touch-effect">
+                            <span>Lusa</span>
+                            <span id="presetNextText" class="text-[9px] opacity-75 font-normal">26/09</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calendar Picker Input Section -->
+                <div class="space-y-1.5 pt-1">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pilih dari Kalender</label>
+                    <div class="relative flex items-center border border-slate-300 rounded-xl p-2.5 bg-slate-50 focus-within:border-blue-500">
+                        <i class="fa-regular fa-calendar text-slate-400 text-sm mr-2.5"></i>
+                        <input type="date" id="calendarPicker" onchange="onCalendarChange(this.value)" class="w-full bg-transparent text-xs font-bold text-slate-800 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Custom Input Format -->
+                <div class="space-y-1.5">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atau Ketik Format Bebas</label>
+                    <div class="relative flex items-center border border-slate-300 rounded-xl p-2.5 bg-slate-50 focus-within:border-blue-500">
+                        <i class="fa-solid fa-pen-line text-slate-400 text-xs mr-2.5"></i>
+                        <input type="text" id="modalCustomDate" placeholder="Contoh: 24-9-2026 atau 24/9/2026" class="w-full bg-transparent text-xs font-bold text-slate-800 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Modal Action Buttons -->
+                <div class="pt-2 grid grid-cols-2 gap-2">
+                    <button onclick="closeDateModal()" class="py-3 bg-slate-100 text-slate-600 font-bold text-xs rounded-xl hover:bg-slate-200 active:scale-95 transition-all">
+                        Batal
+                    </button>
+                    <button onclick="saveModalDate()" class="py-3 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 active:scale-95 shadow-md shadow-blue-500/30 transition-all">
+                        Terapkan Tanggal
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Floating Main Action Buttons Bar -->
         <div class="absolute bottom-[68px] left-0 right-0 p-3 bg-gradient-to-t from-slate-100 via-slate-100/90 to-transparent z-30 space-y-2">
             <div class="grid grid-cols-5 gap-2">
-                <!-- Main WhatsApp Share Button (Primary Big Action) -->
+                <!-- Main WhatsApp Share Button -->
                 <button onclick="shareWhatsApp()" class="col-span-3 py-3 px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-[0.98] text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 text-xs transition-all touch-effect">
                     <i class="fa-brands fa-whatsapp text-lg"></i>
                     <span>Kirim ke WhatsApp</span>
@@ -385,8 +465,9 @@
     </div>
 
     <script>
-        // State variables
+        // Global App State
         let currentReportType = 'both'; // 'both', 'departure', 'arrival'
+        let activeDateTarget = 'dep'; // 'dep' or 'arr'
 
         // Elements
         const depKlmSelect = document.getElementById('depKlmSelect');
@@ -409,14 +490,21 @@
         const cardArrival = document.getElementById('cardArrival');
         const previewText = document.getElementById('previewText');
 
-        // Haptic feedback simulation for mobile touch
+        // Modal Elements
+        const dateModalBackdrop = document.getElementById('dateModalBackdrop');
+        const dateModalSheet = document.getElementById('dateModalSheet');
+        const dateModalTitle = document.getElementById('dateModalTitle');
+        const calendarPicker = document.getElementById('calendarPicker');
+        const modalCustomDate = document.getElementById('modalCustomDate');
+
+        // Haptic feedback for touchscreen devices
         function triggerHaptic() {
             if (navigator.vibrate) {
                 navigator.vibrate(15);
             }
         }
 
-        // Clock display update
+        // Live status bar clock updater
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -465,6 +553,104 @@ Crew : ${arrCrew.value.trim()}`;
             return '';
         }
 
+        // DATE PICKER MODAL LOGIC
+        function openDateModal(target) {
+            triggerHaptic();
+            activeDateTarget = target;
+            
+            // Set modal title depending on target
+            if (target === 'dep') {
+                dateModalTitle.textContent = 'Pilih Tanggal Keberangkatan';
+                modalCustomDate.value = depTgl.value;
+            } else {
+                dateModalTitle.textContent = 'Pilih Tanggal Kedatangan';
+                modalCustomDate.value = arrTgl.value;
+            }
+
+            // Update preset subtext dates
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1);
+            const nextDay = new Date(now);
+            nextDay.setDate(now.getDate() + 2);
+
+            const delim = (target === 'dep') ? '-' : '/';
+            document.getElementById('presetTodayText').textContent = `${now.getDate()}${delim}${now.getMonth()+1}`;
+            document.getElementById('presetTomorrowText').textContent = `${tomorrow.getDate()}${delim}${tomorrow.getMonth()+1}`;
+            document.getElementById('presetNextText').textContent = `${nextDay.getDate()}${delim}${nextDay.getMonth()+1}`;
+
+            // Reset calendar picker input value to today ISO
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            calendarPicker.value = `${yyyy}-${mm}-${dd}`;
+
+            // Show Backdrop and Slide Up Sheet
+            dateModalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            dateModalBackdrop.classList.add('opacity-100');
+            dateModalSheet.classList.remove('translate-y-full');
+            dateModalSheet.classList.add('translate-y-0');
+        }
+
+        function closeDateModal() {
+            triggerHaptic();
+            dateModalSheet.classList.remove('translate-y-0');
+            dateModalSheet.classList.add('translate-y-full');
+            dateModalBackdrop.classList.remove('opacity-100');
+            dateModalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Apply Preset Date Click (Hari ini, Besok, Lusa)
+        function applyDatePreset(type) {
+            triggerHaptic();
+            const d = new Date();
+            if (type === 'tomorrow') d.setDate(d.getDate() + 1);
+            if (type === 'next') d.setDate(d.getDate() + 2);
+
+            const day = d.getDate();
+            const month = d.getMonth() + 1;
+            const year = d.getFullYear();
+
+            // Format based on standard target: Dep uses '-' and Arr uses '/'
+            const delimiter = (activeDateTarget === 'dep') ? '-' : '/';
+            const formattedDate = `${day}${delimiter}${month}${delimiter}${year}`;
+
+            modalCustomDate.value = formattedDate;
+            saveModalDate();
+        }
+
+        // Calendar input selection handler
+        function onCalendarChange(val) {
+            if (!val) return;
+            const parts = val.split('-'); // YYYY-MM-DD
+            if (parts.length === 3) {
+                const day = parseInt(parts[2], 10);
+                const month = parseInt(parts[1], 10);
+                const year = parts[0];
+                const delimiter = (activeDateTarget === 'dep') ? '-' : '/';
+                modalCustomDate.value = `${day}${delimiter}${month}${delimiter}${year}`;
+            }
+        }
+
+        // Save selected date to active input field
+        function saveModalDate() {
+            const finalVal = modalCustomDate.value.trim();
+            if (!finalVal) {
+                showToast('Masukkan tanggal terlebih dahulu!');
+                return;
+            }
+
+            if (activeDateTarget === 'dep') {
+                depTgl.value = finalVal;
+            } else {
+                arrTgl.value = finalVal;
+            }
+
+            updateLivePreview();
+            closeDateModal();
+            showToast('Tanggal diperbarui!');
+        }
+
         // Toggle Ship Custom Input Visibility
         function handleShipSelect(type) {
             triggerHaptic();
@@ -486,7 +672,7 @@ Crew : ${arrCrew.value.trim()}`;
             updateLivePreview();
         }
 
-        // Mode Type Switcher
+        // Mode Type Switcher (Both, Departure, Arrival)
         function setReportType(type) {
             triggerHaptic();
             currentReportType = type;
@@ -495,7 +681,6 @@ Crew : ${arrCrew.value.trim()}`;
             const btnDep = document.getElementById('btnTypeDep');
             const btnArr = document.getElementById('btnTypeArr');
 
-            // Reset active tab classes
             [btnBoth, btnDep, btnArr].forEach(btn => {
                 btn.className = "flex-1 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 text-slate-600";
             });
@@ -517,12 +702,12 @@ Crew : ${arrCrew.value.trim()}`;
             updateLivePreview();
         }
 
-        // Update Live Output
+        // Update Live WhatsApp Output
         function updateLivePreview() {
             previewText.textContent = generateMessageText();
         }
 
-        // Bottom Navigation Page Switcher
+        // Bottom Navigation Switcher
         function switchPage(page) {
             triggerHaptic();
             const pageForm = document.getElementById('pageForm');
@@ -533,12 +718,10 @@ Crew : ${arrCrew.value.trim()}`;
             const navPreview = document.getElementById('navPreview');
             const navInfo = document.getElementById('navInfo');
 
-            // Hide all pages
             pageForm.classList.add('hidden');
             pagePreview.classList.add('hidden');
             pageInfo.classList.add('hidden');
 
-            // Reset nav colors
             [navForm, navPreview, navInfo].forEach(nav => {
                 nav.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition-all touch-effect";
             });
@@ -564,7 +747,7 @@ Crew : ${arrCrew.value.trim()}`;
             window.open(waUrl, '_blank');
         }
 
-        // Copy Text Function
+        // Copy Message to Clipboard
         function copyMessage() {
             triggerHaptic();
             const text = generateMessageText();
@@ -584,7 +767,7 @@ Crew : ${arrCrew.value.trim()}`;
             }
         }
 
-        // Toast Notification Display
+        // Show Android Toast Notification
         function showToast(msg) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
@@ -599,7 +782,7 @@ Crew : ${arrCrew.value.trim()}`;
             }, 2000);
         }
 
-        // Reset All Input Fields
+        // Reset All Form Fields
         function resetAllForms() {
             triggerHaptic();
             depKlmSelect.value = 'KLM.BUNGA RIZKA';
@@ -619,16 +802,23 @@ Crew : ${arrCrew.value.trim()}`;
             arrCrew.value = '5';
 
             setReportType('both');
-            showToast('Form telah direset ke default');
+            showToast('Form telah direset');
         }
 
-        // Add Input Listeners
-        const allInputs = [depKlmCustom, depTujuan, depTgl, depJam, depCrew, arrKlmCustom, arrAsal, arrTgl, arrJam, arrCrew];
+        // Add Listeners
+        const allInputs = [depKlmCustom, depTujuan, depJam, depCrew, arrKlmCustom, arrAsal, arrJam, arrCrew];
         allInputs.forEach(input => {
             input.addEventListener('input', updateLivePreview);
         });
 
-        // Initialize App on Load
+        // Close date modal when clicking backdrop
+        dateModalBackdrop.addEventListener('click', function(e) {
+            if (e.target === dateModalBackdrop) {
+                closeDateModal();
+            }
+        });
+
+        // Initialize App
         window.onload = function() {
             updateClock();
             setInterval(updateClock, 30000);

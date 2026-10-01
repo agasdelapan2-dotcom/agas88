@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
+    <!-- Favicon & App Icon untuk Google Search & Browser -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
+     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
+     <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
+     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-12">
+
+  <!-- Header -->
+  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-blue-600 rounded-xl text-white shadow-md shadow-blue-500/20">
+          <i class="fa-solid fa-ship text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-wide">PT.AGAS88</h1>
+          <p class="text-xs text-blue-400 font-medium flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Monitoring Dokumen Kapal Siap
+          </p>
+        </div>
+      </div>
+      
+      <!-- Input Nomor WhatsApp Tujuan -->
+      <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl border border-slate-700/80">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-lg pl-2"></i>
+        <input 
+          type="tel" 
+          id="targetPhone" 
+          placeholder="No. WA Tujuan (Contoh: 081234567890)" 
+          class="bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none w-full md:w-64 px-1"
+        >
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    
+    <!-- Statistik Quick View -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Total Kapal Ready</p>
+          <p class="text-2xl font-bold text-white mt-1" id="statTotal">16</p>
+        </div>
+        <div class="p-3 bg-blue-500/10 text-blue-400 rounded-lg">
+          <i class="fa-solid fa-anchor text-xl"></i>
+        </div>
+      </div>
+      
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Memiliki Call Sign</p>
+          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statCallSign">10</p>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+          <i class="fa-solid fa-walkie-talkie text-xl"></i>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Kapal Dipilih</p>
+          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statSelectedCount">0</p>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+          <i class="fa-solid fa-square-check text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar & Action Button -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 mb-6 shadow-md">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+        
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Cari Nama Kapal, GT, atau Call Sign..." 
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+          >
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+          <button 
+            onclick="shareSelectedWhatsApp()" 
+            id="btnShareSelected"
+            class="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm px-4 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+          >
+            <i class="fa-brands fa-whatsapp text-base"></i>
+            <span id="btnShareText">Kirim Kapal Terpilih (0)</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Container Data (Tabel Desktop & Kartu Mobile) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden">
+      
+      <!-- Table View (Desktop) -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-900/60 border-b border-slate-700 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+              <th class="py-3.5 px-4 text-center w-10">
+                <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+              </th>
+              <th class="py-3.5 px-3 text-center w-12">No</th>
+              <th class="py-3.5 px-6">Nama Kapal</th>
+              <th class="py-3.5 px-6">Nomor GT</th>
+              <th class="py-3.5 px-6">Call Sign</th>
+              <th class="py-3.5 px-6 text-center">Status</th>
+              <th class="py-3.5 px-6 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="shipTableBody" class="divide-y divide-slate-700/60 text-sm text-slate-200">
+            <!-- Render via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Card View (Mobile) -->
+      <div class="md:hidden p-3 bg-slate-900/40 border-b border-slate-700/80 flex items-center justify-between">
+        <label class="inline-flex items-center gap-2 text-xs font-medium text-slate-300 cursor-pointer">
+          <input type="checkbox" id="selectAllMobile" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700">
+          Pilih Semua Kapal
+        </label>
+      </div>
+      <div id="shipCardContainer" class="md:hidden p-4 space-y-3">
+        <!-- Render via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden py-12 text-center text-slate-400">
+        <i class="fa-solid fa-ship text-4xl text-slate-600 mb-3"></i>
+        <p class="text-base font-medium">Kapal tidak ditemukan</p>
+        <p class="text-xs text-slate-500">Coba gunakan kata kunci pencarian yang lain.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white text-xs font-medium px-4 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">Pesan terkirim ke WhatsApp</span>
+  </div>
+
+  <script>
+    // Data Sumber Dokumen Ready
+    const shipData = [
+      { id: 1, nama: "KLM. SUMBER RIZKY", gt: "GT.68/21", callSign: "YC8032" },
+      { id: 2, nama: "KLM. SUMBER RIZKY 02", gt: "GT.68/21", callSign: "YC8033" },
+      { id: 3, nama: "KLM. SUMBER REZKY A", gt: "GT.83/25", callSign: "YC8040" },
+      { id: 4, nama: "KLM. ADI RAHMATULLAH PUTRA", gt: "GT.93 No.199/LLy", callSign: "YC8042" },
+      { id: 5, nama: "KLM. SUMBER REZKY B", gt: "GT.96/29", callSign: "-" },
+      { id: 6, nama: "KLM. QUDRAT ILAHI", gt: "GT.40/12", callSign: "YC7521" },
+      { id: 7, nama: "KLM. FIRDAH JAYA 03", gt: "GT.30/9", callSign: "YB7293" },
+      { id: 8, nama: "KLM. SYUKRAN 3", gt: "GT.30/9", callSign: "-" },
+      { id: 9, nama: "KLM. SYUKRAN 03", gt: "GT.32/10", callSign: "YB7291" },
+      { id: 10, nama: "KLM. BUNGA RIZKA", gt: "GT.70", callSign: "YC8036" },
+      { id: 11, nama: "KLM. SURYA UTAMA 77", gt: "GT.29/9.", callSign: "YB8202" },
+      { id: 12, nama: "KLM. MARHABAN 02", gt: "GT.40/12", callSign: "YC8033" },
+      { id: 13, nama: "KLM. BERKAT SABAR 05", gt: "GT.40/12", callSign: "-" },
+      { id: 14, nama: "KLM. BERKAH ILAHI 99", gt: "GT/NT. 32/10", callSign: "-" },
+      { id: 15, nama: "KLM. SUMBER REZKY 88", gt: "GT.99 No.240/LLy", callSign: "-" },
+      { id: 16, nama: "KLM. ANUGERAH REZKY PUTRA", gt: "GT.97 No.241/LLy", callSign: "-" }
+    ];
+
+    let filteredData = [...shipData];
+    let selectedShipIds = new Set();
+
+    // Helper Format Phone Number
+    function getFormattedPhone() {
+      const input = document.getElementById('targetPhone').value.trim();
+      if (!input) return '';
+      let clean = input.replace(/[^0-9]/g, '');
+      if (clean.startsWith('0')) {
+        clean = '62' + clean.slice(1);
+      }
+      return clean;
+    }
+
+    // Toggle Single Checkbox
+    function toggleSelectShip(id) {
+      if (selectedShipIds.has(id)) {
+        selectedShipIds.delete(id);
+      } else {
+        selectedShipIds.add(id);
+      }
+      updateUISelectionState();
+    }
+
+    // Toggle Select All
+    function toggleSelectAll(masterCheckbox) {
+      const isChecked = masterCheckbox.checked;
+      document.getElementById('selectAll').checked = isChecked;
+      document.getElementById('selectAllMobile').checked = isChecked;
+
+      filteredData.forEach(ship => {
+        if (isChecked) {
+          selectedShipIds.add(ship.id);
+        } else {
+          selectedShipIds.delete(ship.id);
+        }
+      });
+      renderTable();
+    }
+
+    // Update UI Stats & Counter
+    function updateUISelectionState() {
+      const count = selectedShipIds.size;
+      document.getElementById('statSelectedCount').innerText = count;
+      document.getElementById('btnShareText').innerText = `Kirim Kapal Terpilih (${count})`;
+      
+      const selectAllDesktop = document.getElementById('selectAll');
+      const selectAllMobile = document.getElementById('selectAllMobile');
+      const allFilteredSelected = filteredData.length > 0 && filteredData.every(s => selectedShipIds.has(s.id));
+      
+      if (selectAllDesktop) selectAllDesktop.checked = allFilteredSelected;
+      if (selectAllMobile) selectAllMobile.checked = allFilteredSelected;
+    }
+
+    // Render Table & Cards
+    function renderTable() {
+      const tbody = document.getElementById('shipTableBody');
+      const cards = document.getElementById('shipCardContainer');
+      const emptyState = document.getElementById('emptyState');
+
+      tbody.innerHTML = '';
+      cards.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        emptyState.classList.remove('hidden');
+        updateUISelectionState();
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      filteredData.forEach((ship, index) => {
+        const isChecked = selectedShipIds.has(ship.id);
+
+        // Render Table Row (Desktop)
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-700/40 transition-colors ${isChecked ? 'bg-slate-700/30' : ''}`;
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 text-center">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+          </td>
+          <td class="py-3.5 px-3 text-center font-medium text-slate-400">${index + 1}</td>
+          <td class="py-3.5 px-6 font-semibold text-white">${ship.nama}</td>
+          <td class="py-3.5 px-6 text-slate-300">${ship.gt}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.callSign !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded">${ship.callSign}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 text-center">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>
+              Ready
+            </span>
+          </td>
+          <td class="py-3.5 px-6 text-center">
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.gt}', '${ship.callSign}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
+              <i class="fa-brands fa-whatsapp"></i>
+              Kirim
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+
+        // Render Card (Mobile)
+        const card = document.createElement('div');
+        card.className = `bg-slate-900/60 border ${isChecked ? 'border-emerald-500/60 bg-slate-800/80' : 'border-slate-700/70'} p-4 rounded-xl space-y-3 transition-colors`;
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+              <h3 class="font-bold text-white text-base">${ship.nama}</h3>
+            </div>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+              Ready
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
+            <div>
+              <span class="text-slate-500 block text-[10px]">NOMOR GT</span>
+              <span class="font-medium">${ship.gt}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[10px]">CALL SIGN</span>
+              <span class="font-mono">${ship.callSign}</span>
+            </div>
+          </div>
+          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.gt}', '${ship.callSign}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            Kirim Detail via WhatsApp
+          </button>
+        `;
+        cards.appendChild(card);
+      });
+
+      updateUISelectionState();
+    }
+
+    // Filter Logic
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const keyword = e.target.value.toLowerCase();
+      filteredData = shipData.filter(ship => 
+        ship.nama.toLowerCase().includes(keyword) ||
+        ship.gt.toLowerCase().includes(keyword) ||
+        ship.callSign.toLowerCase().includes(keyword)
+      );
+      renderTable();
+    });
+
+    // Share Single Ship WhatsApp
+    function shareSingleWhatsApp(nama, gt, callSign) {
+      const phone = getFormattedPhone();
+      
+      const message = `📢 *INFORMASI DOKUMEN KAPAL*
+
+Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari ini.
+
+-----------------------------------
+🚢 *Nama Kapal:* ${nama}
+⚓ *Nomor GT:* ${gt}
+📻 *Call Sign:* ${callSign}
+-----------------------------------
+Status: *DOKUMEN READY HARI INI*
+
+Saat ini tinggal menunggu penyesuaian data muatan kapal agar seluruh dokumen dan informasi muatan dapat disesuaikan dengan kondisi terbaru.
+
+Mohon kepada pihak terkait untuk melakukan pengecekan dan konfirmasi apabila terdapat perubahan atau penyesuaian muatan.
+
+Terima kasih atas perhatian dan kerja samanya. 🙏
+
+*PT.AGAS88*
+_Layanan Keagenan Pelayaran Laut Nasional_`;
+
+      const encodedText = encodeURIComponent(message);
+      const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
+      
+      window.open(waUrl, '_blank');
+      showToast(phone ? `Mengirim ke ${phone}...` : 'Membuka WhatsApp...');
+    }
+
+    // Share Selected Ships WhatsApp
+    function shareSelectedWhatsApp() {
+      let targetShips = shipData.filter(ship => selectedShipIds.has(ship.id));
+      
+      if (targetShips.length === 0) {
+        targetShips = [...filteredData];
+        if (targetShips.length === 0) return;
+      }
+
+      const phone = getFormattedPhone();
+
+      let message = `*INFORMASI DOKUMEN KAPAL*\n\n`;
+      message += `Berikut dokumen kapal yang sudah siap hari ini.\n\n`;
+      message += `---------------------------------\n`;
+
+      targetShips.forEach((ship, i) => {
+        message += `${i + 1}.*${ship.nama}*\n`;
+      });
+
+      message += `---------------------------------\n`;
+      message += `Total: *${targetShips.length} Kapal Ready*\n\n`;
+      message += `Tinggal menunggu penyesuaian muatan,Mohon dicek dan dikonfirmasi apabila terdapat perubahan muatan.\n\n`;
+      message += `Terima kasih atas perhatian dan kerja samanya.\n\n`;
+      message += `*PT.AGAS88*\n`;
+      message += `_Layanan Keagenan Pelayaran Laut Nasional_`;
+
+      const encodedText = encodeURIComponent(message);
+      const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
+
+      window.open(waUrl, '_blank');
+      showToast(phone ? `Mengirim ${targetShips.length} kapal ke ${phone}...` : 'Membuka WhatsApp...');
+    }
+
+    // Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 3000);
+    }
+
+    // Initial Render
+    renderTable();
+  </script>
+</body>
+</html>

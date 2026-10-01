@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
-    <!-- Favicon & App Icon untuk Google Search & Browser -->
+  <!-- Favicon & App Icon untuk Google Search & Browser -->
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
@@ -207,6 +207,18 @@
       return clean;
     }
 
+    // Helper Tanggal dan Waktu Real-Time
+    function getDateTimeString() {
+      const now = new Date();
+      const optionsDate = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggal = now.toLocaleDateString('id-ID', optionsDate);
+      
+      const jam = String(now.getHours()).padStart(2, '0');
+      const menit = String(now.getMinutes()).padStart(2, '0');
+      
+      return `${tanggal} - Pukul ${jam}:${menit}`;
+    }
+
     // Toggle Single Checkbox
     function toggleSelectShip(id) {
       if (selectedShipIds.has(id)) {
@@ -340,8 +352,10 @@
     // Share Single Ship WhatsApp
     function shareSingleWhatsApp(nama, gt, callSign) {
       const phone = getFormattedPhone();
+      const wkt = getDateTimeString();
       
       const message = `📢 *INFORMASI DOKUMEN KAPAL*
+📅 _${wkt}_
 
 Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari ini.
 
@@ -378,21 +392,23 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
       }
 
       const phone = getFormattedPhone();
+      const wkt = getDateTimeString();
 
-      let message = `*INFORMASI DOKUMEN KAPAL*\n\n`;
-      message += `Berikut dokumen kapal yang sudah siap hari ini.\n\n`;
-      message += `---------------------------------\n`;
+      let message = `*INFORMASI DOKUMEN KAPAL*\n`;
+      message += `_${wkt}_\n\n`;
+      message += `Berikut dokumen kapal yang sudah siap hari ini:\n`;
+      message += `--------------------------------\n`;
 
       targetShips.forEach((ship, i) => {
         message += `${i + 1}.*${ship.nama}*\n`;
       });
 
-      message += `---------------------------------\n`;
-      message += `Total: *${targetShips.length} Kapal Ready*\n\n`;
-      message += `Tinggal menunggu penyesuaian muatan,Mohon dicek dan dikonfirmasi apabila terdapat perubahan muatan.\n\n`;
+      message += `--------------------------------\n`;
+      message += `Total: *${targetShips.length} Dokumen Ready*\n\n`;
+      message += `_Saat ini tinggal menunggu penyesuaian muatan,Mohon dicek dan dikonfirmasi apabila terdapat perubahan muatan._\n\n`;
       message += `Terima kasih atas perhatian dan kerja samanya.\n\n`;
       message += `*PT.AGAS88*\n`;
-      message += `_Layanan Keagenan Pelayaran Laut Nasional_`;
+      message += `www.agas88.com`;
 
       const encodedText = encodeURIComponent(message);
       const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;

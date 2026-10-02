@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+   <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
@@ -52,6 +52,51 @@
       </div>
     </div>
   </header>
+<style>
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
+</style>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
     
@@ -69,7 +114,7 @@
       
       <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Sayuran/Tumbuhan)</p>
+          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Tumbuhan)</p>
           <p class="text-2xl font-bold text-emerald-400 mt-1" id="statHasCargo">0</p>
         </div>
         <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
@@ -104,29 +149,16 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex items-center gap-2 w-full md:w-auto justify-end flex-wrap">
-          <!-- Tombol Update Data (Google Sheets) -->
-          <a 
-            href="https://docs.google.com/spreadsheets/d/1ePG9CKHr0hC0c3-CDs6f_NkS_6bn8thkykuanBkgAJM/edit?usp=sharing" 
-            target="_blank" 
-            class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5 font-medium shadow-md shadow-blue-600/20"
-            title="Buka Google Sheets untuk Mengubah Data"
-          >
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>Update Data</span>
-          </a>
-
-          <!-- Tombol Sync Data -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
           <button 
             onclick="fetchDataFromGoogleSheets()" 
-            class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5"
+            class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm px-3 py-2.5 rounded-lg transition-colors flex items-center gap-1.5"
             title="Refresh Data dari Google Sheets"
           >
             <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i>
             <span>Sync Data</span>
           </button>
           
-          <!-- Tombol Kirim WA -->
           <button 
             onclick="shareSelectedWhatsApp()" 
             id="btnShareSelected"
@@ -154,7 +186,6 @@
               <th class="py-3.5 px-3 text-center w-12">No</th>
               <th class="py-3.5 px-6">Nama Kapal</th>
               <th class="py-3.5 px-6">Ikan</th>
-              <th class="py-3.5 px-6">Sayuran</th>
               <th class="py-3.5 px-6">Tumbuhan</th>
               <th class="py-3.5 px-6 text-center">Status</th>
               <th class="py-3.5 px-6 text-center">Aksi</th>
@@ -187,84 +218,6 @@
 
   </main>
 
-  <!-- MODAL RINCIAN KAPAL -->
-  <div id="detailModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl transform scale-95 transition-transform duration-300" id="detailModalCard">
-      
-      <!-- Modal Header -->
-      <div class="flex items-start justify-between pb-4 border-b border-slate-700/80">
-        <div class="flex items-center gap-3">
-          <div class="p-2.5 bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-xl">
-            <i class="fa-solid fa-ship text-xl"></i>
-          </div>
-          <div>
-            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Rincian Dokumen Kapal</span>
-            <h3 class="text-lg font-bold text-white leading-tight mt-0.5" id="modalShipName">KLM. SUMBER RIZKY</h3>
-          </div>
-        </div>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700/50 transition-colors">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <!-- Opsi Checkbox Pilihan -->
-      <div class="my-4 bg-slate-900/60 border border-slate-700/60 p-3 rounded-xl flex items-center justify-between">
-        <span class="text-xs text-slate-300 font-medium">Pilih / Centang Kapal Ini:</span>
-        <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
-          <input type="checkbox" id="modalCheckbox" onchange="onModalCheckboxChange()" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
-          <span class="text-xs font-semibold text-emerald-400" id="modalCheckboxLabel">Terpilih</span>
-        </label>
-      </div>
-
-      <!-- Detail Grid Muatan -->
-      <div class="space-y-2.5 my-4">
-        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🐟</span>
-            <span class="text-xs font-medium text-slate-300">Muatan Ikan</span>
-          </div>
-          <span class="font-mono font-bold text-blue-400 text-sm" id="modalIkan">4.000</span>
-        </div>
-
-        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🥬</span>
-            <span class="text-xs font-medium text-slate-300">Muatan Sayuran</span>
-          </div>
-          <span class="font-mono font-bold text-amber-400 text-sm" id="modalSayuran">2.000</span>
-        </div>
-
-        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🌱</span>
-            <span class="text-xs font-medium text-slate-300">Muatan Tumbuhan</span>
-          </div>
-          <span class="font-mono font-bold text-emerald-400 text-sm" id="modalTumbuhan">7.000</span>
-        </div>
-
-        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
-            <span class="text-xs font-medium text-slate-300">Status Dokumen</span>
-          </div>
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">READY HARI INI</span>
-        </div>
-      </div>
-
-      <!-- Modal Footer Action -->
-      <div class="pt-4 border-t border-slate-700/80 flex gap-2">
-        <button onclick="shareFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
-          <i class="fa-brands fa-whatsapp text-sm"></i>
-          Kirim WA Kapal Ini
-        </button>
-        <button onclick="closeModal()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium text-xs px-4 py-2.5 rounded-xl transition-colors">
-          Tutup
-        </button>
-      </div>
-
-    </div>
-  </div>
-
   <!-- Notification Toast -->
   <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white text-xs font-medium px-4 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
     <i class="fa-solid fa-circle-check"></i>
@@ -272,13 +225,12 @@
   </div>
 
   <script>
-    // URL Ekspor CSV Live dari Google Sheets
+    // URL Ekspor CSV Live dari Google Sheets Publik Anda
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pub?gid=0&single=true&output=csv";
 
     let shipData = [];
     let filteredData = [];
     let selectedShipIds = new Set();
-    let currentModalShip = null;
 
     // Fungsi Mengambil Data Otomatis dari Google Sheets
     async function fetchDataFromGoogleSheets() {
@@ -305,8 +257,7 @@
               id: i,
               nama: cols[0] || '-',
               ikan: cols[1] && cols[1] !== '' ? cols[1] : '-',
-              sayuran: cols[2] && cols[2] !== '' && cols.length > 3 ? cols[2] : '-',
-              tumbuhan: cols[cols.length - 1] && cols[cols.length - 1] !== '' ? cols[cols.length - 1] : (cols[2] || '-')
+              tumbuhan: cols[2] && cols[2] !== '' ? cols[2] : '-'
             });
           }
         }
@@ -315,7 +266,7 @@
         
         // Hitung Statistik
         document.getElementById('statTotal').innerText = shipData.length;
-        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.sayuran !== '-' || s.tumbuhan !== '-').length;
+        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.tumbuhan !== '-').length;
         document.getElementById('statHasCargo').innerText = hasCargoCount;
 
         renderTable();
@@ -324,28 +275,28 @@
         console.error("Gagal mengambil data:", error);
         emptyStateMsg.innerText = "Gagal memuat data dari Google Sheets. Memuat data cadangan...";
         
-        // Data Cadangan Sesuai Spreadsheet
+        // Data Cadangan Lokal Sesuai Data Terakhir
         shipData = [
-          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
-          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", sayuran: "2.000", tumbuhan: "8.000" },
-          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
-          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", sayuran: "2.000", tumbuhan: "11.000" },
-          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "4.000", sayuran: "4.000", tumbuhan: "9.000" },
-          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "5.000", sayuran: "2.000", tumbuhan: "7.000" },
-          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "6.000", sayuran: "2.000", tumbuhan: "7.000" },
-          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
-          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
-          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "5.000", sayuran: "2.000", tumbuhan: "10.000" },
-          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "6.000", sayuran: "3.000", tumbuhan: "11.000" },
-          { id: 12, nama: "KLM.MARHABAN 02", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
-          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "4.000", sayuran: "2.000", tumbuhan: "9.000" },
-          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "6.000", sayuran: "3.000", tumbuhan: "10.000" },
-          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "16.000", sayuran: "4.000", tumbuhan: "13.000" },
-          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "6.000", sayuran: "4.000", tumbuhan: "9.000" }
+          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", tumbuhan: "7.000" },
+          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", tumbuhan: "8.000" },
+          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", tumbuhan: "9.000" },
+          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", tumbuhan: "11.000" },
+          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "-", tumbuhan: "-" },
+          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "-", tumbuhan: "-" },
+          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "-", tumbuhan: "-" },
+          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "-", tumbuhan: "-" },
+          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "-", tumbuhan: "-" },
+          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "-", tumbuhan: "-" },
+          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "-", tumbuhan: "-" },
+          { id: 12, nama: "KLM.MARHABAN 02", ikan: "-", tumbuhan: "-" },
+          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "-", tumbuhan: "-" },
+          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "-", tumbuhan: "-" },
+          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "-", tumbuhan: "-" },
+          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "-", tumbuhan: "-" }
         ];
         filteredData = [...shipData];
         document.getElementById('statTotal').innerText = shipData.length;
-        document.getElementById('statHasCargo').innerText = shipData.length;
+        document.getElementById('statHasCargo').innerText = 4;
         renderTable();
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('fa-spin');
@@ -373,51 +324,6 @@
       const menit = String(now.getMinutes()).padStart(2, '0');
       
       return `${tanggal} - Pukul ${jam}:${menit}`;
-    }
-
-    // Modal Functions
-    function openModal(shipId) {
-      const ship = shipData.find(s => s.id === shipId);
-      if (!ship) return;
-
-      currentModalShip = ship;
-      document.getElementById('modalShipName').innerText = ship.nama;
-      document.getElementById('modalIkan').innerText = ship.ikan;
-      document.getElementById('modalSayuran').innerText = ship.sayuran;
-      document.getElementById('modalTumbuhan').innerText = ship.tumbuhan;
-
-      const modalCheckbox = document.getElementById('modalCheckbox');
-      modalCheckbox.checked = selectedShipIds.has(ship.id);
-      document.getElementById('modalCheckboxLabel').innerText = modalCheckbox.checked ? "Terpilih" : "Tidak Terpilih";
-
-      const modal = document.getElementById('detailModal');
-      const card = document.getElementById('detailModalCard');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      card.classList.remove('scale-95');
-      card.classList.add('scale-100');
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('detailModal');
-      const card = document.getElementById('detailModalCard');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      card.classList.remove('scale-100');
-      card.classList.add('scale-95');
-      currentModalShip = null;
-    }
-
-    function onModalCheckboxChange() {
-      if (!currentModalShip) return;
-      toggleSelectShip(currentModalShip.id);
-      const isChecked = selectedShipIds.has(currentModalShip.id);
-      document.getElementById('modalCheckbox').checked = isChecked;
-      document.getElementById('modalCheckboxLabel').innerText = isChecked ? "Terpilih" : "Tidak Terpilih";
-      renderTable();
-    }
-
-    function shareFromModal() {
-      if (!currentModalShip) return;
-      shareSingleWhatsApp(currentModalShip.nama, currentModalShip.ikan, currentModalShip.sayuran, currentModalShip.tumbuhan);
     }
 
     // Toggle Single Checkbox
@@ -488,14 +394,8 @@
             <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
           </td>
           <td class="py-3.5 px-3 text-center font-medium text-slate-400">${index + 1}</td>
-          <td class="py-3.5 px-6">
-            <button onclick="openModal(${ship.id})" class="font-semibold text-blue-400 hover:text-blue-300 hover:underline text-left flex items-center gap-1.5 group">
-              <span>${ship.nama}</span>
-              <i class="fa-solid fa-circle-info text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
-            </button>
-          </td>
+          <td class="py-3.5 px-6 font-semibold text-white">${ship.nama}</td>
           <td class="py-3.5 px-6 font-mono text-xs">${ship.ikan !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded font-semibold">${ship.ikan}</span>` : '<span class="text-slate-500">-</span>'}</td>
-          <td class="py-3.5 px-6 font-mono text-xs">${ship.sayuran !== '-' ? `<span class="bg-amber-900/40 text-amber-300 border border-amber-700/50 px-2 py-0.5 rounded font-semibold">${ship.sayuran}</span>` : '<span class="text-slate-500">-</span>'}</td>
           <td class="py-3.5 px-6 font-mono text-xs">${ship.tumbuhan !== '-' ? `<span class="bg-emerald-900/40 text-emerald-300 border border-emerald-700/50 px-2 py-0.5 rounded font-semibold">${ship.tumbuhan}</span>` : '<span class="text-slate-500">-</span>'}</td>
           <td class="py-3.5 px-6 text-center">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -504,7 +404,7 @@
             </span>
           </td>
           <td class="py-3.5 px-6 text-center">
-            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
               <i class="fa-brands fa-whatsapp"></i>
               Kirim
             </button>
@@ -519,37 +419,26 @@
           <div class="flex items-start justify-between gap-2">
             <div class="flex items-center gap-2">
               <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
-              <button onclick="openModal(${ship.id})" class="font-bold text-blue-400 hover:underline text-left text-base">
-                ${ship.nama}
-              </button>
+              <h3 class="font-bold text-white text-base">${ship.nama}</h3>
             </div>
             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
               Ready
             </span>
           </div>
-          <div class="grid grid-cols-3 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
             <div>
-              <span class="text-slate-500 block text-[10px]">IKAN</span>
+              <span class="text-slate-500 block text-[10px]">MUATAN IKAN</span>
               <span class="font-mono font-semibold text-blue-400">${ship.ikan}</span>
             </div>
             <div>
-              <span class="text-slate-500 block text-[10px]">SAYURAN</span>
-              <span class="font-mono font-semibold text-amber-400">${ship.sayuran}</span>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">TUMBUHAN</span>
+              <span class="text-slate-500 block text-[10px]">MUATAN TUMBUHAN</span>
               <span class="font-mono font-semibold text-emerald-400">${ship.tumbuhan}</span>
             </div>
           </div>
-          <div class="flex gap-2">
-            <button onclick="openModal(${ship.id})" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-2 rounded-lg font-medium">
-              Rincian
-            </button>
-            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
-              <i class="fa-brands fa-whatsapp text-sm"></i>
-              Kirim WA
-            </button>
-          </div>
+          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            Kirim Detail via WhatsApp
+          </button>
         `;
         cards.appendChild(card);
       });
@@ -563,14 +452,13 @@
       filteredData = shipData.filter(ship => 
         ship.nama.toLowerCase().includes(keyword) ||
         ship.ikan.toLowerCase().includes(keyword) ||
-        ship.sayuran.toLowerCase().includes(keyword) ||
         ship.tumbuhan.toLowerCase().includes(keyword)
       );
       renderTable();
     });
 
     // Share Single Ship WhatsApp
-    function shareSingleWhatsApp(nama, ikan, sayuran, tumbuhan) {
+    function shareSingleWhatsApp(nama, ikan, tumbuhan) {
       const phone = getFormattedPhone();
       const wkt = getDateTimeString();
       
@@ -582,7 +470,6 @@ Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari i
 -----------------------------------
 🚢 *Nama Kapal:* ${nama}
 🐟 *Ikan:* ${ikan}
-🥬 *Sayuran:* ${sayuran}
 🌱 *Tumbuhan:* ${tumbuhan}
 -----------------------------------
 Status: *DOKUMEN READY HARI INI*
@@ -591,7 +478,7 @@ Saat ini tinggal menunggu penyesuaian data muatan kapal agar seluruh dokumen dan
 
 Mohon kepada pihak terkait untuk melakukan pengecekan dan konfirmasi apabila terdapat perubahan atau penyesuaian muatan.
 
-Terima kasih atas perhatian dan kerja samanya. 
+Terima kasih atas perhatian dan kerja samanya. 🙏
 
 *PT.AGAS88*
 _Layanan Keagenan Pelayaran Laut Nasional_`;
@@ -621,10 +508,9 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
       message += `--------------------------------\n\n`;
 
       targetShips.forEach((ship, i) => {
-        message += `${i + 1}. *${ship.nama}*\n`;
-        message += `    *Ikan:* ${ship.ikan}\n`;
-        message += `    *Sayuran:* ${ship.sayuran}\n`;
-        message += `    *Tumbuhan:* ${ship.tumbuhan}\n\n`;
+        message += `${i + 1}.*${ship.nama}*\n`;
+        message += ` *Ikan:* ${ship.ikan}\n`;
+        message += ` *Tumbuhan:* ${ship.tumbuhan}\n\n`;
       });
 
       message += `--------------------------------\n`;
@@ -659,5 +545,12 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
     // Initial Load
     fetchDataFromGoogleSheets();
   </script>
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
 </body>
 </html>

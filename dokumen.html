@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
-   <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+      <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
@@ -69,7 +69,7 @@
       
       <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Tumbuhan)</p>
+          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Sayuran/Tumbuhan)</p>
           <p class="text-2xl font-bold text-emerald-400 mt-1" id="statHasCargo">0</p>
         </div>
         <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
@@ -141,6 +141,7 @@
               <th class="py-3.5 px-3 text-center w-12">No</th>
               <th class="py-3.5 px-6">Nama Kapal</th>
               <th class="py-3.5 px-6">Ikan</th>
+              <th class="py-3.5 px-6">Sayuran</th>
               <th class="py-3.5 px-6">Tumbuhan</th>
               <th class="py-3.5 px-6 text-center">Status</th>
               <th class="py-3.5 px-6 text-center">Aksi</th>
@@ -180,7 +181,7 @@
   </div>
 
   <script>
-    // URL Ekspor CSV Live dari Google Sheets Publik Anda
+    // URL Ekspor CSV Live dari Google Sheets
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pub?gid=0&single=true&output=csv";
 
     let shipData = [];
@@ -212,7 +213,8 @@
               id: i,
               nama: cols[0] || '-',
               ikan: cols[1] && cols[1] !== '' ? cols[1] : '-',
-              tumbuhan: cols[2] && cols[2] !== '' ? cols[2] : '-'
+              sayuran: cols[2] && cols[2] !== '' && cols.length > 3 ? cols[2] : '-',
+              tumbuhan: cols[cols.length - 1] && cols[cols.length - 1] !== '' ? cols[cols.length - 1] : (cols[2] || '-')
             });
           }
         }
@@ -221,7 +223,7 @@
         
         // Hitung Statistik
         document.getElementById('statTotal').innerText = shipData.length;
-        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.tumbuhan !== '-').length;
+        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.sayuran !== '-' || s.tumbuhan !== '-').length;
         document.getElementById('statHasCargo').innerText = hasCargoCount;
 
         renderTable();
@@ -230,24 +232,24 @@
         console.error("Gagal mengambil data:", error);
         emptyStateMsg.innerText = "Gagal memuat data dari Google Sheets. Memuat data cadangan...";
         
-        // Data Cadangan Lokal Sesuai Data Terakhir
+        // Data Cadangan
         shipData = [
-          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", tumbuhan: "7.000" },
-          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", tumbuhan: "8.000" },
-          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", tumbuhan: "9.000" },
-          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", tumbuhan: "11.000" },
-          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "-", tumbuhan: "-" },
-          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "-", tumbuhan: "-" },
-          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "-", tumbuhan: "-" },
-          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "-", tumbuhan: "-" },
-          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "-", tumbuhan: "-" },
-          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "-", tumbuhan: "-" },
-          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "-", tumbuhan: "-" },
-          { id: 12, nama: "KLM.MARHABAN 02", ikan: "-", tumbuhan: "-" },
-          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "-", tumbuhan: "-" },
-          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "-", tumbuhan: "-" },
-          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "-", tumbuhan: "-" },
-          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "-", tumbuhan: "-" }
+          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 12, nama: "KLM.MARHABAN 02", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "-", sayuran: "-", tumbuhan: "-" }
         ];
         filteredData = [...shipData];
         document.getElementById('statTotal').innerText = shipData.length;
@@ -351,6 +353,7 @@
           <td class="py-3.5 px-3 text-center font-medium text-slate-400">${index + 1}</td>
           <td class="py-3.5 px-6 font-semibold text-white">${ship.nama}</td>
           <td class="py-3.5 px-6 font-mono text-xs">${ship.ikan !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded font-semibold">${ship.ikan}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.sayuran !== '-' ? `<span class="bg-amber-900/40 text-amber-300 border border-amber-700/50 px-2 py-0.5 rounded font-semibold">${ship.sayuran}</span>` : '<span class="text-slate-500">-</span>'}</td>
           <td class="py-3.5 px-6 font-mono text-xs">${ship.tumbuhan !== '-' ? `<span class="bg-emerald-900/40 text-emerald-300 border border-emerald-700/50 px-2 py-0.5 rounded font-semibold">${ship.tumbuhan}</span>` : '<span class="text-slate-500">-</span>'}</td>
           <td class="py-3.5 px-6 text-center">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -359,7 +362,7 @@
             </span>
           </td>
           <td class="py-3.5 px-6 text-center">
-            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
               <i class="fa-brands fa-whatsapp"></i>
               Kirim
             </button>
@@ -380,17 +383,21 @@
               Ready
             </span>
           </div>
-          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
+          <div class="grid grid-cols-3 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
             <div>
-              <span class="text-slate-500 block text-[10px]">MUATAN IKAN</span>
+              <span class="text-slate-500 block text-[10px]">IKAN</span>
               <span class="font-mono font-semibold text-blue-400">${ship.ikan}</span>
             </div>
             <div>
-              <span class="text-slate-500 block text-[10px]">MUATAN TUMBUHAN</span>
+              <span class="text-slate-500 block text-[10px]">SAYURAN</span>
+              <span class="font-mono font-semibold text-amber-400">${ship.sayuran}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[10px]">TUMBUHAN</span>
               <span class="font-mono font-semibold text-emerald-400">${ship.tumbuhan}</span>
             </div>
           </div>
-          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
             <i class="fa-brands fa-whatsapp text-sm"></i>
             Kirim Detail via WhatsApp
           </button>
@@ -407,24 +414,26 @@
       filteredData = shipData.filter(ship => 
         ship.nama.toLowerCase().includes(keyword) ||
         ship.ikan.toLowerCase().includes(keyword) ||
+        ship.sayuran.toLowerCase().includes(keyword) ||
         ship.tumbuhan.toLowerCase().includes(keyword)
       );
       renderTable();
     });
 
     // Share Single Ship WhatsApp
-    function shareSingleWhatsApp(nama, ikan, tumbuhan) {
+    function shareSingleWhatsApp(nama, ikan, sayuran, tumbuhan) {
       const phone = getFormattedPhone();
       const wkt = getDateTimeString();
       
-      const message = `📢 *INFORMASI DOKUMEN KAPAL*
-📅 _${wkt}_
+      const message = ` *INFORMASI DOKUMEN KAPAL*
+ _${wkt}_
 
 Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari ini.
 
 -----------------------------------
 🚢 *Nama Kapal:* ${nama}
 🐟 *Ikan:* ${ikan}
+🥬 *Sayuran:* ${sayuran}
 🌱 *Tumbuhan:* ${tumbuhan}
 -----------------------------------
 Status: *DOKUMEN READY HARI INI*
@@ -433,7 +442,7 @@ Saat ini tinggal menunggu penyesuaian data muatan kapal agar seluruh dokumen dan
 
 Mohon kepada pihak terkait untuk melakukan pengecekan dan konfirmasi apabila terdapat perubahan atau penyesuaian muatan.
 
-Terima kasih atas perhatian dan kerja samanya. 🙏
+Terima kasih atas perhatian dan kerja samanya. 
 
 *PT.AGAS88*
 _Layanan Keagenan Pelayaran Laut Nasional_`;
@@ -463,9 +472,10 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
       message += `--------------------------------\n\n`;
 
       targetShips.forEach((ship, i) => {
-        message += `${i + 1}.*${ship.nama}*\n`;
-        message += ` *Ikan:* ${ship.ikan}\n`;
-        message += ` *Tumbuhan:* ${ship.tumbuhan}\n\n`;
+        message += `${i + 1}. *${ship.nama}*\n`;
+        message += `    *Ikan:* ${ship.ikan}\n`;
+        message += `    *Sayuran:* ${ship.sayuran}\n`;
+        message += `    *Tumbuhan:* ${ship.tumbuhan}\n\n`;
       });
 
       message += `--------------------------------\n`;

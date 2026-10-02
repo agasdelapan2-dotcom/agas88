@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
-  <!-- Favicon & App Icon untuk Google Search & Browser -->
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+   <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
@@ -36,7 +35,7 @@
           <h1 class="text-xl font-bold text-white tracking-wide">PT.AGAS88</h1>
           <p class="text-xs text-blue-400 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Monitoring Dokumen Kapal Siap
+            Monitoring Dokumen & Muatan Kapal Siap
           </p>
         </div>
       </div>
@@ -61,7 +60,7 @@
       <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
         <div>
           <p class="text-xs text-slate-400 font-medium">Total Kapal Ready</p>
-          <p class="text-2xl font-bold text-white mt-1" id="statTotal">16</p>
+          <p class="text-2xl font-bold text-white mt-1" id="statTotal">0</p>
         </div>
         <div class="p-3 bg-blue-500/10 text-blue-400 rounded-lg">
           <i class="fa-solid fa-anchor text-xl"></i>
@@ -70,11 +69,11 @@
       
       <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">Memiliki Call Sign</p>
-          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statCallSign">10</p>
+          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Tumbuhan)</p>
+          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statHasCargo">0</p>
         </div>
         <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
-          <i class="fa-solid fa-walkie-talkie text-xl"></i>
+          <i class="fa-solid fa-boxes-packing text-xl"></i>
         </div>
       </div>
 
@@ -99,13 +98,22 @@
           <input 
             type="text" 
             id="searchInput" 
-            placeholder="Cari Nama Kapal, GT, atau Call Sign..." 
+            placeholder="Cari Nama Kapal..." 
             class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
           >
         </div>
 
         <!-- Action Buttons -->
         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+          <button 
+            onclick="fetchDataFromGoogleSheets()" 
+            class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm px-3 py-2.5 rounded-lg transition-colors flex items-center gap-1.5"
+            title="Refresh Data dari Google Sheets"
+          >
+            <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i>
+            <span>Sync Data</span>
+          </button>
+          
           <button 
             onclick="shareSelectedWhatsApp()" 
             id="btnShareSelected"
@@ -132,8 +140,8 @@
               </th>
               <th class="py-3.5 px-3 text-center w-12">No</th>
               <th class="py-3.5 px-6">Nama Kapal</th>
-              <th class="py-3.5 px-6">Nomor GT</th>
-              <th class="py-3.5 px-6">Call Sign</th>
+              <th class="py-3.5 px-6">Ikan</th>
+              <th class="py-3.5 px-6">Tumbuhan</th>
               <th class="py-3.5 px-6 text-center">Status</th>
               <th class="py-3.5 px-6 text-center">Aksi</th>
             </tr>
@@ -155,11 +163,10 @@
         <!-- Render via JS -->
       </div>
 
-      <!-- Empty State -->
+      <!-- Empty / Loading State -->
       <div id="emptyState" class="hidden py-12 text-center text-slate-400">
         <i class="fa-solid fa-ship text-4xl text-slate-600 mb-3"></i>
-        <p class="text-base font-medium">Kapal tidak ditemukan</p>
-        <p class="text-xs text-slate-500">Coba gunakan kata kunci pencarian yang lain.</p>
+        <p class="text-base font-medium" id="emptyStateMsg">Memuat data dari Google Sheets...</p>
       </div>
 
     </div>
@@ -173,28 +180,83 @@
   </div>
 
   <script>
-    // Data Sumber Dokumen Ready
-    const shipData = [
-      { id: 1, nama: "KLM. SUMBER RIZKY", gt: "GT.68/21", callSign: "YC8032" },
-      { id: 2, nama: "KLM. SUMBER RIZKY 02", gt: "GT.68/21", callSign: "YC8033" },
-      { id: 3, nama: "KLM. SUMBER REZKY A", gt: "GT.83/25", callSign: "YC8040" },
-      { id: 4, nama: "KLM. ADI RAHMATULLAH PUTRA", gt: "GT.93 No.199/LLy", callSign: "YC8042" },
-      { id: 5, nama: "KLM. SUMBER REZKY B", gt: "GT.96/29", callSign: "-" },
-      { id: 6, nama: "KLM. QUDRAT ILAHI", gt: "GT.40/12", callSign: "YC7521" },
-      { id: 7, nama: "KLM. FIRDAH JAYA 03", gt: "GT.30/9", callSign: "YB7293" },
-      { id: 8, nama: "KLM. SYUKRAN 3", gt: "GT.30/9", callSign: "-" },
-      { id: 9, nama: "KLM. SYUKRAN 03", gt: "GT.32/10", callSign: "YB7291" },
-      { id: 10, nama: "KLM. BUNGA RIZKA", gt: "GT.70", callSign: "YC8036" },
-      { id: 11, nama: "KLM. SURYA UTAMA 77", gt: "GT.29/9.", callSign: "YB8202" },
-      { id: 12, nama: "KLM. MARHABAN 02", gt: "GT.40/12", callSign: "YC8033" },
-      { id: 13, nama: "KLM. BERKAT SABAR 05", gt: "GT.40/12", callSign: "-" },
-      { id: 14, nama: "KLM. BERKAH ILAHI 99", gt: "GT/NT. 32/10", callSign: "-" },
-      { id: 15, nama: "KLM. SUMBER REZKY 88", gt: "GT.99 No.240/LLy", callSign: "-" },
-      { id: 16, nama: "KLM. ANUGERAH REZKY PUTRA", gt: "GT.97 No.241/LLy", callSign: "-" }
-    ];
+    // URL Ekspor CSV Live dari Google Sheets Publik Anda
+    const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pub?gid=0&single=true&output=csv";
 
-    let filteredData = [...shipData];
+    let shipData = [];
+    let filteredData = [];
     let selectedShipIds = new Set();
+
+    // Fungsi Mengambil Data Otomatis dari Google Sheets
+    async function fetchDataFromGoogleSheets() {
+      const refreshIcon = document.getElementById('refreshIcon');
+      if (refreshIcon) refreshIcon.classList.add('fa-spin');
+      
+      const emptyState = document.getElementById('emptyState');
+      const emptyStateMsg = document.getElementById('emptyStateMsg');
+      emptyState.classList.remove('hidden');
+      emptyStateMsg.innerText = "Mengambil data terbaru dari Google Sheets...";
+
+      try {
+        const response = await fetch(GOOGLE_SHEETS_CSV_URL + "&t=" + new Date().getTime());
+        const csvText = await response.text();
+        
+        // Parse CSV
+        const lines = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        shipData = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
+          if (cols[0]) {
+            shipData.push({
+              id: i,
+              nama: cols[0] || '-',
+              ikan: cols[1] && cols[1] !== '' ? cols[1] : '-',
+              tumbuhan: cols[2] && cols[2] !== '' ? cols[2] : '-'
+            });
+          }
+        }
+
+        filteredData = [...shipData];
+        
+        // Hitung Statistik
+        document.getElementById('statTotal').innerText = shipData.length;
+        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.tumbuhan !== '-').length;
+        document.getElementById('statHasCargo').innerText = hasCargoCount;
+
+        renderTable();
+        showToast("Data Google Sheets berhasil diperbarui!");
+      } catch (error) {
+        console.error("Gagal mengambil data:", error);
+        emptyStateMsg.innerText = "Gagal memuat data dari Google Sheets. Memuat data cadangan...";
+        
+        // Data Cadangan Lokal Sesuai Data Terakhir
+        shipData = [
+          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", tumbuhan: "7.000" },
+          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", tumbuhan: "8.000" },
+          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", tumbuhan: "9.000" },
+          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", tumbuhan: "11.000" },
+          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "-", tumbuhan: "-" },
+          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "-", tumbuhan: "-" },
+          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "-", tumbuhan: "-" },
+          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "-", tumbuhan: "-" },
+          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "-", tumbuhan: "-" },
+          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "-", tumbuhan: "-" },
+          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "-", tumbuhan: "-" },
+          { id: 12, nama: "KLM.MARHABAN 02", ikan: "-", tumbuhan: "-" },
+          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "-", tumbuhan: "-" },
+          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "-", tumbuhan: "-" },
+          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "-", tumbuhan: "-" },
+          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "-", tumbuhan: "-" }
+        ];
+        filteredData = [...shipData];
+        document.getElementById('statTotal').innerText = shipData.length;
+        document.getElementById('statHasCargo').innerText = 4;
+        renderTable();
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+      }
+    }
 
     // Helper Format Phone Number
     function getFormattedPhone() {
@@ -270,6 +332,7 @@
 
       if (filteredData.length === 0) {
         emptyState.classList.remove('hidden');
+        document.getElementById('emptyStateMsg').innerText = "Kapal tidak ditemukan";
         updateUISelectionState();
         return;
       }
@@ -287,8 +350,8 @@
           </td>
           <td class="py-3.5 px-3 text-center font-medium text-slate-400">${index + 1}</td>
           <td class="py-3.5 px-6 font-semibold text-white">${ship.nama}</td>
-          <td class="py-3.5 px-6 text-slate-300">${ship.gt}</td>
-          <td class="py-3.5 px-6 font-mono text-xs">${ship.callSign !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded">${ship.callSign}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.ikan !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded font-semibold">${ship.ikan}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.tumbuhan !== '-' ? `<span class="bg-emerald-900/40 text-emerald-300 border border-emerald-700/50 px-2 py-0.5 rounded font-semibold">${ship.tumbuhan}</span>` : '<span class="text-slate-500">-</span>'}</td>
           <td class="py-3.5 px-6 text-center">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>
@@ -296,7 +359,7 @@
             </span>
           </td>
           <td class="py-3.5 px-6 text-center">
-            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.gt}', '${ship.callSign}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
               <i class="fa-brands fa-whatsapp"></i>
               Kirim
             </button>
@@ -319,15 +382,15 @@
           </div>
           <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
             <div>
-              <span class="text-slate-500 block text-[10px]">NOMOR GT</span>
-              <span class="font-medium">${ship.gt}</span>
+              <span class="text-slate-500 block text-[10px]">MUATAN IKAN</span>
+              <span class="font-mono font-semibold text-blue-400">${ship.ikan}</span>
             </div>
             <div>
-              <span class="text-slate-500 block text-[10px]">CALL SIGN</span>
-              <span class="font-mono">${ship.callSign}</span>
+              <span class="text-slate-500 block text-[10px]">MUATAN TUMBUHAN</span>
+              <span class="font-mono font-semibold text-emerald-400">${ship.tumbuhan}</span>
             </div>
           </div>
-          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.gt}', '${ship.callSign}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+          <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.tumbuhan}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
             <i class="fa-brands fa-whatsapp text-sm"></i>
             Kirim Detail via WhatsApp
           </button>
@@ -343,14 +406,14 @@
       const keyword = e.target.value.toLowerCase();
       filteredData = shipData.filter(ship => 
         ship.nama.toLowerCase().includes(keyword) ||
-        ship.gt.toLowerCase().includes(keyword) ||
-        ship.callSign.toLowerCase().includes(keyword)
+        ship.ikan.toLowerCase().includes(keyword) ||
+        ship.tumbuhan.toLowerCase().includes(keyword)
       );
       renderTable();
     });
 
     // Share Single Ship WhatsApp
-    function shareSingleWhatsApp(nama, gt, callSign) {
+    function shareSingleWhatsApp(nama, ikan, tumbuhan) {
       const phone = getFormattedPhone();
       const wkt = getDateTimeString();
       
@@ -361,8 +424,8 @@ Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari i
 
 -----------------------------------
 🚢 *Nama Kapal:* ${nama}
-⚓ *Nomor GT:* ${gt}
-📻 *Call Sign:* ${callSign}
+🐟 *Ikan:* ${ikan}
+🌱 *Tumbuhan:* ${tumbuhan}
 -----------------------------------
 Status: *DOKUMEN READY HARI INI*
 
@@ -397,18 +460,22 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
       let message = `*INFORMASI DOKUMEN KAPAL*\n`;
       message += `_${wkt}_\n\n`;
       message += `Berikut dokumen kapal yang sudah siap hari ini:\n`;
-      message += `--------------------------------\n`;
+      message += `--------------------------------\n\n`;
 
       targetShips.forEach((ship, i) => {
         message += `${i + 1}.*${ship.nama}*\n`;
+        message += ` *Ikan:* ${ship.ikan}\n`;
+        message += ` *Tumbuhan:* ${ship.tumbuhan}\n\n`;
       });
 
       message += `--------------------------------\n`;
       message += `Total: *${targetShips.length} Dokumen Ready*\n\n`;
-      message += `_Saat ini tinggal menunggu penyesuaian muatan,Mohon dicek dan dikonfirmasi apabila terdapat perubahan muatan._\n\n`;
+      message += `_Saat ini tinggal menunggu penyesuaian muatan,_\n`;
+      message += `_Mohon dicek dan dikonfirmasi._\n`;
+      message += `_Apabila terdapat perubahan muatan._\n\n`;
       message += `Terima kasih atas perhatian dan kerja samanya.\n\n`;
       message += `*PT.AGAS88*\n`;
-      message += `www.agas88.com`;
+      message += `_Link Revisi: www.agas88.com/revisi_`;
 
       const encodedText = encodeURIComponent(message);
       const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
@@ -430,8 +497,8 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
       }, 3000);
     }
 
-    // Initial Render
-    renderTable();
+    // Initial Load
+    fetchDataFromGoogleSheets();
   </script>
 </body>
 </html>

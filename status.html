@@ -82,6 +82,17 @@
 
         .text-center { text-align: center; }
 
+        .ship-name-link {
+            color: #0d47a1;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .ship-name-link:hover {
+            color: #1976d2;
+        }
+
         .check-input {
             width: 22px;
             height: 22px;
@@ -122,7 +133,7 @@
             min-width: 30px;
         }
 
-        /* Styling Thumbnail Foto */
+        /* Styling Thumbnail Foto Tabel */
         .img-thumb {
             width: 50px;
             height: 40px;
@@ -137,7 +148,9 @@
             transform: scale(1.1);
         }
 
-        /* Modal Pop-up Pembesaran Foto */
+        /* ====================================================== */
+        /* MODAL RINCIAN PROFESIONAL */
+        /* ====================================================== */
         .modal {
             display: none;
             position: fixed;
@@ -146,29 +159,128 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 15px;
         }
 
-        .modal-content {
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .modal-card h3 {
+            color: #0f172a;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            font-size: 22px;
+            font-weight: bold;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #0f172a;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .detail-row label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .detail-val {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .check-text-true {
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .check-text-false {
+            color: #64748b;
+        }
+
+        /* Galeri Foto Modal */
+        .modal-photos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .photo-box {
+            text-align: center;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            transition: opacity 0.2s;
+        }
+
+        .photo-box img:hover {
+            opacity: 0.9;
+        }
+
+        .photo-box span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            display: block;
+            margin-top: 6px;
+        }
+
+        /* Modal Pembesaran Foto Penuh */
+        .modal-img-full {
             max-width: 90%;
             max-height: 80%;
             border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            color: #ffffff;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* TAMPILAN RESPONSIVE UNTUK HP ANDROID */
+        /* TAMPILAN RESPONSIVE HP */
         @media screen and (max-width: 768px) {
             body { padding: 5px; }
             .container { padding: 10px; }
@@ -205,16 +317,13 @@
             }
 
             td:nth-child(2) {
-                font-weight: bold;
-                font-size: 16px;
-                color: #1a202c;
                 border-bottom: 1px solid #f0f0f0;
                 padding-bottom: 8px;
                 margin-bottom: 6px;
             }
 
-            /* Label otomatis saat dibuka di layar HP */
             td:nth-child(1)::before { content: "No:"; font-weight: bold; color: #666; }
+            td:nth-child(2)::before { content: "Nama Kapal:"; font-weight: bold; color: #666; }
             td:nth-child(3)::before { content: "Minggu I Oktober:"; font-weight: bold; color: #444; }
             td:nth-child(4)::before { content: "Minggu II Oktober:"; font-weight: bold; color: #444; }
             td:nth-child(5)::before { content: "Minggu III Oktober:"; font-weight: bold; color: #444; }
@@ -301,20 +410,58 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                <!-- Data otomatis terisi via JS -->
+                <!-- Data diisi otomatis via JS -->
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- Modal Pop-Up Pembesaran Foto -->
-<div id="imageModal" class="modal" onclick="closeImage()">
-    <span class="close-modal">&times;</span>
-    <img class="modal-content" id="imgFull">
+<!-- Modal Rincian Kapal Profesional -->
+<div id="detailModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3 id="modalShipName">Nama Kapal</h3>
+            <span class="close-btn" onclick="closeDetailModal()">&times;</span>
+        </div>
+        
+        <div class="detail-row"><label>No:</label><span id="modalNo" class="detail-val">-</span></div>
+        <div class="detail-row"><label>Minggu I Oktober:</label><span id="modalM1" class="detail-val">-</span></div>
+        <div class="detail-row"><label>Minggu II Oktober:</label><span id="modalM2" class="detail-val">-</span></div>
+        <div class="detail-row"><label>Minggu III Oktober:</label><span id="modalM3" class="detail-val">-</span></div>
+        <div class="detail-row"><label>Minggu IV Oktober:</label><span id="modalM4" class="detail-val">-</span></div>
+        <div class="detail-row"><label>Status:</label><span id="modalStatus">-</span></div>
+        <div class="detail-row"><label>Trayek:</label><span id="modalTrayek">-</span></div>
+
+        <div class="modal-photos">
+            <div class="photo-box">
+                <img id="modalFoto1" src="https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png" alt="Foto 1" onclick="openFullImage(this.src)">
+                <span>Foto 1</span>
+            </div>
+            <div class="photo-box">
+                <img id="modalFoto2" src="https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png" alt="Foto 2" onclick="openFullImage(this.src)">
+                <span>Foto 2</span>
+            </div>
+            <div class="photo-box">
+                <img id="modalFoto3" src="https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png" alt="Foto 3" onclick="openFullImage(this.src)">
+                <span>Foto 3</span>
+            </div>
+            <div class="photo-box">
+                <img id="modalFoto4" src="https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png" alt="Foto 4" onclick="openFullImage(this.src)">
+                <span>Foto 4</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Pembesaran Foto Penuh -->
+<div id="imageModal" class="modal" onclick="closeFullImage()">
+    <span class="close-btn" style="color:white; position:absolute; top:20px; right:25px;">&times;</span>
+    <img class="modal-img-full" id="imgFull">
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA99h69pzJZIrZLSV9KVxuwgno5qmxi4cMBMEwDAiM10nd4Qrjf3nYJziU8YxUpxJzBw/exec";
+    let globalData = [];
 
     function calculateTotalTrayek() {
         const trayekCells = document.querySelectorAll('.trayek-cell');
@@ -328,12 +475,12 @@
     async function fetchSheetsData() {
         try {
             const response = await fetch(SCRIPT_URL);
-            const data = await response.json();
+            globalData = await response.json();
             
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
-            data.forEach(row => {
+            globalData.forEach((row, index) => {
                 const id = row[0];
                 const nama = row[1];
                 const m1 = row[2] === true || row[2] === "TRUE";
@@ -341,7 +488,6 @@
                 const m3 = row[4] === true || row[4] === "TRUE";
                 const m4 = row[5] === true || row[5] === "TRUE";
                 
-                // Ambil URL Foto 1 s/d Foto 4 (di spreadsheet indeks ke-8, 9, 10, dan 11)
                 const foto1 = row[8] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
                 const foto2 = row[9] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
                 const foto3 = row[10] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
@@ -354,17 +500,17 @@
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="text-center">${id}</td>
-                    <td>${nama}</td>
-                    <td class="text-center"><input type="checkbox" class="check-input" ${m1 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
-                    <td class="text-center"><input type="checkbox" class="check-input" ${m2 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
-                    <td class="text-center"><input type="checkbox" class="check-input" ${m3 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
-                    <td class="text-center"><input type="checkbox" class="check-input" ${m4 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
+                    <td><span class="ship-name-link" onclick="showDetailModal(${index})">${nama}</span></td>
+                    <td class="text-center"><input type="checkbox" class="check-input" ${m1 ? 'checked' : ''} onchange="updateData(${id}, this, ${index})"></td>
+                    <td class="text-center"><input type="checkbox" class="check-input" ${m2 ? 'checked' : ''} onchange="updateData(${id}, this, ${index})"></td>
+                    <td class="text-center"><input type="checkbox" class="check-input" ${m3 ? 'checked' : ''} onchange="updateData(${id}, this, ${index})"></td>
+                    <td class="text-center"><input type="checkbox" class="check-input" ${m4 ? 'checked' : ''} onchange="updateData(${id}, this, ${index})"></td>
                     <td><span class="status-cell ${statusClass}">${statusText}</span></td>
                     <td class="text-center"><span class="trayek-badge trayek-cell">${checkedCount}</span></td>
-                    <td class="text-center"><img src="${foto1}" class="img-thumb" alt="Foto 1" onclick="openImage('${foto1}')"></td>
-                    <td class="text-center"><img src="${foto2}" class="img-thumb" alt="Foto 2" onclick="openImage('${foto2}')"></td>
-                    <td class="text-center"><img src="${foto3}" class="img-thumb" alt="Foto 3" onclick="openImage('${foto3}')"></td>
-                    <td class="text-center"><img src="${foto4}" class="img-thumb" alt="Foto 4" onclick="openImage('${foto4}')"></td>
+                    <td class="text-center"><img src="${foto1}" class="img-thumb" alt="Foto 1" onclick="openFullImage('${foto1}')"></td>
+                    <td class="text-center"><img src="${foto2}" class="img-thumb" alt="Foto 2" onclick="openFullImage('${foto2}')"></td>
+                    <td class="text-center"><img src="${foto3}" class="img-thumb" alt="Foto 3" onclick="openFullImage('${foto3}')"></td>
+                    <td class="text-center"><img src="${foto4}" class="img-thumb" alt="Foto 4" onclick="openFullImage('${foto4}')"></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -377,7 +523,7 @@
         }
     }
 
-    async function updateData(id, inputElement) {
+    async function updateData(id, inputElement, index) {
         const tr = inputElement.closest('tr');
         const checkboxes = tr.querySelectorAll('.check-input');
 
@@ -385,6 +531,11 @@
         const m2 = checkboxes[1].checked;
         const m3 = checkboxes[2].checked;
         const m4 = checkboxes[3].checked;
+
+        globalData[index][2] = m1;
+        globalData[index][3] = m2;
+        globalData[index][4] = m3;
+        globalData[index][5] = m4;
 
         const checkedCount = (m1?1:0) + (m2?1:0) + (m3?1:0) + (m4?1:0);
         
@@ -410,14 +561,48 @@
         });
     }
 
-    function openImage(url) {
-        const modal = document.getElementById('imageModal');
-        const imgFull = document.getElementById('imgFull');
-        imgFull.src = url;
-        modal.style.display = 'flex';
+    // Modal Rincian Kapal
+    function showDetailModal(index) {
+        const row = globalData[index];
+        const m1 = row[2] === true || row[2] === "TRUE";
+        const m2 = row[3] === true || row[3] === "TRUE";
+        const m3 = row[4] === true || row[4] === "TRUE";
+        const m4 = row[5] === true || row[5] === "TRUE";
+        const checkedCount = (m1?1:0) + (m2?1:0) + (m3?1:0) + (m4?1:0);
+
+        document.getElementById('modalNo').textContent = row[0];
+        document.getElementById('modalShipName').textContent = row[1];
+        
+        // Memperbaiki tampilan centang agar profesional tanpa kode HTML entity yang rusak
+        document.getElementById('modalM1').innerHTML = m1 ? '<span class="check-text-true">☑ Tercentang</span>' : '<span class="check-text-false">☐ Belum</span>';
+        document.getElementById('modalM2').innerHTML = m2 ? '<span class="check-text-true">☑ Tercentang</span>' : '<span class="check-text-false">☐ Belum</span>';
+        document.getElementById('modalM3').innerHTML = m3 ? '<span class="check-text-true">☑ Tercentang</span>' : '<span class="check-text-false">☐ Belum</span>';
+        document.getElementById('modalM4').innerHTML = m4 ? '<span class="check-text-true">☑ Tercentang</span>' : '<span class="check-text-false">☐ Belum</span>';
+        
+        const statusSpan = document.getElementById('modalStatus');
+        statusSpan.textContent = checkedCount > 0 ? 'sudah' : 'belum';
+        statusSpan.className = checkedCount > 0 ? 'status-cell status-sudah' : 'status-cell status-belum';
+        
+        document.getElementById('modalTrayek').innerHTML = `<span class="trayek-badge">${checkedCount}</span>`;
+
+        document.getElementById('modalFoto1').src = row[8] || "https://via.placeholder.com/150?text=No+Img";
+        document.getElementById('modalFoto2').src = row[9] || "https://via.placeholder.com/150?text=No+Img";
+        document.getElementById('modalFoto3').src = row[10] || "https://via.placeholder.com/150?text=No+Img";
+        document.getElementById('modalFoto4').src = row[11] || "https://via.placeholder.com/150?text=No+Img";
+
+        document.getElementById('detailModal').style.display = 'flex';
     }
 
-    function closeImage() {
+    function closeDetailModal() {
+        document.getElementById('detailModal').style.display = 'none';
+    }
+
+    function openFullImage(url) {
+        document.getElementById('imgFull').src = url;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeFullImage() {
         document.getElementById('imageModal').style.display = 'none';
     }
 

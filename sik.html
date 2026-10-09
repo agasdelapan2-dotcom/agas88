@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Kedatangan & Keberangkatan Kapal - Port Control</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0b1329',
+                            950: '#050b18',
+                        },
+                        maritime: {
+                            blue: '#1e3a8a',
+                            cyan: '#0284c7',
+                            teal: '#0d9488',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050b18;
+            color: #f8fafc;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(8px);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: #ffffff !important; color: #000000 !important; }
+            .print-card {
+                background: #ffffff !important;
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+            }
+            .text-white, .text-slate-300, .text-slate-400 { color: #000000 !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between custom-scrollbar selection:bg-maritime-cyan selection:text-white">
+
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="no-print bg-navy-900/90 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-maritime-cyan via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-maritime-cyan/20">
+                        <i class="fa-solid fa-anchor text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-wide text-white flex items-center gap-2">
+                            PORT CONTROL SYSTEM
+                            <span class="text-[10px] bg-maritime-cyan/20 text-maritime-cyan font-mono px-2 py-0.5 rounded border border-maritime-cyan/30">PORT-MONITOR v3.0</span>
+                        </h1>
+                        <p class="text-xs text-slate-400">Monitoring Kedatangan & Keberangkatan Kapal (KSOP)</p>
+                    </div>
+                </div>
+
+                <!-- Live Clock & Reset Data Option -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex flex-col text-right">
+                        <div id="liveClock" class="font-mono text-lg font-bold text-maritime-cyan">00:00:00 WITA</div>
+                        <div id="liveDate" class="text-xs text-slate-400">Jumat, 09 Oktober 2026</div>
+                    </div>
+                    <button onclick="confirmResetData()" title="Reset ke Data Default" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left text-maritime-amber"></i>
+                        <span class="hidden sm:inline">Reset Default</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- CONTROLS BAR (Tabs & Action Buttons) -->
+        <div class="no-print flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+            
+            <!-- Category Tabs -->
+            <div class="bg-navy-900/90 p-1.5 rounded-2xl border border-slate-800 flex w-full md:w-auto shadow-xl">
+                <button id="tabArrivals" onclick="switchCategory('arrival')" 
+                    class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-maritime-cyan text-white shadow-lg shadow-maritime-cyan/25">
+                    <i class="fa-solid fa-plane-arrival"></i>
+                    <span>Kedatangan Kapal</span>
+                    <span id="badgeArrivalCount" class="ml-1.5 bg-black/20 text-white text-xs px-2 py-0.5 rounded-full font-mono">0</span>
+                </button>
+                <button id="tabDepartures" onclick="switchCategory('departure')" 
+                    class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-plane-departure"></i>
+                    <span>Keberangkatan Kapal</span>
+                    <span id="badgeDepartureCount" class="ml-1.5 bg-slate-800 text-slate-300 text-xs px-2 py-0.5 rounded-full font-mono">0</span>
+                </button>
+            </div>
+
+            <!-- Search and Add Data Button -->
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="relative flex-grow md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari nama kapal, asal..." 
+                        class="w-full bg-navy-900/90 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition">
+                </div>
+                <button onclick="openFormModal('add')" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    <span>+ Tambah Data</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION HEADER INFORMATION -->
+        <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-800/80">
+            <div>
+                <h2 id="sectionTitle" class="text-xl sm:text-2xl font-extrabold text-white tracking-wide flex items-center gap-2">
+                    <i class="fa-solid fa-anchor text-maritime-cyan"></i>
+                    Daftar Kedatangan Kapal (Arrivals)
+                </h2>
+                <p id="sectionSub" class="text-xs sm:text-sm text-slate-400 mt-0.5">Jadwal & Laporan Manifest Kapal yang Tiba di Pelabuhan</p>
+            </div>
+            <div class="text-xs text-slate-400 hidden sm:block">
+                Total Record: <span id="recordCounter" class="font-bold text-maritime-cyan font-mono text-sm">0</span>
+            </div>
+        </div>
+
+        <!-- CARDS GRID CONTAINER -->
+        <div id="shipCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Content Will Be Rendered Here via JS -->
+        </div>
+
+        <!-- Empty State Container -->
+        <div id="emptyState" class="hidden text-center py-16 glass-panel rounded-3xl border border-slate-800">
+            <div class="w-16 h-16 rounded-full bg-slate-800/80 flex items-center justify-center mx-auto mb-4 text-slate-500 text-2xl">
+                <i class="fa-solid fa-ship"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Belum Ada Data Kapal</h3>
+            <p class="text-sm text-slate-400 max-w-md mx-auto mb-6">Tidak ada jadwal kapal yang ditemukan untuk kategori ini. Silakan tambahkan data baru.</p>
+            <button onclick="openFormModal('add')" class="px-5 py-2.5 bg-maritime-cyan hover:bg-cyan-500 text-white font-bold text-sm rounded-xl transition">
+                + Tambah Data Kapal
+            </button>
+        </div>
+
+    </main>
+
+    <!-- MODAL DIALOG / FORM EDIT & TAMBAH DATA -->
+    <div id="modalForm" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/80 modal-blur hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-slate-700/80 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-5 bg-navy-900 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div id="modalHeaderIcon" class="w-10 h-10 rounded-xl bg-maritime-cyan/20 text-maritime-cyan border border-maritime-cyan/30 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalTitle" class="text-lg font-bold text-white">Edit Data Kapal</h3>
+                        <p id="modalSub" class="text-xs text-slate-400">Perbarui informasi kedatangan atau keberangkatan kapal</p>
+                    </div>
+                </div>
+                <button onclick="closeFormModal()" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body Form -->
+            <form id="shipForm" onsubmit="saveShipData(event)" class="p-6 overflow-y-auto space-y-5 custom-scrollbar">
+                <input type="hidden" id="fieldId">
+                <input type="hidden" id="fieldType" value="arrival">
+
+                <!-- Kategori/Tipe Toggle -->
+                <div class="bg-navy-950 p-1.5 rounded-xl border border-slate-800 flex gap-2">
+                    <button type="button" id="formTypeArrival" onclick="setFormCategory('arrival')" class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-maritime-cyan text-white">
+                        <i class="fa-solid fa-plane-arrival mr-1.5"></i> Kedatangan
+                    </button>
+                    <button type="button" id="formTypeDeparture" onclick="setFormCategory('departure')" class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-plane-departure mr-1.5"></i> Keberangkatan
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Nama Kapal Select Dropdown -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Nama Kapal (KLM)</label>
+                        <select id="fieldName" required onchange="toggleCustomShipInput(this.value)"
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-maritime-cyan transition">
+                            <option value="" disabled selected>-- Pilih Nama Kapal --</option>
+                            <option value="KLM. SUMBER RIZKY">KLM. SUMBER RIZKY</option>
+                            <option value="KLM. SUMBER RIZKY 02">KLM. SUMBER RIZKY 02</option>
+                            <option value="KLM. SUMBER REZKY A">KLM. SUMBER REZKY A</option>
+                            <option value="KLM. ADI RAHMATULLAH PUTRA">KLM. ADI RAHMATULLAH PUTRA</option>
+                            <option value="KLM. SUMBER REZKY B">KLM. SUMBER REZKY B</option>
+                            <option value="KLM. QUDRAT ILAHI">KLM. QUDRAT ILAHI</option>
+                            <option value="KLM. FIRDAH JAYA 03">KLM. FIRDAH JAYA 03</option>
+                            <option value="KLM. SYUKRAN 3">KLM. SYUKRAN 3</option>
+                            <option value="KLM. SYUKRAN 03">KLM. SYUKRAN 03</option>
+                            <option value="KLM. BUNGA RIZKA">KLM. BUNGA RIZKA</option>
+                            <option value="KLM. SURYA UTAMA 77">KLM. SURYA UTAMA 77</option>
+                            <option value="KLM. MARHABAN 02">KLM. MARHABAN 02</option>
+                            <option value="KLM. BERKAT SABAR 05">KLM. BERKAT SABAR 05</option>
+                            <option value="KLM. BERKAH ILAHI 99">KLM. BERKAH ILAHI 99</option>
+                            <option value="KLM. SUMBER REZKY 88">KLM. SUMBER REZKY 88</option>
+                            <option value="KLM. ANUGERAH REZKY PUTRA">KLM. ANUGERAH REZKY PUTRA</option>
+                            <option value="OTHER">Lainnya (Ketik Manual)</option>
+                        </select>
+                        <input type="text" id="fieldNameCustom" placeholder="Ketikkan Nama Kapal Manual..." 
+                            class="hidden w-full mt-2 bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-maritime-cyan transition">
+                    </div>
+
+                    <!-- Pelabuhan Asal / Tujuan -->
+                    <div>
+                        <label id="lblPort" class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Pelabuhan Asal</label>
+                        <input type="text" id="fieldPort" required placeholder="Contoh: SAMARINDA" 
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition">
+                    </div>
+
+                    <!-- Status Kapal -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Status Kapal</label>
+                        <select id="fieldStatus" class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-maritime-cyan transition">
+                            <option value="Selesai Sandar">Selesai Sandar</option>
+                            <option value="Dalam Proses Clearance">Dalam Proses Clearance</option>
+                            <option value="Bertambat">Bertambat</option>
+                            <option value="Siap Berangkat">Siap Berangkat</option>
+                            <option value="Dalam Pelayaran">Dalam Pelayaran</option>
+                        </select>
+                    </div>
+
+                    <!-- Tanggal -->
+                    <div>
+                        <label id="lblDate" class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Tanggal Tiba</label>
+                        <input type="text" id="fieldDate" required placeholder="Contoh: 09/10/2026" 
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition">
+                    </div>
+
+                    <!-- Jam -->
+                    <div>
+                        <label id="lblTime" class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Jam Tiba</label>
+                        <input type="text" id="fieldTime" required placeholder="Contoh: 08:30" 
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition">
+                    </div>
+
+                    <!-- Jumlah Crew -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Jumlah Crew / ABK (Orang)</label>
+                        <input type="number" id="fieldCrewCount" min="1" max="100" required placeholder="Contoh: 6" 
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition">
+                    </div>
+
+                    <!-- Edit Daftar Crew / Manifest Editor -->
+                    <div class="sm:col-span-2 border-t border-slate-800 pt-4 mt-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-xs font-bold uppercase text-maritime-cyan">Daftar Kru / Manifest Personel</label>
+                            <span class="text-[10px] text-slate-400">Pisahkan nama dengan koma atau baris baru</span>
+                        </div>
+                        <textarea id="fieldCrewList" rows="3" placeholder="Ahmad Hidayat (Nakhoda), Bambang Sugianto (Mualim I), Rahmat Santoso (KKM), Dedi Febrianto (Masinis II), Eko Saputra (AB), Fajar Ardiansyah (ABK)"
+                            class="w-full bg-navy-950 border border-slate-700/80 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-maritime-cyan transition custom-scrollbar"></textarea>
+                    </div>
+                </div>
+
+                <!-- Modal Footer Actions -->
+                <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
+                    <button type="button" onclick="closeFormModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-maritime-cyan hover:bg-cyan-500 text-white font-bold text-sm shadow-lg shadow-maritime-cyan/20 transition flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Data</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL MANIFEST & PASS DOKUMEN -->
+    <div id="modalDetail" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/80 modal-blur hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-3xl rounded-3xl border border-slate-700/80 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+            
+            <!-- Detail Header -->
+            <div class="no-print px-6 py-5 bg-navy-900 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-maritime-cyan/20 text-maritime-cyan border border-maritime-cyan/30 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-id-card-clip"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Detail Manifest & Pass Pelabuhan</h3>
+                        <p class="text-xs text-slate-400">Verifikasi Dokumen Kedatangan / Keberangkatan Resmi</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="modalDetailWaBtn" onclick="" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl border border-emerald-500 transition flex items-center gap-2 shadow-lg shadow-emerald-600/20">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Bagikan WA</span>
+                    </button>
+                    <button onclick="window.print()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-print text-maritime-cyan"></i>
+                        <span>Cetak Pass</span>
+                    </button>
+                    <button onclick="closeDetailModal()" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detail Body Container -->
+            <div id="detailModalBody" class="p-6 sm:p-8 overflow-y-auto space-y-6 custom-scrollbar print-card">
+                <!-- Dynamically Inserted Detail View -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="no-print bg-navy-950 border-t border-slate-800/80 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+            <p>Sistem Informasi Monitoring Port Control Kedatangan & Keberangkatan Kapal © 2026</p>
+            <p class="text-slate-600">Fitur Edit & Manajemen Data Interaktif Terintegrasi LocalStorage</p>
+        </div>
+    </footer>
+
+    <script>
+        // INITIAL DEFAULT DATA
+        const DEFAULT_ARRIVALS = [
+            {
+                id: 'arr-1',
+                type: 'arrival',
+                name: 'KLM. BERKAT SABAR 05',
+                port: 'SAMARINDA',
+                date: '9/10/2026',
+                time: '08:30',
+                crewCount: 6,
+                status: 'Selesai Sandar',
+                crewList: [
+                    'Ahmad Hidayat (Nakhoda)',
+                    'Bambang Sugianto (Mualim I)',
+                    'Rahmat Santoso (KKM)',
+                    'Dedi Febrianto (Masinis II)',
+                    'Eko Saputra (Jurumudi)',
+                    'Fajar Ardiansyah (ABK)'
+                ]
+            },
+            {
+                id: 'arr-2',
+                type: 'arrival',
+                name: 'KLM. SUMBER RIZKY 02',
+                port: 'BALIKPAPAN',
+                date: '9/10/2026',
+                time: '11:15',
+                crewCount: 8,
+                status: 'Dalam Proses Clearance',
+                crewList: [
+                    'Syarifuddin (Nakhoda)',
+                    'Hasan Basri (Mualim I)',
+                    'Agus Setiawan (KKM)',
+                    'Rian Permana (Masinis I)',
+                    'Andi Wijaya (Jurumudi)',
+                    'Budi Santoso (ABK)',
+                    'Candra Kirana (ABK)',
+                    'Dharma Putra (Koki)'
+                ]
+            }
+        ];
+
+        const DEFAULT_DEPARTURES = [
+            {
+                id: 'dep-1',
+                type: 'departure',
+                name: 'KLM. ADI RAHMATULLAH PUTRA',
+                port: 'SAMARINDA',
+                date: '9-10-2026',
+                time: '20:00',
+                crewCount: 5,
+                status: 'Siap Berangkat',
+                crewList: [
+                    'Hendra Gunawan (Nakhoda)',
+                    'Ferry Mulyadi (Mualim I)',
+                    'Iwan Kurniawan (KKM)',
+                    'Joko Susilo (Masinis I)',
+                    'Lukman Hakim (Jurumudi)'
+                ]
+            },
+            {
+                id: 'dep-2',
+                type: 'departure',
+                name: 'KLM. SURYA UTAMA 77',
+                port: 'MAKASSAR',
+                date: '10-10-2026',
+                time: '16:45',
+                crewCount: 10,
+                status: 'Dalam Pelayaran',
+                crewList: [
+                    'Hendra Gunawan (Nakhoda)',
+                    'Ferry Mulyadi (Mualim I)',
+                    'Iwan Kurniawan (KKM)',
+                    'Joko Susilo (Masinis I)',
+                    'Lukman Hakim (Jurumudi)',
+                    'M. Taufik (ABK)',
+                    'Nurhadi (ABK)',
+                    'Oki Prasetyo (ABK)',
+                    'Rudi Hartono (Koki)',
+                    'Samsul Bahri (ABK)'
+                ]
+            }
+        ];
+
+        // APP STATE
+        let activeCategory = 'arrival';
+        let arrivalData = [];
+        let departureData = [];
+
+        window.onload = function() {
+            initStorageData();
+            renderDashboard();
+            updateLiveClock();
+            setInterval(updateLiveClock, 1000);
+        };
+
+        function initStorageData() {
+            const storedArrivals = localStorage.getItem('port_arrivals_data');
+            const storedDepartures = localStorage.getItem('port_departures_data');
+
+            if (storedArrivals) {
+                try { arrivalData = JSON.parse(storedArrivals); } catch(e) { arrivalData = DEFAULT_ARRIVALS; }
+            } else {
+                arrivalData = [...DEFAULT_ARRIVALS];
+                localStorage.setItem('port_arrivals_data', JSON.stringify(arrivalData));
+            }
+
+            if (storedDepartures) {
+                try { departureData = JSON.parse(storedDepartures); } catch(e) { departureData = DEFAULT_DEPARTURES; }
+            } else {
+                departureData = [...DEFAULT_DEPARTURES];
+                localStorage.setItem('port_departures_data', JSON.stringify(departureData));
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('port_arrivals_data', JSON.stringify(arrivalData));
+            localStorage.setItem('port_departures_data', JSON.stringify(departureData));
+        }
+
+        function confirmResetData() {
+            if (confirm("Apakah Anda yakin ingin mengembalikan data ke status awal (default)? Semua perubahan/edit data Anda akan di-reset.")) {
+                arrivalData = [...DEFAULT_ARRIVALS];
+                departureData = [...DEFAULT_DEPARTURES];
+                saveToStorage();
+                renderDashboard();
+                showToast("Data berhasil di-reset ke default!");
+            }
+        }
+
+        function switchCategory(cat) {
+            activeCategory = cat;
+            const tabArr = document.getElementById('tabArrivals');
+            const tabDep = document.getElementById('tabDepartures');
+            const secTitle = document.getElementById('sectionTitle');
+            const secSub = document.getElementById('sectionSub');
+
+            if (cat === 'arrival') {
+                tabArr.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-maritime-cyan text-white shadow-lg shadow-maritime-cyan/25";
+                tabDep.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800/60";
+                
+                secTitle.innerHTML = `<i class="fa-solid fa-plane-arrival text-maritime-cyan"></i> Daftar Kedatangan Kapal (Arrivals)`;
+                secSub.textContent = "Jadwal & Laporan Manifest Kapal yang Tiba di Pelabuhan";
+            } else {
+                tabDep.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 font-bold";
+                tabArr.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-800/60";
+                
+                secTitle.innerHTML = `<i class="fa-solid fa-plane-departure text-amber-500"></i> Daftar Keberangkatan Kapal (Departures)`;
+                secSub.textContent = "Jadwal & Laporan Manifest Kapal yang Berangkat dari Pelabuhan";
+            }
+
+            renderDashboard();
+        }
+
+        function handleSearch() {
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            const grid = document.getElementById('shipCardsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            document.getElementById('badgeArrivalCount').textContent = arrivalData.length;
+            document.getElementById('badgeDepartureCount').textContent = departureData.length;
+
+            const currentData = activeCategory === 'arrival' ? arrivalData : departureData;
+            
+            const filteredData = currentData.filter(ship => 
+                ship.name.toLowerCase().includes(searchVal) || 
+                ship.port.toLowerCase().includes(searchVal) ||
+                ship.date.includes(searchVal) ||
+                ship.status.toLowerCase().includes(searchVal)
+            );
+
+            document.getElementById('recordCounter').textContent = filteredData.length;
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filteredData.map(ship => createShipCardHTML(ship)).join('');
+        }
+
+        function createShipCardHTML(ship) {
+            const isArrival = ship.type === 'arrival';
+            const statusBadgeColor = isArrival ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+            const portLabel = isArrival ? 'Asal Pelabuhan' : 'Tujuan Pelabuhan';
+            const dateLabel = isArrival ? 'Tanggal Tiba' : 'Tanggal Berangkat';
+            const timeLabel = isArrival ? 'Jam Tiba' : 'Jam Berangkat';
+
+            return `
+                <div class="glass-panel rounded-3xl overflow-hidden border border-slate-800 hover:border-slate-700 transition-all duration-300 shadow-xl flex flex-col justify-between group">
+                    <div>
+                        <div class="px-6 py-4 bg-navy-900/80 border-b border-slate-800 flex items-center justify-between">
+                            <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border ${statusBadgeColor}">
+                                ${ship.status}
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono">ID: ${ship.id.toUpperCase()}</span>
+                        </div>
+
+                        <div class="p-6 space-y-4">
+                            <div class="text-center pb-4 border-b border-dashed border-slate-800">
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400">NAMA KAPAL</span>
+                                <h3 class="text-xl font-black text-white mt-0.5 tracking-wide group-hover:text-maritime-cyan transition">
+                                    ${ship.name}
+                                </h3>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div class="bg-navy-950/70 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-slate-400 block font-semibold">${portLabel}</span>
+                                    <span class="text-sm font-bold text-white mt-0.5 block">${ship.port}</span>
+                                </div>
+                                <div class="bg-navy-950/70 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-slate-400 block font-semibold">Total Crew / ABK</span>
+                                    <span class="text-sm font-bold text-maritime-cyan mt-0.5 block">${ship.crewCount} Orang</span>
+                                </div>
+                                <div class="bg-navy-950/70 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-slate-400 block font-semibold">${dateLabel}</span>
+                                    <span class="text-sm font-bold text-slate-200 mt-0.5 block">${ship.date}</span>
+                                </div>
+                                <div class="bg-navy-950/70 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-slate-400 block font-semibold">${timeLabel}</span>
+                                    <span class="text-sm font-bold text-slate-200 mt-0.5 block">${ship.time} WITA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-navy-950/90 border-t border-slate-800 flex items-center justify-between gap-2">
+                        <button onclick="openDetailModal('${ship.id}')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-eye text-maritime-cyan"></i>
+                            <span>Detail Pass</span>
+                        </button>
+                        
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="shareToWhatsApp('${ship.id}')" title="Bagikan ke WhatsApp" class="p-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs rounded-xl transition flex items-center gap-1.5">
+                                <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
+                            </button>
+                            <button onclick="openFormModal('edit', '${ship.id}')" class="px-3 py-2 bg-maritime-cyan/20 hover:bg-maritime-cyan/30 text-maritime-cyan border border-maritime-cyan/30 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Edit</span>
+                            </button>
+                            <button onclick="deleteShip('${ship.id}')" title="Hapus Data" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs rounded-xl transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setFormCategory(cat) {
+            document.getElementById('fieldType').value = cat;
+            const btnArr = document.getElementById('formTypeArrival');
+            const btnDep = document.getElementById('formTypeDeparture');
+            const lblPort = document.getElementById('lblPort');
+            const lblDate = document.getElementById('lblDate');
+            const lblTime = document.getElementById('lblTime');
+
+            if (cat === 'arrival') {
+                btnArr.className = "flex-1 py-2 text-xs font-bold rounded-lg transition bg-maritime-cyan text-white";
+                btnDep.className = "flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white";
+                lblPort.textContent = "Pelabuhan Asal";
+                lblDate.textContent = "Tanggal Tiba";
+                lblTime.textContent = "Jam Tiba";
+            } else {
+                btnDep.className = "flex-1 py-2 text-xs font-bold rounded-lg transition bg-amber-500 text-slate-950 font-bold";
+                btnArr.className = "flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white";
+                lblPort.textContent = "Pelabuhan Tujuan";
+                lblDate.textContent = "Tanggal Berangkat";
+                lblTime.textContent = "Jam Berangkat";
+            }
+        }
+
+        function toggleCustomShipInput(val) {
+            const customInput = document.getElementById('fieldNameCustom');
+            if (val === 'OTHER') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        function openFormModal(mode, shipId = null) {
+            const modal = document.getElementById('modalForm');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSub = document.getElementById('modalSub');
+            const form = document.getElementById('shipForm');
+            const shipSelect = document.getElementById('fieldName');
+            const shipCustomInput = document.getElementById('fieldNameCustom');
+
+            if (mode === 'edit' && shipId) {
+                modalTitle.textContent = "Edit Data Kapal";
+                modalSub.textContent = "Ubah informasi kedatangan atau keberangkatan kapal";
+                
+                let ship = arrivalData.find(s => s.id === shipId) || departureData.find(s => s.id === shipId);
+                if (!ship) return;
+
+                document.getElementById('fieldId').value = ship.id;
+                
+                const options = Array.from(shipSelect.options).map(opt => opt.value);
+                if (options.includes(ship.name)) {
+                    shipSelect.value = ship.name;
+                    toggleCustomShipInput(ship.name);
+                } else {
+                    shipSelect.value = 'OTHER';
+                    toggleCustomShipInput('OTHER');
+                    shipCustomInput.value = ship.name;
+                }
+
+                document.getElementById('fieldPort').value = ship.port;
+                document.getElementById('fieldDate').value = ship.date;
+                document.getElementById('fieldTime').value = ship.time;
+                document.getElementById('fieldCrewCount').value = ship.crewCount;
+                document.getElementById('fieldStatus').value = ship.status;
+                document.getElementById('fieldCrewList').value = Array.isArray(ship.crewList) ? ship.crewList.join('\n') : '';
+
+                setFormCategory(ship.type);
+            } else {
+                modalTitle.textContent = "Tambah Data Kapal Baru";
+                modalSub.textContent = "Masukkan informasi kedatangan atau keberangkatan kapal baru";
+                form.reset();
+                document.getElementById('fieldId').value = '';
+                toggleCustomShipInput('');
+                setFormCategory(activeCategory);
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeFormModal() {
+            const modal = document.getElementById('modalForm');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function saveShipData(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('fieldId').value;
+            const type = document.getElementById('fieldType').value;
+            
+            const selectedShip = document.getElementById('fieldName').value;
+            const customShip = document.getElementById('fieldNameCustom').value.trim();
+            const rawName = selectedShip === 'OTHER' ? customShip : selectedShip;
+            const name = rawName.toUpperCase();
+
+            const port = document.getElementById('fieldPort').value.trim().toUpperCase();
+            const date = document.getElementById('fieldDate').value.trim();
+            const time = document.getElementById('fieldTime').value.trim();
+            const crewCount = parseInt(document.getElementById('fieldCrewCount').value) || 1;
+            const status = document.getElementById('fieldStatus').value;
+            const rawCrewList = document.getElementById('fieldCrewList').value.trim();
+
+            let crewList = rawCrewList ? rawCrewList.split(/\n|,/).map(c => c.trim()).filter(c => c.length > 0) : [];
+            
+            if (crewList.length === 0) {
+                for (let i = 1; i <= crewCount; i++) {
+                    crewList.push(`Crew ABK #${i}`);
+                }
+            }
+
+            const shipObject = {
+                id: id || `${type.substring(0,3)}-${Date.now()}`,
+                type,
+                name,
+                port,
+                date,
+                time,
+                crewCount,
+                status,
+                crewList
+            };
+
+            if (id) {
+                arrivalData = arrivalData.filter(s => s.id !== id);
+                departureData = departureData.filter(s => s.id !== id);
+            }
+
+            if (type === 'arrival') {
+                arrivalData.unshift(shipObject);
+            } else {
+                departureData.unshift(shipObject);
+            }
+
+            saveToStorage();
+            closeFormModal();
+            renderDashboard();
+            showToast(id ? "Data kapal berhasil diperbarui!" : "Data kapal baru berhasil ditambahkan!");
+        }
+
+        function deleteShip(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus data kapal ini?")) {
+                arrivalData = arrivalData.filter(s => s.id !== id);
+                departureData = departureData.filter(s => s.id !== id);
+                saveToStorage();
+                renderDashboard();
+                showToast("Data kapal berhasil dihapus!");
+            }
+        }
+
+        function openDetailModal(shipId) {
+            const ship = arrivalData.find(s => s.id === shipId) || departureData.find(s => s.id === shipId);
+            if (!ship) return;
+
+            const modal = document.getElementById('modalDetail');
+            const container = document.getElementById('detailModalBody');
+            const modalWaBtn = document.getElementById('modalDetailWaBtn');
+            
+            if (modalWaBtn) {
+                modalWaBtn.onclick = function() { shareToWhatsApp(ship.id); };
+            }
+
+            const isArrival = ship.type === 'arrival';
+            const badgeColor = isArrival ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+            const badgeCategory = isArrival ? 'Kedatangan (Arrival)' : 'Keberangkatan (Departure)';
+
+            container.innerHTML = `
+                <div class="text-center pb-6 border-b border-slate-800">
+                    <span class="text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border ${badgeColor} inline-block mb-2">
+                        DOCUMENT CLEARANCE • ${badgeCategory}
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white">${ship.name}</h2>
+                    <p class="text-xs text-slate-400 mt-1">Sistem Otomatisasi Pass Pelabuhan & Syahbandar</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-navy-950 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-slate-400 font-semibold block uppercase">${isArrival ? 'Pelabuhan Asal' : 'Pelabuhan Tujuan'}</span>
+                        <span class="text-base font-bold text-white mt-1 block">${ship.port}</span>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-slate-400 font-semibold block uppercase">Status Operasional</span>
+                        <span class="text-base font-bold text-maritime-cyan mt-1 block">${ship.status}</span>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-slate-400 font-semibold block uppercase">${isArrival ? 'Tanggal & Jam Tiba' : 'Tanggal & Jam Berangkat'}</span>
+                        <span class="text-base font-bold text-white mt-1 block">${ship.date} - ${ship.time} WITA</span>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-2xl border border-slate-800">
+                        <span class="text-slate-400 font-semibold block uppercase">Total Kru Terverifikasi</span>
+                        <span class="text-base font-bold text-emerald-400 mt-1 block">${ship.crewCount} Personel ABK</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-users text-maritime-cyan"></i>
+                        Daftar Manifest Kru / Personel (${ship.crewList ? ship.crewList.length : 0})
+                    </h4>
+                    <div class="bg-navy-950 rounded-2xl border border-slate-800 overflow-hidden">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-navy-900 text-slate-400 border-b border-slate-800">
+                                <tr>
+                                    <th class="py-2.5 px-4 font-semibold">No</th>
+                                    <th class="py-2.5 px-4 font-semibold">Nama / Jabatan Personel</th>
+                                    <th class="py-2.5 px-4 font-semibold text-center">Status Kesehatan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60 font-medium text-slate-200">
+                                ${(ship.crewList || []).map((crew, idx) => `
+                                    <tr>
+                                        <td class="py-2.5 px-4 font-mono text-slate-400">${String(idx + 1).padStart(2, '0')}</td>
+                                        <td class="py-2.5 px-4 font-bold text-white">${crew}</td>
+                                        <td class="py-2.5 px-4 text-center text-emerald-400 font-semibold">
+                                            <i class="fa-solid fa-check-circle"></i> Terverifikasi
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('modalDetail');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function shareToWhatsApp(shipId) {
+            const ship = arrivalData.find(s => s.id === shipId) || departureData.find(s => s.id === shipId);
+            if (!ship) return;
+
+            const shipNameOnly = ship.name.replace(/^KLM\.\s*/i, '');
+            let message = "";
+
+            if (ship.type === 'arrival') {
+                message = `KEDATANGAN\n` +
+                          `KLM  : ${shipNameOnly}\n` +
+                          `Asal  : ${ship.port}\n` +
+                          `Tiba. : ${ship.date}\n` +
+                          `Jam  : ${ship.time}\n` +
+                          `Crew : ${ship.crewCount}`;
+            } else {
+                message = `KEBERANGKATAN\n` +
+                          `KLM  : ${shipNameOnly}\n` +
+                          `TUJUAN    : ${ship.port}\n` +
+                          `BRKT. TGL : ${ship.date}\n` +
+                          `JAM.      : ${ship.time}\n` +
+                          `CREW      : ${ship.crewCount}`;
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 right-6 bg-maritime-cyan text-slate-950 px-5 py-3 rounded-2xl font-bold text-xs shadow-2xl z-50 transition-all duration-300 flex items-center gap-2";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-base"></i> ${msg}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function updateLiveClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const clockEl = document.getElementById('liveClock');
+            if (clockEl) {
+                clockEl.textContent = `${hours}:${minutes}:${seconds} WITA`;
+            }
+        }
+    </script>
+</body>
+</html>

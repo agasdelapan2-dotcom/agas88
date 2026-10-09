@@ -12,7 +12,6 @@
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
      <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
      <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-
     <style>
         * {
             box-sizing: border-box;
@@ -30,14 +29,14 @@
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: #ffffff;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Banner Teks Total Trayek Keseluruhan */
+        /* Banner Total Trayek */
         .total-banner {
             background-color: #0d47a1;
             color: #ffffff;
@@ -66,12 +65,13 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th, td {
             border: 1px solid #dcdcdc;
-            padding: 8px 10px;
+            padding: 8px 6px;
+            vertical-align: middle;
         }
 
         th {
@@ -94,7 +94,7 @@
             font-weight: bold;
             text-align: center;
             border-radius: 4px;
-            padding: 4px 12px;
+            padding: 4px 10px;
             display: inline-block;
         }
 
@@ -113,17 +113,63 @@
             background-color: #e3f2fd;
             color: #0d47a1;
             font-weight: bold;
-            font-size: 14px;
-            padding: 4px 14px;
+            font-size: 13px;
+            padding: 4px 12px;
             border-radius: 4px;
             border: 1px solid #90caf9;
             display: inline-block;
             text-align: center;
-            min-width: 35px;
+            min-width: 30px;
+        }
+
+        /* Styling Thumbnail Foto */
+        .img-thumb {
+            width: 50px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            transition: transform 0.2s;
+        }
+
+        .img-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal Pop-up Pembesaran Foto */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 8px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #ffffff;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         /* TAMPILAN RESPONSIVE UNTUK HP ANDROID */
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 768px) {
             body { padding: 5px; }
             .container { padding: 10px; }
 
@@ -167,13 +213,23 @@
                 margin-bottom: 6px;
             }
 
+            /* Label otomatis saat dibuka di layar HP */
             td:nth-child(1)::before { content: "No:"; font-weight: bold; color: #666; }
-            td:nth-child(3)::before { content: "Minggu 1:"; font-weight: bold; color: #444; }
-            td:nth-child(4)::before { content: "Minggu 2:"; font-weight: bold; color: #444; }
-            td:nth-child(5)::before { content: "Minggu 3:"; font-weight: bold; color: #444; }
-            td:nth-child(6)::before { content: "Minggu 4:"; font-weight: bold; color: #444; }
+            td:nth-child(3)::before { content: "Minggu I Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(4)::before { content: "Minggu II Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(5)::before { content: "Minggu III Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(6)::before { content: "Minggu IV Oktober:"; font-weight: bold; color: #444; }
             td:nth-child(7)::before { content: "Status:"; font-weight: bold; color: #444; }
             td:nth-child(8)::before { content: "Trayek:"; font-weight: bold; color: #444; }
+            td:nth-child(9)::before { content: "Foto 1:"; font-weight: bold; color: #444; }
+            td:nth-child(10)::before { content: "Foto 2:"; font-weight: bold; color: #444; }
+            td:nth-child(11)::before { content: "Foto 3:"; font-weight: bold; color: #444; }
+            td:nth-child(12)::before { content: "Foto 4:"; font-weight: bold; color: #444; }
+
+            .img-thumb {
+                width: 65px;
+                height: 45px;
+            }
         }
       .float-home-neon {
   position: fixed;
@@ -223,7 +279,6 @@
 <body>
 
 <div class="container">
-    <!-- Banner Format "TOTAL TRAYEK = X" -->
     <div id="total-banner" class="total-banner">TOTAL TRAYEK = 0</div>
 
     <div id="loading">Memuat data dari Google Sheets...</div>
@@ -231,14 +286,18 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40px;">No</th>
+                    <th style="width: 35px;">No</th>
                     <th>Nama Kapal</th>
-                    <th style="width: 80px;">Minggu 1 Oktober</th>
-                    <th style="width: 80px;">Minggu 2 Oktober</th>
-                    <th style="width: 80px;">Minggu 3 Oktober</th>
-                    <th style="width: 80px;">Minggu 4 Oktober</th>
-                    <th style="width: 90px;">Status</th>
-                    <th style="width: 70px;">Trayek</th>
+                    <th style="width: 100px;">Minggu I Oktober</th>
+                    <th style="width: 100px;">Minggu II Oktober</th>
+                    <th style="width: 100px;">Minggu III Oktober</th>
+                    <th style="width: 100px;">Minggu IV Oktober</th>
+                    <th style="width: 80px;">Status</th>
+                    <th style="width: 60px;">Trayek</th>
+                    <th style="width: 65px;">Foto 1</th>
+                    <th style="width: 65px;">Foto 2</th>
+                    <th style="width: 65px;">Foto 3</th>
+                    <th style="width: 65px;">Foto 4</th>
                 </tr>
             </thead>
             <tbody id="table-body">
@@ -248,18 +307,21 @@
     </div>
 </div>
 
+<!-- Modal Pop-Up Pembesaran Foto -->
+<div id="imageModal" class="modal" onclick="closeImage()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="imgFull">
+</div>
+
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA99h69pzJZIrZLSV9KVxuwgno5qmxi4cMBMEwDAiM10nd4Qrjf3nYJziU8YxUpxJzBw/exec";
 
-    // Fungsi untuk menghitung total keseluruhan dan memperbarui teks "TOTAL TRAYEK = X"
     function calculateTotalTrayek() {
         const trayekCells = document.querySelectorAll('.trayek-cell');
         let grandTotal = 0;
         trayekCells.forEach(cell => {
             grandTotal += parseInt(cell.textContent) || 0;
         });
-        
-        // Update teks banner
         document.getElementById('total-banner').textContent = `TOTAL TRAYEK = ${grandTotal}`;
     }
 
@@ -279,6 +341,12 @@
                 const m3 = row[4] === true || row[4] === "TRUE";
                 const m4 = row[5] === true || row[5] === "TRUE";
                 
+                // Ambil URL Foto 1 s/d Foto 4 (di spreadsheet indeks ke-8, 9, 10, dan 11)
+                const foto1 = row[8] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
+                const foto2 = row[9] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
+                const foto3 = row[10] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
+                const foto4 = row[11] || "https://res.cloudinary.com/di8stbg60/image/upload/v1791516933/no-foto_gjyfqw.png";
+                
                 const checkedCount = (m1?1:0) + (m2?1:0) + (m3?1:0) + (m4?1:0);
                 const statusText = checkedCount > 0 ? 'sudah' : 'belum';
                 const statusClass = checkedCount > 0 ? 'status-sudah' : 'status-belum';
@@ -293,13 +361,15 @@
                     <td class="text-center"><input type="checkbox" class="check-input" ${m4 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
                     <td><span class="status-cell ${statusClass}">${statusText}</span></td>
                     <td class="text-center"><span class="trayek-badge trayek-cell">${checkedCount}</span></td>
+                    <td class="text-center"><img src="${foto1}" class="img-thumb" alt="Foto 1" onclick="openImage('${foto1}')"></td>
+                    <td class="text-center"><img src="${foto2}" class="img-thumb" alt="Foto 2" onclick="openImage('${foto2}')"></td>
+                    <td class="text-center"><img src="${foto3}" class="img-thumb" alt="Foto 3" onclick="openImage('${foto3}')"></td>
+                    <td class="text-center"><img src="${foto4}" class="img-thumb" alt="Foto 4" onclick="openImage('${foto4}')"></td>
                 `;
                 tbody.appendChild(tr);
             });
 
             document.getElementById('loading').style.display = 'none';
-            
-            // Hitung total trayek saat pertama kali data dimuat
             calculateTotalTrayek();
         } catch (error) {
             console.error('Gagal mengambil data:', error);
@@ -330,7 +400,6 @@
             statusCell.className = 'status-cell status-belum';
         }
 
-        // Hitung ulang total secara langsung saat centang diklik
         calculateTotalTrayek();
 
         await fetch(SCRIPT_URL, {
@@ -339,6 +408,17 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, m1, m2, m3, m4 })
         });
+    }
+
+    function openImage(url) {
+        const modal = document.getElementById('imageModal');
+        const imgFull = document.getElementById('imgFull');
+        imgFull.src = url;
+        modal.style.display = 'flex';
+    }
+
+    function closeImage() {
+        document.getElementById('imageModal').style.display = 'none';
     }
 
     fetchSheetsData();

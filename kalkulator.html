@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Modern Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Animated Background Gradients */
+        body {
+            background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .ambient-glow-1 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0,0,0,0) 70%);
+            top: 10%;
+            left: 15%;
+            filter: blur(50px);
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(0,0,0,0) 70%);
+            bottom: 10%;
+            right: 15%;
+            filter: blur(60px);
+            animation: pulse-glow 10s infinite alternate-reverse ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+            100% { transform: scale(1.2) translate(30px, -20px); opacity: 0.9; }
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-btn:active, .btn-active {
+            transform: translateY(1px) scale(0.96) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .glass-btn-op {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            color: #a5b4fc;
+        }
+
+        .glass-btn-op:hover {
+            background: rgba(99, 102, 241, 0.35);
+            color: #ffffff;
+            border-color: rgba(165, 180, 252, 0.5);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .glass-btn-action {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            color: #fca5a5;
+        }
+
+        .glass-btn-action:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #ffffff;
+            border-color: rgba(252, 165, 165, 0.4);
+        }
+
+        .glass-btn-equals {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .glass-btn-equals:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Custom Scrollbar for History */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Display Ripple / Pulse Animation */
+        @keyframes key-flash {
+            0% { opacity: 0.8; }
+            100% { opacity: 0; transform: scale(1.05); }
+        }
+
+        .animate-ripple {
+            animation: key-flash 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 relative">
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <main class="w-full max-w-4xl flex flex-col md:flex-row gap-5 z-10 my-auto">
+        
+        <!-- Calculator Main Panel -->
+        <div class="glass-panel w-full md:w-[420px] rounded-3xl p-6 flex flex-col justify-between transition-all duration-300">
+            
+            <!-- Header Status / Key Indicator -->
+            <div class="flex items-center justify-between mb-4 text-xs font-medium text-slate-400">
+                <div class="flex items-center space-x-2">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="tracking-wide uppercase text-[10px] text-slate-300">NEUMORPHIC FX</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="toggle-history-mobile" class="md:hidden text-slate-300 hover:text-white transition-colors p-1" title="Lihat Histori">
+                        <i data-lucide="history" class="w-4 h-4"></i>
+                    </button>
+                    <span class="bg-slate-800/60 border border-slate-700/50 px-2 py-0.5 rounded text-[10px] text-indigo-300">NUMPAD ACTIVE</span>
+                </div>
+            </div>
+
+            <!-- Display Screen -->
+            <div class="bg-slate-950/50 rounded-2xl p-5 mb-6 border border-slate-800/80 shadow-inner flex flex-col items-end justify-between min-h-[120px] overflow-hidden relative group">
+                <!-- Expression Line -->
+                <div id="expression" class="text-slate-400 text-sm md:text-base font-light tracking-wide break-all max-w-full text-right h-6 transition-all duration-200">
+                    <!-- History expression rendered here -->
+                </div>
+                
+                <!-- Main Value Display & Copy Button Container -->
+                <div class="w-full flex items-center justify-between gap-2 my-1">
+                    <!-- Copy Button -->
+                    <button id="copy-btn" class="glass-btn p-2 rounded-xl text-slate-400 hover:text-indigo-300 transition-all active:scale-90 flex items-center gap-1 opacity-70 hover:opacity-100" title="Salin Hasil">
+                        <i id="copy-icon" data-lucide="copy" class="w-4 h-4"></i>
+                        <span id="copy-label" class="text-[10px] hidden sm:inline font-medium">Salin</span>
+                    </button>
+
+                    <!-- Main Display Value -->
+                    <div id="display" class="text-white text-4xl md:text-5xl font-semibold tracking-tight break-all max-w-full text-right transition-all duration-150">
+                        0
+                    </div>
+                </div>
+
+                <!-- Sub-info / Memory indicator -->
+                <div class="w-full flex justify-between items-center text-[11px] text-slate-500 pt-1 border-t border-slate-800/40 mt-1">
+                    <span id="calc-mode" class="text-indigo-400/80">Standard</span>
+                    <span id="status-msg" class="text-slate-400 italic">Siap</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-3" id="keypad">
+                <!-- Row 1 -->
+                <button data-action="clear" class="glass-btn glass-btn-action text-red-400 font-semibold p-4 rounded-2xl flex items-center justify-center text-lg active:scale-95">
+                    AC
+                </button>
+                <button data-action="backspace" class="glass-btn text-slate-300 font-medium p-4 rounded-2xl flex items-center justify-center text-lg active:scale-95" title="Hapus (Backspace)">
+                    <i data-lucide="delete" class="w-5 h-5"></i>
+                </button>
+                <button data-action="percent" class="glass-btn text-slate-300 font-medium p-4 rounded-2xl flex items-center justify-center text-lg active:scale-95">
+                    %
+                </button>
+                <button data-action="operator" data-val="/" class="glass-btn glass-btn-op font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    ÷
+                </button>
+
+                <!-- Row 2 -->
+                <button data-val="7" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    7
+                </button>
+                <button data-val="8" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    8
+                </button>
+                <button data-val="9" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    9
+                </button>
+                <button data-action="operator" data-val="*" class="glass-btn glass-btn-op font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    ×
+                </button>
+
+                <!-- Row 3 -->
+                <button data-val="4" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    4
+                </button>
+                <button data-val="5" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    5
+                </button>
+                <button data-val="6" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    6
+                </button>
+                <button data-action="operator" data-val="-" class="glass-btn glass-btn-op font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    −
+                </button>
+
+                <!-- Row 4 -->
+                <button data-val="1" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    1
+                </button>
+                <button data-val="2" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    2
+                </button>
+                <button data-val="3" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    3
+                </button>
+                <button data-action="operator" data-val="+" class="glass-btn glass-btn-op font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    +
+                </button>
+
+                <!-- Row 5 -->
+                <button data-action="toggle-sign" class="glass-btn text-slate-300 font-medium p-4 rounded-2xl flex items-center justify-center text-lg active:scale-95">
+                    ±
+                </button>
+                <button data-val="0" class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    0
+                </button>
+                <button data-val="." class="glass-btn text-white font-medium p-4 rounded-2xl flex items-center justify-center text-xl active:scale-95">
+                    ,
+                </button>
+                <button data-action="calculate" class="glass-btn glass-btn-equals font-bold p-4 rounded-2xl flex items-center justify-center text-2xl active:scale-95">
+                    =
+                </button>
+            </div>
+        </div>
+
+        <!-- History Panel (Side Panel) -->
+        <div id="history-panel" class="glass-panel w-full md:w-80 rounded-3xl p-6 flex flex-col justify-between hidden md:flex transition-all duration-300">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-700/50">
+                <div class="flex items-center space-x-2 text-slate-200">
+                    <i data-lucide="history" class="w-5 h-5 text-indigo-400"></i>
+                    <h2 class="font-semibold text-base">Histori Perhitungan</h2>
+                </div>
+                <button id="clear-history" class="text-slate-400 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-slate-800/50" title="Bersihkan Histori">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- History List -->
+            <div id="history-list" class="flex-1 my-4 space-y-3 overflow-y-auto max-h-[380px] pr-1 custom-scroll">
+                <div id="empty-history" class="text-center text-slate-500 py-12 flex flex-col items-center justify-center space-y-2">
+                    <i data-lucide="calculator" class="w-8 h-8 opacity-40"></i>
+                    <p class="text-xs">Belum ada riwayat perhitungan</p>
+                </div>
+            </div>
+
+            <!-- Footer Shortcuts Hint -->
+            <div class="pt-3 border-t border-slate-700/50 text-[11px] text-slate-400 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span>Keyboard Nav:</span>
+                    <span class="text-indigo-300 bg-indigo-950/50 px-1.5 py-0.5 rounded border border-indigo-800/40">Active</span>
+                </div>
+                <p class="text-[10px] text-slate-500">Tekan <kbd class="bg-slate-800 px-1 rounded text-slate-300">Enter</kbd> (=), <kbd class="bg-slate-800 px-1 rounded text-slate-300">Esc</kbd> (AC), <kbd class="bg-slate-800 px-1 rounded text-slate-300">Backspace</kbd> (⌫)</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom Toast Message -->
+    <div id="toast" class="fixed bottom-6 bg-slate-800 text-white border border-slate-700 px-4 py-2.5 rounded-xl shadow-2xl text-xs flex items-center space-x-2 opacity-0 transform translate-y-4 transition-all duration-300 pointer-events-none z-50">
+        <i data-lucide="info" class="w-4 h-4 text-indigo-400"></i>
+        <span id="toast-text">Pesan Toast</span>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Application State
+        const state = {
+            currentValue: '0',
+            previousValue: '',
+            operator: null,
+            waitingForNextNumber: false,
+            expressionHistory: '',
+            history: []
+        };
+
+        // DOM Elements
+        const displayEl = document.getElementById('display');
+        const expressionEl = document.getElementById('expression');
+        const keypadEl = document.getElementById('keypad');
+        const historyListEl = document.getElementById('history-list');
+        const emptyHistoryEl = document.getElementById('empty-history');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        const toggleHistoryMobileBtn = document.getElementById('toggle-history-mobile');
+        const historyPanel = document.getElementById('history-panel');
+        const statusMsgEl = document.getElementById('status-msg');
+        const toastEl = document.getElementById('toast');
+        const toastTextEl = document.getElementById('toast-text');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyIcon = document.getElementById('copy-icon');
+        const copyLabel = document.getElementById('copy-label');
+
+        /**
+         * Copy Display Value to Clipboard
+         */
+        function copyToClipboard() {
+            const rawValue = state.currentValue;
+            
+            if (!rawValue || rawValue === 'Error' || rawValue === 'Tidak terdefinisi') {
+                showToast('Tidak ada angka valid untuk disalin');
+                return;
+            }
+
+            // Execute copy command compatible with iFrame environments
+            const tempInput = document.createElement('textarea');
+            tempInput.value = rawValue;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // Visual feedback on button
+                copyLabel.textContent = 'Tersalin!';
+                copyBtn.classList.add('bg-indigo-600/40', 'text-emerald-400', 'border-indigo-500');
+                
+                // Change icon temporarily to Check mark
+                copyIcon.setAttribute('data-lucide', 'check');
+                lucide.createIcons();
+
+                showToast(`Tersalin ke clipboard: ${formatNumber(rawValue)}`);
+
+                setTimeout(() => {
+                    copyLabel.textContent = 'Salin';
+                    copyBtn.classList.remove('bg-indigo-600/40', 'text-emerald-400', 'border-indigo-500');
+                    copyIcon.setAttribute('data-lucide', 'copy');
+                    lucide.createIcons();
+                }, 1800);
+
+            } catch (err) {
+                showToast('Gagal menyalin teks');
+            } finally {
+                document.body.removeChild(tempInput);
+            }
+        }
+
+        // Attach Copy Listener
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        /**
+         * Formats number string for display with proper thousand separators
+         */
+        function formatNumber(numStr) {
+            if (numStr === '' || numStr === undefined || numStr === 'Error') return numStr;
+            
+            // Check if contains exponent or error
+            if (numStr.includes('e') || numStr.includes('E')) return numStr;
+            
+            const parts = numStr.split('.');
+            let integerPart = parts[0];
+            const decimalPart = parts.length > 1 ? ',' + parts[1] : '';
+
+            // Format integer part with dots for Indonesian format
+            const isNegative = integerPart.startsWith('-');
+            if (isNegative) integerPart = integerPart.substring(1);
+
+            const formattedInt = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return (isNegative ? '-' : '') + formattedInt + decimalPart;
+        }
+
+        /**
+         * Updates the display screen
+         */
+        function updateDisplay() {
+            displayEl.textContent = formatNumber(state.currentValue);
+            
+            // Adjust font size dynamically if text is very long
+            const len = state.currentValue.length;
+            if (len > 12) {
+                displayEl.className = 'text-white text-2xl md:text-3xl font-semibold tracking-tight break-all max-w-full text-right my-1 transition-all duration-150';
+            } else if (len > 8) {
+                displayEl.className = 'text-white text-3xl md:text-4xl font-semibold tracking-tight break-all max-w-full text-right my-1 transition-all duration-150';
+            } else {
+                displayEl.className = 'text-white text-4xl md:text-5xl font-semibold tracking-tight break-all max-w-full text-right my-1 transition-all duration-150';
+            }
+
+            expressionEl.textContent = state.expressionHistory;
+        }
+
+        /**
+         * Handle Number Inputs
+         */
+        function inputDigit(digit) {
+            if (state.waitingForNextNumber) {
+                state.currentValue = digit === '.' ? '0.' : digit;
+                state.waitingForNextNumber = false;
+            } else {
+                if (digit === '.') {
+                    if (!state.currentValue.includes('.')) {
+                        state.currentValue += '.';
+                    }
+                } else {
+                    if (state.currentValue === '0') {
+                        state.currentValue = digit;
+                    } else {
+                        // Max digits safeguard
+                        if (state.currentValue.replace('.', '').length < 15) {
+                            state.currentValue += digit;
+                        } else {
+                            showToast('Batas maksimum digit dicapai');
+                        }
+                    }
+                }
+            }
+            statusMsgEl.textContent = 'Memasukkan angka';
+            updateDisplay();
+        }
+
+        /**
+         * Handle Operator Selection (+, -, *, /)
+         */
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(state.currentValue);
+
+            const symbolMap = {
+                '+': '+',
+                '-': '−',
+                '*': '×',
+                '/': '÷'
+            };
+
+            if (state.operator && state.waitingForNextNumber) {
+                state.operator = nextOperator;
+                state.expressionHistory = `${formatNumber(state.previousValue)} ${symbolMap[nextOperator]}`;
+                updateDisplay();
+                return;
+            }
+
+            if (state.previousValue === '') {
+                state.previousValue = state.currentValue;
+            } else if (state.operator) {
+                const result = calculate(parseFloat(state.previousValue), inputValue, state.operator);
+                if (result === 'Error') {
+                    handleClear();
+                    state.currentValue = 'Error';
+                    updateDisplay();
+                    return;
+                }
+                state.currentValue = String(result);
+                state.previousValue = String(result);
+            }
+
+            state.waitingForNextNumber = true;
+            state.operator = nextOperator;
+            state.expressionHistory = `${formatNumber(state.previousValue)} ${symbolMap[nextOperator]}`;
+            statusMsgEl.textContent = `Operator ${symbolMap[nextOperator]}`;
+            updateDisplay();
+        }
+
+        /**
+         * Perform Mathematical Calculation
+         */
+        function calculate(first, second, op) {
+            let res = 0;
+            switch (op) {
+                case '+': res = first + second; break;
+                case '-': res = first - second; break;
+                case '*': res = first * second; break;
+                case '/':
+                    if (second === 0) {
+                        showToast('Tidak dapat membagi dengan nol!');
+                        return 'Error';
+                    }
+                    res = first / second;
+                    break;
+                default: return second;
+            }
+
+            // Fix precision issues (e.g. 0.1 + 0.2 = 0.30000000000000004)
+            return Math.round(res * 1e12) / 1e12;
+        }
+
+        /**
+         * Execute Calculation (=)
+         */
+        function handleEquals() {
+            if (!state.operator || state.previousValue === '') return;
+
+            const first = parseFloat(state.previousValue);
+            const second = parseFloat(state.currentValue);
+            const op = state.operator;
+
+            const symbolMap = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+
+            const result = calculate(first, second, op);
+
+            if (result === 'Error') {
+                state.currentValue = 'Tidak terdefinisi';
+                state.previousValue = '';
+                state.operator = null;
+                state.waitingForNextNumber = true;
+                updateDisplay();
+                return;
+            }
+
+            const fullExpr = `${formatNumber(state.previousValue)} ${symbolMap[op]} ${formatNumber(state.currentValue)}`;
+            
+            // Add to History
+            addHistoryItem(fullExpr, String(result));
+
+            state.expressionHistory = `${fullExpr} =`;
+            state.currentValue = String(result);
+            state.previousValue = '';
+            state.operator = null;
+            state.waitingForNextNumber = true;
+
+            statusMsgEl.textContent = 'Kalkulasi selesai';
+            updateDisplay();
+        }
+
+        /**
+         * Toggle Positive / Negative
+         */
+        function handleToggleSign() {
+            if (state.currentValue === '0' || state.currentValue === 'Error') return;
+            state.currentValue = state.currentValue.startsWith('-') 
+                ? state.currentValue.slice(1) 
+                : '-' + state.currentValue;
+            updateDisplay();
+        }
+
+        /**
+         * Percentage Function
+         */
+        function handlePercent() {
+            const current = parseFloat(state.currentValue);
+            if (isNaN(current)) return;
+
+            const pctValue = current / 100;
+            state.currentValue = String(pctValue);
+            statusMsgEl.textContent = 'Persentase (%)';
+            updateDisplay();
+        }
+
+        /**
+         * Backspace Function
+         */
+        function handleBackspace() {
+            if (state.waitingForNextNumber) return;
+
+            if (state.currentValue.length > 1) {
+                state.currentValue = state.currentValue.slice(0, -1);
+                if (state.currentValue === '-') state.currentValue = '0';
+            } else {
+                state.currentValue = '0';
+            }
+            statusMsgEl.textContent = 'Hapus karakter';
+            updateDisplay();
+        }
+
+        /**
+         * Clear All (AC)
+         */
+        function handleClear() {
+            state.currentValue = '0';
+            state.previousValue = '';
+            state.operator = null;
+            state.waitingForNextNumber = false;
+            state.expressionHistory = '';
+            statusMsgEl.textContent = 'Siap';
+            updateDisplay();
+        }
+
+
+        /**
+         * Add Calculation to History
+         */
+        function addHistoryItem(expression, result) {
+            const historyObj = { expression, result, id: Date.now() };
+            state.history.unshift(historyObj);
+            renderHistory();
+        }
+
+        /**
+         * Render History Items to DOM
+         */
+        function renderHistory() {
+            if (state.history.length === 0) {
+                emptyHistoryEl.classList.remove('hidden');
+                historyListEl.innerHTML = '';
+                historyListEl.appendChild(emptyHistoryEl);
+                return;
+            }
+
+            emptyHistoryEl.classList.add('hidden');
+            historyListEl.innerHTML = '';
+
+            state.history.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'p-3 bg-slate-900/60 border border-slate-800 rounded-xl hover:border-indigo-500/50 transition-all cursor-pointer group flex flex-col items-end';
+                card.innerHTML = `
+                    <div class="text-xs text-slate-400 font-light group-hover:text-slate-300">${item.expression} =</div>
+                    <div class="text-lg font-semibold text-indigo-300 group-hover:text-indigo-200">${formatNumber(item.result)}</div>
+                `;
+
+                // Click history to reuse result
+                card.addEventListener('click', () => {
+                    state.currentValue = item.result;
+                    state.waitingForNextNumber = false;
+                    statusMsgEl.textContent = 'Hasil histori dimuat';
+                    updateDisplay();
+                    showToast('Nilai dari histori dimuat');
+                });
+
+                historyListEl.appendChild(card);
+            });
+        }
+
+        /**
+         * Clear All History
+         */
+        clearHistoryBtn.addEventListener('click', () => {
+            state.history = [];
+            renderHistory();
+            showToast('Histori berhasil dibersihkan');
+        });
+
+
+        /**
+         * Toast Notification Helper
+         */
+        function showToast(msg) {
+            toastTextEl.textContent = msg;
+            toastEl.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            toastEl.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toastEl.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                toastEl.classList.remove('opacity-100', 'translate-y-0');
+            }, 2500);
+        }
+
+        /**
+         * Mobile History Panel Toggle
+         */
+        toggleHistoryMobileBtn.addEventListener('click', () => {
+            historyPanel.classList.toggle('hidden');
+        });
+
+        /**
+         * Keypad Button Click Listener
+         */
+        keypadEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            // Trigger ripple active style effect
+            btn.classList.add('btn-active');
+            setTimeout(() => btn.classList.remove('btn-active'), 150);
+
+            const val = btn.dataset.val;
+            const action = btn.dataset.action;
+
+            if (val !== undefined) {
+                if (['+', '-', '*', '/'].includes(val)) {
+                    handleOperator(val);
+                } else {
+                    inputDigit(val);
+                }
+            } else if (action) {
+                switch (action) {
+                    case 'clear': handleClear(); break;
+                    case 'backspace': handleBackspace(); break;
+                    case 'percent': handlePercent(); break;
+                    case 'toggle-sign': handleToggleSign(); break;
+                    case 'operator': handleOperator(btn.dataset.val); break;
+                    case 'calculate': handleEquals(); break;
+                }
+            }
+        });
+
+
+        /**
+         * Physical Keyboard & Numpad Support
+         */
+        window.addEventListener('keydown', (e) => {
+            // Prevent default scroll behavior for space and arrow keys
+            if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+            }
+
+            let selector = null;
+
+            if (e.key >= '0' && e.key <= '9') {
+                inputDigit(e.key);
+                selector = `button[data-val="${e.key}"]`;
+            } else if (e.key === '.' || e.key === ',') {
+                inputDigit('.');
+                selector = `button[data-val="."]`;
+            } else if (e.key === '+') {
+                handleOperator('+');
+                selector = `button[data-val="+"]`;
+            } else if (e.key === '-') {
+                handleOperator('-');
+                selector = `button[data-val="-"]`;
+            } else if (e.key === '*') {
+                handleOperator('*');
+                selector = `button[data-val="*"]`;
+            } else if (e.key === '/') {
+                e.preventDefault();
+                handleOperator('/');
+                selector = `button[data-val="/"]`;
+            } else if (e.key === 'Enter' || e.key === '=') {
+                e.preventDefault();
+                handleEquals();
+                selector = `button[data-action="calculate"]`;
+            } else if (e.key === 'Backspace') {
+                handleBackspace();
+                selector = `button[data-action="backspace"]`;
+            } else if (e.key === 'Escape' || e.key === 'Delete') {
+                handleClear();
+                selector = `button[data-action="clear"]`;
+            } else if (e.key === '%') {
+                handlePercent();
+                selector = `button[data-action="percent"]`;
+            }
+
+            // Visual Key Highlight Feedback
+            if (selector) {
+                const targetBtn = document.querySelector(selector);
+                if (targetBtn) {
+                    targetBtn.classList.add('btn-active');
+                    setTimeout(() => targetBtn.classList.remove('btn-active'), 150);
+                }
+            }
+        });
+
+        // Initial Display Update
+        updateDisplay();
+    </script>
+</body>
+</html>

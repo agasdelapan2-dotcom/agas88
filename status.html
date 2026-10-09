@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Keberangkatan</title>
+    <title>Jadwal Kapal Responsif Android</title>
     <!-- Favicon & App Icon untuk Google Search & Browser -->
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
@@ -12,6 +12,7 @@
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
      <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
      <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+
     <style>
         * {
             box-sizing: border-box;
@@ -34,6 +35,20 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Banner Teks Total Trayek Keseluruhan */
+        .total-banner {
+            background-color: #0d47a1;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(13, 71, 161, 0.25);
         }
 
         #loading {
@@ -93,7 +108,7 @@
             color: #ffffff;
         }
 
-        /* Style Badge Trayek (Warna Biru Kontras & Jelas Dibaca) */
+        /* Style Badge Trayek */
         .trayek-badge {
             background-color: #e3f2fd;
             color: #0d47a1;
@@ -111,6 +126,11 @@
         @media screen and (max-width: 600px) {
             body { padding: 5px; }
             .container { padding: 10px; }
+
+            .total-banner {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
 
             table, thead, tbody, th, td, tr { display: block; }
 
@@ -148,10 +168,10 @@
             }
 
             td:nth-child(1)::before { content: "No:"; font-weight: bold; color: #666; }
-            td:nth-child(3)::before { content: "Minggu 1 Oktober:"; font-weight: bold; color: #444; }
-            td:nth-child(4)::before { content: "Minggu 2 Oktober:"; font-weight: bold; color: #444; }
-            td:nth-child(5)::before { content: "Minggu 3 Oktober:"; font-weight: bold; color: #444; }
-            td:nth-child(6)::before { content: "Minggu 4 Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(3)::before { content: "Minggu 1:"; font-weight: bold; color: #444; }
+            td:nth-child(4)::before { content: "Minggu 2:"; font-weight: bold; color: #444; }
+            td:nth-child(5)::before { content: "Minggu 3:"; font-weight: bold; color: #444; }
+            td:nth-child(6)::before { content: "Minggu 4:"; font-weight: bold; color: #444; }
             td:nth-child(7)::before { content: "Status:"; font-weight: bold; color: #444; }
             td:nth-child(8)::before { content: "Trayek:"; font-weight: bold; color: #444; }
         }
@@ -203,6 +223,9 @@
 <body>
 
 <div class="container">
+    <!-- Banner Format "TOTAL TRAYEK = X" -->
+    <div id="total-banner" class="total-banner">TOTAL TRAYEK = 0</div>
+
     <div id="loading">Memuat data dari Google Sheets...</div>
     <div class="table-responsive">
         <table>
@@ -226,7 +249,19 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykzo_NpNZRk1GniXRsdpjy0DCLUb6F3wWF3EdD7x9cz6aFrgRnKSYgYsbGqhjIl1OMJQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA99h69pzJZIrZLSV9KVxuwgno5qmxi4cMBMEwDAiM10nd4Qrjf3nYJziU8YxUpxJzBw/exec";
+
+    // Fungsi untuk menghitung total keseluruhan dan memperbarui teks "TOTAL TRAYEK = X"
+    function calculateTotalTrayek() {
+        const trayekCells = document.querySelectorAll('.trayek-cell');
+        let grandTotal = 0;
+        trayekCells.forEach(cell => {
+            grandTotal += parseInt(cell.textContent) || 0;
+        });
+        
+        // Update teks banner
+        document.getElementById('total-banner').textContent = `TOTAL TRAYEK = ${grandTotal}`;
+    }
 
     async function fetchSheetsData() {
         try {
@@ -263,6 +298,9 @@
             });
 
             document.getElementById('loading').style.display = 'none';
+            
+            // Hitung total trayek saat pertama kali data dimuat
+            calculateTotalTrayek();
         } catch (error) {
             console.error('Gagal mengambil data:', error);
             document.getElementById('loading').innerText = 'Gagal memuat data.';
@@ -291,6 +329,9 @@
             statusCell.textContent = 'belum';
             statusCell.className = 'status-cell status-belum';
         }
+
+        // Hitung ulang total secara langsung saat centang diklik
+        calculateTotalTrayek();
 
         await fetch(SCRIPT_URL, {
             method: 'POST',

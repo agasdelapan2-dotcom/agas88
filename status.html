@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Keberangkatan Kapal</title>
+    <title>Jadwal Kapal Responsif Android</title>
     <!-- Favicon & App Icon untuk Google Search & Browser -->
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
@@ -43,7 +43,6 @@
             color: #555;
         }
 
-        /* Styling Tabel Standar (Layar Komputer / Laptop) */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -75,11 +74,13 @@
             accent-color: #2196F3;
         }
 
+        /* Style Badge Status */
         .status-cell {
             font-weight: bold;
             text-align: center;
             border-radius: 4px;
-            padding: 4px 8px;
+            padding: 4px 12px;
+            display: inline-block;
         }
 
         .status-sudah {
@@ -92,22 +93,26 @@
             color: #ffffff;
         }
 
-        /* ====================================================== */
-        /* TAMPILAN RESPOSIF UNTUK HP ANDROID (Maksimal Lebar 600px) */
-        /* ====================================================== */
+        /* Style Badge Trayek (Warna Biru Kontras & Jelas Dibaca) */
+        .trayek-badge {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 4px 14px;
+            border-radius: 4px;
+            border: 1px solid #90caf9;
+            display: inline-block;
+            text-align: center;
+            min-width: 35px;
+        }
+
+        /* TAMPILAN RESPONSIVE UNTUK HP ANDROID */
         @media screen and (max-width: 600px) {
-            body {
-                padding: 5px;
-            }
+            body { padding: 5px; }
+            .container { padding: 10px; }
 
-            .container {
-                padding: 10px;
-            }
-
-            /* Sembunyikan Header Tabel Asli */
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
+            table, thead, tbody, th, td, tr { display: block; }
 
             thead tr {
                 position: absolute;
@@ -115,7 +120,6 @@
                 left: -9999px;
             }
 
-            /* Setiap Baris Diubah Menjadi Kartu / Card */
             tr {
                 background: #ffffff;
                 border: 1px solid #e0e0e0;
@@ -134,7 +138,6 @@
                 font-size: 14px;
             }
 
-            /* Mengubah Judul Kapal (Nama Kapal) Lebih Menonjol */
             td:nth-child(2) {
                 font-weight: bold;
                 font-size: 16px;
@@ -144,20 +147,13 @@
                 margin-bottom: 6px;
             }
 
-            /* Menambahkan Label Otomatis di Samping Kiri Pada Layar HP */
             td:nth-child(1)::before { content: "No:"; font-weight: bold; color: #666; }
-            td:nth-child(3)::before { content: "Minggu 1:"; font-weight: bold; color: #444; }
-            td:nth-child(4)::before { content: "Minggu 2:"; font-weight: bold; color: #444; }
-            td:nth-child(5)::before { content: "Minggu 3:"; font-weight: bold; color: #444; }
-            td:nth-child(6)::before { content: "Minggu 4:"; font-weight: bold; color: #444; }
+            td:nth-child(3)::before { content: "Minggu 1 Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(4)::before { content: "Minggu 2 Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(5)::before { content: "Minggu 3 Oktober:"; font-weight: bold; color: #444; }
+            td:nth-child(6)::before { content: "Minggu 4 Oktober:"; font-weight: bold; color: #444; }
             td:nth-child(7)::before { content: "Status:"; font-weight: bold; color: #444; }
             td:nth-child(8)::before { content: "Trayek:"; font-weight: bold; color: #444; }
-
-            .status-cell {
-                display: inline-block;
-                width: auto;
-                min-width: 70px;
-            }
         }
       .float-home-neon {
   position: fixed;
@@ -230,7 +226,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzz9zvxSeuduYJDApQ98tqP9aVrHeh91mC8D2VQFc9dT6b_0Op3VbolVI-KMDO74E2XhA/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA99h69pzJZIrZLSV9KVxuwgno5qmxi4cMBMEwDAiM10nd4Qrjf3nYJziU8YxUpxJzBw/exec";
 
     async function fetchSheetsData() {
         try {
@@ -261,7 +257,7 @@
                     <td class="text-center"><input type="checkbox" class="check-input" ${m3 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
                     <td class="text-center"><input type="checkbox" class="check-input" ${m4 ? 'checked' : ''} onchange="updateData(${id}, this)"></td>
                     <td><span class="status-cell ${statusClass}">${statusText}</span></td>
-                    <td class="text-center trayek-cell">${checkedCount}</td>
+                    <td class="text-center"><span class="trayek-badge trayek-cell">${checkedCount}</span></td>
                 `;
                 tbody.appendChild(tr);
             });

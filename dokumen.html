@@ -6,14 +6,6 @@
   <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Favicon & App Icon untuk Google Search & Browser -->
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-    <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-    <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
-     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
-     <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
-     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -53,51 +45,6 @@
       </div>
     </div>
   </header>
-<style>
-.float-home-neon {
-  position: fixed;
-  bottom: 25px;
-  left: 25px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50px;
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  z-index: 9999;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.float-home-neon .home-icon {
-  width: 20px;
-  height: 20px;
-  fill: #00f2fe;
-  transition: transform 0.3s ease;
-}
-
-.float-home-neon:hover {
-  transform: translateY(-5px) scale(1.05);
-  background: rgba(15, 23, 42, 0.9);
-  border-color: #00f2fe;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-  color: #00f2fe;
-}
-
-.float-home-neon:hover .home-icon {
-  transform: scale(1.2);
-  fill: #00f2fe;
-}
-  </style>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
     
@@ -115,7 +62,7 @@
       
       <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Sayuran/Tumbuhan)</p>
+          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Sayur/Tumbuhan)</p>
           <p class="text-2xl font-bold text-emerald-400 mt-1" id="statHasCargo">0</p>
         </div>
         <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
@@ -153,7 +100,7 @@
         <div class="flex items-center gap-2 w-full md:w-auto justify-end flex-wrap">
           <!-- Tombol Update Data (Google Sheets) -->
           <a 
-            href="https://docs.google.com/spreadsheets/d/1ePG9CKHr0hC0c3-CDs6f_NkS_6bn8thkykuanBkgAJM/edit?usp=sharing" 
+            href="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pubhtml" 
             target="_blank" 
             class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5 font-medium shadow-md shadow-blue-600/20"
             title="Buka Google Sheets untuk Mengubah Data"
@@ -245,7 +192,7 @@
           </div>
           <div>
             <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Rincian Dokumen Kapal</span>
-            <h3 class="text-lg font-bold text-white leading-tight mt-0.5" id="modalShipName">KLM. SUMBER RIZKY</h3>
+            <h3 class="text-lg font-bold text-white leading-tight mt-0.5" id="modalShipName">-</h3>
           </div>
         </div>
         <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700/50 transition-colors">
@@ -269,7 +216,7 @@
             <span class="text-lg">🐟</span>
             <span class="text-xs font-medium text-slate-300">Muatan Ikan</span>
           </div>
-          <span class="font-mono font-bold text-blue-400 text-sm" id="modalIkan">4.000</span>
+          <span class="font-mono font-bold text-blue-400 text-sm" id="modalIkan">-</span>
         </div>
 
         <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
@@ -277,7 +224,7 @@
             <span class="text-lg">🥬</span>
             <span class="text-xs font-medium text-slate-300">Muatan Sayuran</span>
           </div>
-          <span class="font-mono font-bold text-amber-400 text-sm" id="modalSayuran">2.000</span>
+          <span class="font-mono font-bold text-amber-400 text-sm" id="modalSayuran">-</span>
         </div>
 
         <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
@@ -285,7 +232,7 @@
             <span class="text-lg">🌱</span>
             <span class="text-xs font-medium text-slate-300">Muatan Tumbuhan</span>
           </div>
-          <span class="font-mono font-bold text-emerald-400 text-sm" id="modalTumbuhan">7.000</span>
+          <span class="font-mono font-bold text-emerald-400 text-sm" id="modalTumbuhan">-</span>
         </div>
 
         <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
@@ -318,7 +265,7 @@
   </div>
 
   <script>
-    // URL Ekspor CSV Live dari Google Sheets
+    // URL CSV Google Sheets yang valid (menggunakan output=csv)
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pub?gid=0&single=true&output=csv";
 
     let shipData = [];
@@ -340,21 +287,27 @@
         const response = await fetch(GOOGLE_SHEETS_CSV_URL + "&t=" + new Date().getTime());
         const csvText = await response.text();
         
-        // Parse CSV
+        // Parse CSV baris per baris
         const lines = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         shipData = [];
         
+        // Mulai dari i = 1 untuk melewati baris judul (header)
         for (let i = 1; i < lines.length; i++) {
-          const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
-          if (cols[0]) {
+          // Tangani koma di dalam tanda kutip CSV
+          const cols = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"\vert{}"$/g, '').trim());
+          if (cols[0] && cols[0].toUpperCase() !== 'NAMA KAPAL') {
             shipData.push({
               id: i,
               nama: cols[0] || '-',
               ikan: cols[1] && cols[1] !== '' ? cols[1] : '-',
-              sayuran: cols[2] && cols[2] !== '' && cols.length > 3 ? cols[2] : '-',
-              tumbuhan: cols[cols.length - 1] && cols[cols.length - 1] !== '' ? cols[cols.length - 1] : (cols[2] || '-')
+              sayuran: cols[2] && cols[2] !== '' ? cols[2] : '-',
+              tumbuhan: cols[3] && cols[3] !== '' ? cols[3] : '-'
             });
           }
+        }
+
+        if (shipData.length === 0) {
+          throw new Error("Data kosong");
         }
 
         filteredData = [...shipData];
@@ -365,34 +318,34 @@
         document.getElementById('statHasCargo').innerText = hasCargoCount;
 
         renderTable();
-        showToast("Data Google Sheets berhasil diperbarui!");
+        showToast("Data Google Sheets berhasil disinkronkan!");
       } catch (error) {
-        console.error("Gagal mengambil data:", error);
-        emptyStateMsg.innerText = "Gagal memuat data dari Google Sheets. Memuat data cadangan...";
+        console.error("Gagal mengambil data, menggunakan data cadangan:", error);
         
-        // Data Cadangan Sesuai Spreadsheet
+        // Data Cadangan Sesuai Spreadsheet Anda
         shipData = [
           { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
           { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", sayuran: "2.000", tumbuhan: "8.000" },
           { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
           { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", sayuran: "2.000", tumbuhan: "11.000" },
-          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "4.000", sayuran: "4.000", tumbuhan: "9.000" },
-          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "5.000", sayuran: "2.000", tumbuhan: "7.000" },
-          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "6.000", sayuran: "2.000", tumbuhan: "7.000" },
-          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
-          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
-          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "5.000", sayuran: "2.000", tumbuhan: "10.000" },
-          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "6.000", sayuran: "3.000", tumbuhan: "11.000" },
-          { id: 12, nama: "KLM.MARHABAN 02", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
-          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "4.000", sayuran: "2.000", tumbuhan: "9.000" },
-          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "6.000", sayuran: "3.000", tumbuhan: "10.000" },
-          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "16.000", sayuran: "4.000", tumbuhan: "13.000" },
-          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "6.000", sayuran: "4.000", tumbuhan: "9.000" }
+          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 12, nama: "KLM.MARHABAN 02", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "-", sayuran: "-", tumbuhan: "-" },
+          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "-", sayuran: "-", tumbuhan: "-" }
         ];
         filteredData = [...shipData];
         document.getElementById('statTotal').innerText = shipData.length;
-        document.getElementById('statHasCargo').innerText = shipData.length;
+        document.getElementById('statHasCargo').innerText = shipData.filter(s => s.ikan !== '-' || s.sayuran !== '-' || s.tumbuhan !== '-').length;
         renderTable();
+        showToast("Menampilkan data offline cadangan.");
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('fa-spin');
       }
@@ -637,7 +590,7 @@ Saat ini tinggal menunggu penyesuaian data muatan kapal agar seluruh dokumen dan
 
 Mohon kepada pihak terkait untuk melakukan pengecekan dan konfirmasi apabila terdapat perubahan atau penyesuaian muatan.
 
-Terima kasih atas perhatian dan kerja samanya. 
+Terima kasih atas perhatian dan kerja samanya. 🙏
 
 *PT.AGAS88*
 _Layanan Keagenan Pelayaran Laut Nasional_`;
@@ -668,9 +621,9 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
 
       targetShips.forEach((ship, i) => {
         message += `${i + 1}. *${ship.nama}*\n`;
-        message += `    *Ikan:* ${ship.ikan}\n`;
-        message += `    *Sayuran:* ${ship.sayuran}\n`;
-        message += `    *Tumbuhan:* ${ship.tumbuhan}\n\n`;
+        message += `   🐟 *Ikan:* ${ship.ikan}\n`;
+        message += `   🥬 *Sayuran:* ${ship.sayuran}\n`;
+        message += `   🌱 *Tumbuhan:* ${ship.tumbuhan}\n\n`;
       });
 
       message += `--------------------------------\n`;
@@ -705,12 +658,5 @@ _Layanan Keagenan Pelayaran Laut Nasional_`;
     // Initial Load
     fetchDataFromGoogleSheets();
   </script>
-<!-- Tombol Melayang Neon/Glassmorphism -->
-<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
-  <svg viewBox="0 0 24 24" class="home-icon">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-  <span class="home-text">HOME</span>
-</a>
 </body>
 </html>

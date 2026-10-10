@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Invoice 2 Halaman PT. AGAS DELAPAN DELAPAN</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+        }
+        /* Excel grid background effect for screen view */
+        .excel-grid {
+            background-image: 
+                linear-gradient(to right, rgba(200, 200, 200, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(200, 200, 200, 0.25) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        [contenteditable="true"]:hover {
+            outline: 1px dashed #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid #2563eb;
+            background-color: #ffffff;
+        }
+        /* Print styles */
+        @media print {
+            body {
+                background-color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .invoice-sheet {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                border: none !important;
+                display: block !important;
+            }
+            .excel-grid {
+                background-image: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="excel-grid min-h-screen py-8 px-2 sm:px-6">
+
+    <!-- Control Panel & Tab Navigation (Non-print) -->
+    <div class="max-w-4xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-md no-print border border-slate-200">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-200">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-file-invoice-dollar text-blue-600 mr-2"></i>Invoice PT. Agas Delapan Delapan</h1>
+                <p class="text-xs text-slate-500">Pilih halaman di bawah untuk melihat dan mengedit invoice yang berbeda.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="addRowActive()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-3 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i> Tambah Baris
+                </button>
+                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Cetak Halaman Aktif
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Buttons -->
+        <div class="flex items-center gap-2 mt-4">
+            <button id="tab-btn-1" onclick="switchTab(1)" class="flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-blue-600 text-white shadow">
+                <i class="fa-solid fa-file-lines mr-2"></i>Halaman 1 (Kapal KLM)
+            </button>
+            <button id="tab-btn-2" onclick="switchTab(2)" class="flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-slate-200 text-slate-700 hover:bg-slate-300">
+                <i class="fa-solid fa-file-lines mr-2"></i>Halaman 2 (Armada Truck & Crane)
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 1 -->
+    <!-- ========================================== -->
+    <div id="page-1" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-6 sm:p-10 mb-10 text-slate-900 relative">
+        
+        <!-- Header / Kop Image -->
+        <div class="border-b-2 border-slate-800 pb-3 mb-4">
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/kop-agas88_cdsrpf.jpg" 
+                 alt="Kop PT. Agas Delapan Delapan" 
+                 class="w-full h-auto object-contain max-h-36 mx-auto"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x150/ffffff/000000?text=KOP+PT.+AGAS+DELAPAN+DELAPAN';" />
+        </div>
+
+        <!-- Invoice Title -->
+        <div class="text-center my-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-widest text-blue-900 border-b border-slate-300 pb-1 inline-block px-8" contenteditable="true">Invoice</h2>
+            <div class="text-xs sm:text-sm font-semibold text-slate-700 mt-1">
+                Nomor:<span contenteditable="true" class="text-blue-700 font-bold ml-1">089/PT.A88/invoice/X/2026</span>
+            </div>
+        </div>
+
+        <!-- Client & Date Meta Box -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
+            <div class="space-y-1.5">
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Nama</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 font-bold text-blue-800 border-b border-transparent hover:border-blue-400">PT.Kayuindo Alam Pacific Raya</span>
+                </div>
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Alamat</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Samarinda</span>
+                </div>
+            </div>
+            <div class="space-y-1.5">
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Tanggal</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 font-bold text-slate-800 border-b border-transparent hover:border-blue-400">10/10/2026</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="w-20 font-semibold text-slate-600">Wa/CP</span>
+                    <span class="mr-2">:</span>
+                    <div class="flex-1">
+                        <div contenteditable="true" class="text-slate-800">+62821-9700-1999</div>
+                        <div contenteditable="true" class="text-slate-800">+62853-1807-7777</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Table Page 1 -->
+        <div class="overflow-x-auto mb-6">
+            <table class="w-full border-collapse border border-slate-400 text-xs sm:text-sm">
+                <thead>
+                    <tr class="bg-blue-200 text-slate-900 text-center font-bold">
+                        <th class="border border-slate-400 py-2.5 px-2 w-12">No</th>
+                        <th class="border border-slate-400 py-2.5 px-4 text-left">Uraian</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-24">Jumlah</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-32 text-right">Harga Satuan</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-36 text-right">Total</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-12 no-print">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items-1">
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">01</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM.Sumber Rizky 02</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="12" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">12,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">02</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Berkah Ilahi 99</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="8" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">8,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">03</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Bunga Rizka</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="11" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">11,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">05</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Adi Rahmatullah Putra</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="9" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">9,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">06</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Sumber Rizky</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="5" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">5,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">07</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Sumber Rezky 88</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="16" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">16,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary & Bank Info Page 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-start">
+            <div class="space-y-4">
+                <div>
+                    <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
+                    <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
+                    <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
+                </div>
+
+                <div class="pt-2">
+                    <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
+                    <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
+                    
+                    <!-- QR Code Image -->
+                    <div class="w-36 h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" 
+                             alt="QR Code Direktur" 
+                             class="w-full h-full object-contain"
+                             onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
+                    </div>
+
+                    <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[160px]" contenteditable="true">
+                        Agung Bambang Sujadmiko
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-end">
+                <div class="border border-slate-400 p-4 bg-slate-50 rounded space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-300 pb-2">
+                        <span class="font-bold text-slate-700 text-sm">Sub Total</span>
+                        <span id="sub-total-1" class="font-bold text-slate-900 text-base">61,000,000</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-1">
+                        <span class="font-bold text-slate-900 text-base">Total</span>
+                        <span id="grand-total-1" class="font-black text-slate-900 text-lg text-blue-700">61,000,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 2 -->
+    <!-- ========================================== -->
+    <div id="page-2" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-6 sm:p-10 mb-10 text-slate-900 relative hidden">
+        
+        <!-- Header / Kop Image -->
+        <div class="border-b-2 border-slate-800 pb-3 mb-4">
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/kop-agas88_cdsrpf.jpg" 
+                 alt="Kop PT. Agas Delapan Delapan" 
+                 class="w-full h-auto object-contain max-h-36 mx-auto"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x150/ffffff/000000?text=KOP+PT.+AGAS+DELAPAN+DELAPAN';" />
+        </div>
+
+        <!-- Invoice Title -->
+        <div class="text-center my-4">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-widest text-blue-900 border-b border-slate-300 pb-1 inline-block px-8" contenteditable="true">Invoice</h2>
+            <div class="text-xs sm:text-sm font-semibold text-slate-700 mt-1">
+                Nomor:<span contenteditable="true" class="text-blue-700 font-bold ml-1">089/PT.A88/invoice/X/2026</span>
+            </div>
+        </div>
+
+        <!-- Client & Date Meta Box -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
+            <div class="space-y-1.5">
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Nama</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 font-bold text-blue-800 border-b border-transparent hover:border-blue-400">PT.Kayuindo Alam Pacific Raya</span>
+                </div>
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Alamat</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Samarinda</span>
+                </div>
+            </div>
+            <div class="space-y-1.5">
+                <div class="flex">
+                    <span class="w-20 font-semibold text-slate-600">Tanggal</span>
+                    <span class="mr-2">:</span>
+                    <span contenteditable="true" class="flex-1 font-bold text-slate-800 border-b border-transparent hover:border-blue-400">08/10/2026</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="w-20 font-semibold text-slate-600">Wa/CP</span>
+                    <span class="mr-2">:</span>
+                    <div class="flex-1">
+                        <div contenteditable="true" class="text-slate-800">+62821-9700-1999</div>
+                        <div contenteditable="true" class="text-slate-800">+62853-1807-7777</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Table Page 2 -->
+        <div class="overflow-x-auto mb-6">
+            <table class="w-full border-collapse border border-slate-400 text-xs sm:text-sm">
+                <thead>
+                    <tr class="bg-blue-200 text-slate-900 text-center font-bold">
+                        <th class="border border-slate-400 py-2.5 px-2 w-12">No</th>
+                        <th class="border border-slate-400 py-2.5 px-4 text-left">raian</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-24">Jumlah</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-32 text-right">Harga Satuan</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-36 text-right">Total</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-12 no-print">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items-2">
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">01</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">PBM ARMADA TRUCK</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="4" oninput="calculateTotals(2)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,500,000" oninput="formatCurrencyInput(this); calculateTotals(2)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">6,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 2)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">02</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">ARMADA CRANE</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="1" oninput="calculateTotals(2)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(2)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">1,000,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 2)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-400 text-center py-2 font-medium row-num">03</td>
+                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">TKBM ( 61 Palet )</td>
+                        <td class="border border-slate-400 text-center py-2"><input type="number" value="61" oninput="calculateTotals(2)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="80,000" oninput="formatCurrencyInput(this); calculateTotals(2)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">4,800,000</td>
+                        <td class="border border-slate-400 text-center py-2 no-print">
+                            <button onclick="deleteRow(this, 2)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary & Bank Info Page 2 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-start">
+            <div class="space-y-4">
+                <div>
+                    <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
+                    <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
+                    <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
+                </div>
+
+                <div class="pt-2">
+                    <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
+                    <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
+                    
+                    <!-- QR Code Image -->
+                    <div class="w-36 h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" 
+                             alt="QR Code Direktur" 
+                             class="w-full h-full object-contain"
+                             onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
+                    </div>
+
+                    <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[160px]" contenteditable="true">
+                        Agung Bambang Sujadmiko
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-end">
+                <div class="border border-slate-400 p-4 bg-slate-50 rounded space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-300 pb-2">
+                        <span class="font-bold text-slate-700 text-sm">Sub Total</span>
+                        <span id="sub-total-2" class="font-bold text-slate-900 text-base">11,800,000</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-1">
+                        <span class="font-bold text-slate-900 text-base">Total</span>
+                        <span id="grand-total-2" class="font-black text-slate-900 text-lg text-blue-700">11,800,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let currentTab = 1;
+
+        // Switch Tab Function
+        function switchTab(pageNum) {
+            currentTab = pageNum;
+            const page1 = document.getElementById('page-1');
+            const page2 = document.getElementById('page-2');
+            const btn1 = document.getElementById('tab-btn-1');
+            const btn2 = document.getElementById('tab-btn-2');
+
+            if (pageNum === 1) {
+                page1.classList.remove('hidden');
+                page2.classList.add('hidden');
+                btn1.className = "flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-blue-600 text-white shadow";
+                btn2.className = "flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-slate-200 text-slate-700 hover:bg-slate-300";
+            } else {
+                page2.classList.remove('hidden');
+                page1.classList.add('hidden');
+                btn2.className = "flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-blue-600 text-white shadow";
+                btn1.className = "flex-1 py-2.5 px-4 font-bold text-sm rounded-lg transition bg-slate-200 text-slate-700 hover:bg-slate-300";
+            }
+        }
+
+        // Helper to format numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Helper to parse currency string to float
+        function parseCurrency(str) {
+            if (!str) return 0;
+            return parseFloat(str.toString().replace(/,/g, '')) || 0;
+        }
+
+        // Format input live as currency
+        function formatCurrencyInput(input) {
+            let value = input.value.replace(/[^\d]/g, '');
+            if (value) {
+                input.value = formatNumber(parseInt(value, 10));
+            } else {
+                input.value = '';
+            }
+        }
+
+        // Recalculate row totals and grand totals for specific page
+        function calculateTotals(pageNum) {
+            const rows = document.querySelectorAll(`#invoice-items-${pageNum} tr`);
+            let subTotal = 0;
+
+            rows.forEach((row, index) => {
+                const qtyInput = row.querySelector('.qty-input');
+                const priceInput = row.querySelector('.price-input');
+                const rowTotalCell = row.querySelector('.row-total');
+
+                if (qtyInput && priceInput && rowTotalCell) {
+                    const qty = parseFloat(qtyInput.value) || 0;
+                    const price = parseCurrency(priceInput.value);
+                    const total = qty * price;
+
+                    rowTotalCell.innerText = formatNumber(total);
+                    subTotal += total;
+                }
+            });
+
+            document.getElementById(`sub-total-${pageNum}`).innerText = formatNumber(subTotal);
+            document.getElementById(`grand-total-${pageNum}`).innerText = formatNumber(subTotal);
+        }
+
+        // Add row to currently active page
+        function addRowActive() {
+            const tbody = document.getElementById(`invoice-items-${currentTab}`);
+            const rowCount = tbody.children.length + 1;
+            const formattedNum = String(rowCount).padStart(2, '0');
+            
+            const newRow = document.createElement('tr');
+            newRow.className = 'hover:bg-slate-50';
+            newRow.innerHTML = `
+                <td class="border border-slate-400 text-center py-2 font-medium row-num">${formattedNum}</td>
+                <td class="border border-slate-400 py-2 px-3" contenteditable="true">Uraian / Layanan Baru</td>
+                <td class="border border-slate-400 text-center py-2"><input type="number" value="1" oninput="calculateTotals(${currentTab})" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
+                <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(${currentTab})" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">1,000,000</td>
+                <td class="border border-slate-400 text-center py-2 no-print">
+                    <button onclick="deleteRow(this, ${currentTab})" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            calculateTotals(currentTab);
+        }
+
+        // Delete an item row
+        function deleteRow(btn, pageNum) {
+            const row = btn.closest('tr');
+            const tbody = document.getElementById(`invoice-items-${pageNum}`);
+            if (tbody.children.length > 1) {
+                row.remove();
+                calculateTotals(pageNum);
+            } else {
+                alert('Invoice minimal harus memiliki satu baris rincian.');
+            }
+        }
+
+        // Run initial calculations on load
+        window.onload = function() {
+            calculateTotals(1);
+            calculateTotals(2);
+        };
+    </script>
+</body>
+</html>

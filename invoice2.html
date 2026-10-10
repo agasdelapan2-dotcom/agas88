@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice PT. AGAS DELAPAN DELAPAN</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @media print {
+            body {
+                background-color: white !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .invoice-box {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 100% !important;
+                border: none !important;
+            }
+        }
+        /* Custom styling for editable fields */
+        [contenteditable="true"]:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+            outline: 1px dashed #3b82f6;
+        }
+        [contenteditable="true"]:focus {
+            background-color: rgba(59, 130, 246, 0.1);
+            outline: 2px solid #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen py-4 px-2 sm:px-6">
+
+    <!-- Tombol Navigasi & Kontrol (Hidden on Print) -->
+    <div class="max-w-3xl mx-auto mb-4 flex flex-col sm:flex-row justify-between items-center gap-3 no-print">
+        <!-- Tab Halaman -->
+        <div class="flex bg-white rounded-lg shadow p-1 w-full sm:w-auto">
+            <button onclick="switchPage(1)" id="tab-btn-1" class="flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md bg-blue-600 text-white transition">Halaman 1</button>
+            <button onclick="switchPage(2)" id="tab-btn-2" class="flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md text-gray-700 hover:bg-gray-100 transition">Halaman 2</button>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+            <button onclick="addRow()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 text-sm font-semibold rounded-lg shadow transition flex items-center gap-1">
+                ➕ Tambah Baris
+            </button>
+            <button onclick="resetData()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 text-sm font-semibold rounded-lg shadow transition">
+                🔄 Reset
+            </button>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-semibold rounded-lg shadow transition flex items-center gap-1">
+                🖨️ Cetak / PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Container Invoice Utama dengan dukungan scroll horizontal untuk HP -->
+    <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-lg overflow-x-auto invoice-box border border-gray-300">
+        <div class="min-w-[650px] p-6">
+            
+            <!-- KOP SURAT (Sesuai URL Cloudinary) -->
+            <div class="w-full mb-4 border-b-2 border-black pb-2">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/kop-agas88_cdsrpf.jpg" alt="Kop Surat PT. Agas Delapan Delapan" class="w-full object-contain max-h-36 mx-auto">
+            </div>
+
+            <!-- JUDUL INVOICE -->
+            <div class="text-center mb-4">
+                <h1 class="text-xl font-bold text-blue-800 tracking-wide">Invoice</h1>
+                <p class="text-sm font-medium" contenteditable="true">Nomor:089/PT.A88/invoice/X/2026</p>
+            </div>
+
+            <!-- INFO KLIEN & TANGGAL (Tabel Grid) -->
+            <table class="w-full text-xs sm:text-sm mb-4 border-collapse">
+                <tr>
+                    <td class="w-16 py-1 font-semibold">Nama</td>
+                    <td class="w-4 text-center">:</td>
+                    <td class="py-1 text-blue-600 font-medium" contenteditable="true">PT.Kayuindo Alam Pacific Raya</td>
+                    <td class="w-20 py-1 font-semibold pl-4">Tanggal</td>
+                    <td class="w-4 text-center">:</td>
+                    <td class="w-28 py-1" contenteditable="true">10/10/2026</td>
+                </tr>
+                <tr>
+                    <td class="py-1 font-semibold">Alamat</td>
+                    <td class="text-center">:</td>
+                    <td class="py-1" contenteditable="true">Samarinda</td>
+                    <td class="py-1 font-semibold pl-4">Wa/CP</td>
+                    <td class="text-center">:</td>
+                    <td class="py-1" contenteditable="true">+62821-9700-1999</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="py-1" contenteditable="true">+62853-1807-7777</td>
+                </tr>
+            </table>
+
+            <!-- TABEL RINCIAN ITEM -->
+            <table class="w-full border-collapse border border-black text-xs sm:text-sm mb-4">
+                <thead>
+                    <tr class="bg-blue-200 text-black text-center font-bold">
+                        <th class="border border-black p-1.5 w-10">No</th>
+                        <th class="border border-black p-1.5">Uraian</th>
+                        <th class="border border-black p-1.5 w-20">Jumlah</th>
+                        <th class="border border-black p-1.5 w-28">Harga Satuan</th>
+                        <th class="border border-black p-1.5 w-32">Total</th>
+                        <th class="border border-black p-1.5 w-12 no-print">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Baris akan diisi secara dinamis melalui JavaScript -->
+                </tbody>
+            </table>
+
+            <!-- TOTAL & SUB TOTAL -->
+            <div class="flex justify-end mb-6">
+                <table class="w-72 text-xs sm:text-sm border-collapse">
+                    <tr>
+                        <td class="py-1 font-bold text-right pr-4">Sub Total</td>
+                        <td class="py-1 font-bold text-right border-b border-t border-black" id="sub-total">0</td>
+                    </tr>
+                    <tr>
+                        <td class="py-1 font-bold text-right pr-4">Total</td>
+                        <td class="py-1 font-bold text-right border-b border-black text-black" id="grand-total">0</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- BAGIAN BANK & TANDA TANGAN -->
+            <div class="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                <!-- Kiri: Info Bank & Tanda Tangan -->
+                <div>
+                    <p class="text-blue-600 font-semibold" contenteditable="true">PT.Agas Delapan Delapan</p>
+                    <p class="font-medium">Acount Number : <span class="font-bold" contenteditable="true">1510018623907</span></p>
+                    <p class="mb-4" contenteditable="true">Bank Mandiri/Muzakkir</p>
+                    
+                    <p class="mt-6 text-center" contenteditable="true">Wani,08-10-2026</p>
+                    <p class="text-center mb-2" contenteditable="true">PT.Agas Delapan Delapan</p>
+                </div>
+                <!-- Kanan Kosong untuk Keseimbangan -->
+                <div></div>
+            </div>
+
+            <!-- QR CODE & NAMA DIREKTUR -->
+            <div class="mt-2">
+                <div class="w-32">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" alt="QR Code Direktur" class="w-28 h-28 object-contain border border-gray-200">
+                </div>
+                <div class="mt-2 font-bold text-xs sm:text-sm" contenteditable="true">
+                    Agung Bambang Sujadmiko
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Data & Logika -->
+    <script>
+        // Data default untuk Halaman 1 dan Halaman 2
+        const pagesData = {
+            1: {
+                title: "Nomor:089/PT.A88/invoice/X/2026",
+                name: "PT.Kayuindo Alam Pacific Raya",
+                date: "10/10/2026",
+                address: "Samarinda",
+                wa1: "+62821-9700-1999",
+                wa2: "+62853-1807-7777",
+                items: [
+                    { no: "01", desc: "KLM.Sumber Rizky 02", qty: 12, price: 1000000 },
+                    { no: "02", desc: "KLM. Berkah Ilahi 99", qty: 8, price: 1000000 },
+                    { no: "03", desc: "KLM. Bunga Rizka", qty: 11, price: 1000000 },
+                    { no: "05", desc: "KLM. Adi Rahmatullah Putra", qty: 9, price: 1000000 },
+                    { no: "06", desc: "KLM. Sumber Rizky", qty: 5, price: 1000000 },
+                    { no: "07", desc: "KLM. Sumber Rezky 88", qty: 16, price: 1000000 }
+                ]
+            },
+            2: {
+                title: "Nomor:090/PT.A88/invoice/X/2026",
+                name: "PT.Kayuindo Alam Pacific Raya",
+                date: "08/10/2026",
+                address: "Samarinda",
+                wa1: "+62821-9700-1999",
+                wa2: "+62853-1807-7777",
+                items: [
+                    { no: "01", desc: "PBM ARMADA TRUCK", qty: 4, price: 1500000 },
+                    { no: "02", desc: "ARMADA CRANE", qty: 1, price: 1000000 },
+                    { no: "03", desc: "TKBM ( 61 Palet )", qty: 61, price: 80000 }
+                ]
+            }
+        };
+
+        let currentPage = 1;
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function loadPage(pageNum) {
+            currentPage = pageNum;
+            const data = pagesData[pageNum];
+
+            // Update Tab UI
+            if (pageNum === 1) {
+                document.getElementById('tab-btn-1').className = "flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md bg-blue-600 text-white transition";
+                document.getElementById('tab-btn-2').className = "flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md text-gray-700 hover:bg-gray-100 transition";
+            } else {
+                document.getElementById('tab-btn-2').className = "flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md bg-blue-600 text-white transition";
+                document.getElementById('tab-btn-1').className = "flex-1 sm:flex-none px-4 py-2 font-bold text-sm rounded-md text-gray-700 hover:bg-gray-100 transition";
+            }
+
+            renderTable();
+        }
+
+        function switchPage(pageNum) {
+            loadPage(pageNum);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            let subTotal = 0;
+
+            pagesData[currentPage].items.forEach((item, index) => {
+                let total = item.qty * item.price;
+                subTotal += total;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="border border-black p-1.5 text-center" contenteditable="true" onblur="updateData(${index}, 'no', this.innerText)">${item.no}</td>
+                    <td class="border border-black p-1.5" contenteditable="true" onblur="updateData(${index}, 'desc', this.innerText)">${item.desc}</td>
+                    <td class="border border-black p-1.5 text-center" contenteditable="true" onblur="updateData(${index}, 'qty', this.innerText)">${item.qty}</td>
+                    <td class="border border-black p-1.5 text-right" contenteditable="true" onblur="updateData(${index}, 'price', this.innerText)">${formatNumber(item.price)}</td>
+                    <td class="border border-black p-1.5 text-right font-medium">${formatNumber(total)}</td>
+                    <td class="border border-black p-1.5 text-center no-print">
+                        <button onclick="deleteRow(${index})" class="text-red-600 hover:text-red-800 font-bold px-1" title="Hapus Baris">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('sub-total').innerText = formatNumber(subTotal);
+            document.getElementById('grand-total').innerText = formatNumber(subTotal);
+        }
+
+        function updateData(index, field, value) {
+            if (field === 'qty') {
+                pagesData[currentPage].items[index].qty = parseFloat(value.replace(/,/g, '')) || 0;
+            } else if (field === 'price') {
+                pagesData[currentPage].items[index].price = parseFloat(value.replace(/,/g, '')) || 0;
+            } else if (field === 'no') {
+                pagesData[currentPage].items[index].no = value;
+            } else if (field === 'desc') {
+                pagesData[currentPage].items[index].desc = value;
+            }
+            renderTable();
+        }
+
+        function addRow() {
+            let newNo = "0" + (pagesData[currentPage].items.length + 1);
+            pagesData[currentPage].items.push({
+                no: newNo,
+                desc: "Uraian Baru",
+                qty: 1,
+                price: 0
+            });
+            renderTable();
+        }
+
+        function deleteRow(index) {
+            pagesData[currentPage].items.splice(index, 1);
+            renderTable();
+        }
+
+        function resetData() {
+            if(confirm("Kembalikan data ke awal?")) {
+                location.reload();
+            }
+        }
+
+        // Inisialisasi awal saat halaman dimuat
+        window.onload = function() {
+            loadPage(1);
+        };
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-       <!-- Google tag (gtag.js) -->
+        <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0XKXTL7LK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -12,7 +12,8 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!-- Favicon & App Icon untuk Google Search & Browser -->
+    <title>PT. AGAS88 - Keberangkatan Kapal</title>
+    <!-- Favicon & App Icon untuk Google Search & Browser -->
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
@@ -20,7 +21,6 @@
      <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
      <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
      <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-    <title>PT. AGAS88 - Keberangkatan Kapal</title>
     <!-- Tailwind CSS for layout utilities -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for UI icons -->
@@ -74,14 +74,25 @@
     <div class="w-full max-w-xl mx-auto flex flex-col items-center">
 
         <!-- Control Bar -->
-        <div id="controls" class="w-full bg-white/95 backdrop-blur-md rounded-2xl p-4 mb-4 shadow-xl flex flex-wrap gap-3 justify-between items-center text-slate-800 border border-white/20">
+        <div id="controls" class="w-full bg-white/95 backdrop-blur-md rounded-2xl p-4 mb-4 shadow-xl flex flex-col sm:flex-row gap-3 justify-between items-center text-slate-800 border border-white/20">
             <div>
                 <h1 class="font-bold text-base sm:text-lg text-blue-900 flex items-center gap-2">
                     <i class="fa-solid fa-ship text-blue-600"></i> Board Keberangkatan
                 </h1>
                 <p class="text-xs text-slate-500">Pilih nama kapal dari dropdown atau edit teks langsung.</p>
             </div>
-            <div class="flex flex-wrap gap-2">
+            
+            <!-- Button Group -->
+            <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                <!-- External Links -->
+                <a href="https://console.cloudinary.com/app/c-975578c969ca715cb6487d38508817/assets/media_library/search?q=&view_mode=mosaic" target="_blank" rel="noopener noreferrer" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition shadow-md flex items-center">
+                    <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Cloudinary Media
+                </a>
+                <a href="https://www.agas88.com/status" target="_blank" rel="noopener noreferrer" class="px-3 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition shadow-md flex items-center">
+                    <i class="fa-solid fa-globe mr-1.5"></i> Status AGAS88
+                </a>
+
+                <!-- Actions -->
                 <button onclick="resetData()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition shadow-sm flex items-center">
                     <i class="fa-solid fa-rotate-right mr-1.5"></i> Reset
                 </button>

@@ -2,18 +2,18 @@
 <html lang="id" class="h-full">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J0XKXTL7LK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0XKXTL7LK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-J0XKXTL7LK');
-</script>
+    gtag('config', 'G-J0XKXTL7LK');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Kapal Berangkat</title>
-   <link rel="canonical" href="https://www.agas88.com/agas" />
+  <link rel="canonical" href="https://www.agas88.com/agas" />
   <link rel="icon" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1771393356/LOGO-PT-AGAS88-2025_azvjrm.png" type="image/png">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -39,21 +39,20 @@
       background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
       color: white;
     }
-.btn-home {
-  background-color: #007bff;
-  color: white;             
-  padding: 8px 18px;       
-  border: none;              
-  border-radius: 8px;        
-  font-size: 16px;           
-  cursor: pointer;           
-  transition: 0.3s;          
-}
-
-.btn-home:hover {
-  background-color: #0056b3; 
-  transform: scale(1.05);    
-}
+    .btn-home {
+      background-color: #007bff;
+      color: white;             
+      padding: 8px 18px;       
+      border: none;              
+      border-radius: 8px;        
+      font-size: 16px;           
+      cursor: pointer;           
+      transition: 0.3s;          
+    }
+    .btn-home:hover {
+      background-color: #0056b3; 
+      transform: scale(1.05);    
+    }
   </style>
 </head>
 <body class="h-full">
@@ -84,7 +83,8 @@
         </button>
         <button id="filter-pending" class="px-3 sm:px-6 py-1.5 sm:py-2 bg-gray-400 text-white font-semibold text-xs sm:text-sm rounded-full hover:bg-gray-500 transition-all shadow-lg">
           Belum Siap
-        </button><a href="https://agas88.com/"><button class="btn-home">Kembali ke Home</button></a>
+        </button>
+        <a href="https://agas88.com/"><button class="btn-home">Kembali ke Home</button></a>
       </div>
 
       <!-- Share WhatsApp Button -->
@@ -151,6 +151,7 @@
 
     let currentFilter = "all";
     let shipData = [...ships];
+    let isSharing = false; // Pengaman agar pesan WhatsApp tidak terkirim dua kali
 
     function loadShipData() {
       const saved = localStorage.getItem('shipStatuses');
@@ -231,10 +232,14 @@
     }
 
     function shareToWhatsApp() {
+      if (isSharing) return;
+      isSharing = true;
+
       const readyShips = shipData.filter(ship => ship.status === "ready");
       
       if (readyShips.length === 0) {
         alert("Tidak ada kapal siap berangkat untuk dibagikan!");
+        isSharing = false;
         return;
       }
 
@@ -266,6 +271,10 @@ www.agas88.com/agas`;
       const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
       
       window.open(whatsappUrl, '_blank');
+
+      setTimeout(() => {
+        isSharing = false;
+      }, 1000);
     }
 
     function setupFilterButtons() {
@@ -375,22 +384,21 @@ www.agas88.com/agas`;
       });
     }
   </script>
-<script>
-  // 1. Inisialisasi audio dengan URL audio Anda
-  const clickSound = new Audio('https://syams.online/syam-audio.mp3');
-  clickSound.preload = 'auto';
+  <script>
+    // Inisialisasi audio klik global
+    const clickSound = new Audio('https://syams.online/syam-audio.mp3');
+    clickSound.preload = 'auto';
 
-  // 2. Event listener global untuk mendeteksi klik di seluruh halaman
-  document.addEventListener('click', function(event) {
-    const target = event.target.closest('button, a, input[type="submit"], input[type="button"], [role="button"], .menu-item');
+    document.addEventListener('click', function(event) {
+      const target = event.target.closest('button, a, input[type="submit"], input[type="button"], [role="button"], .menu-item');
 
-    if (target) {
-      clickSound.currentTime = 0;
-      clickSound.play().catch(error => {
-        console.log("Audio diblokir oleh browser:", error);
-      });
-    }
-  });
-</script>
+      if (target) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(error => {
+          console.log("Audio diblokir oleh browser:", error);
+        });
+      }
+    });
+  </script>
 </body>
 </html>

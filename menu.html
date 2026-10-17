@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT AGAS88 - Navigation Portal</title>
+    
+    <!-- Favicon ICO -->
+    <link rel="icon" href="https://res.cloudinary.com/kshynbri/image/upload/v1789867989/logo-pt-agas88.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/kshynbri/image/upload/v1789867989/logo-pt-agas88.ico" type="image/x-icon">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+        /* Custom scrollbar for filter container */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo & Name -->
+            <div class="flex items-center space-x-3">
+                <div class="p-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center">
+                    <img src="https://res.cloudinary.com/kshynbri/image/upload/v1789867989/logo-pt-agas88.ico" 
+                         alt="PT AGAS88 Logo" 
+                         class="w-9 h-9 object-contain"
+                         onerror="this.onerror=null; this.src='https://placehold.co/36x36/0284c7/ffffff?text=A88';">
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">PT AGAS88</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-cyan-300 rounded-full border border-blue-200 dark:border-blue-800">OFFICIAL</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Navigation Portal System</p>
+                </div>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="flex items-center space-x-3">
+                <!-- Theme Switcher Button -->
+                <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors border border-slate-200 dark:border-slate-700" title="Ubah Mode Tampilan">
+                    <i id="themeIcon" class="fa-solid fa-sun text-lg text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Hero Section -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 text-blue-600 dark:text-cyan-400 text-xs font-semibold mb-4">
+                <i class="fa-solid fa-compass"></i>
+                <span>Portal Navigasi Terpadu</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
+                PT AGAS88 <span class="text-blue-600 dark:text-cyan-400">Navigation Portal</span>
+            </h1>
+            <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mb-6">
+                Akses cepat, terpusat, dan terintegrasi ke seluruh direktori web, formulir, data operasional, serta layanan PT AGAS88.
+            </p>
+
+            <!-- Live Search Bar -->
+            <div class="relative max-w-xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    placeholder="Cari tautan, layanan, atau dokumen (cth: Armada, Invoice, ETA)..." 
+                    class="w-full pl-11 pr-10 py-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg shadow-slate-200/50 dark:shadow-none focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-800 dark:text-white placeholder-slate-400 text-sm sm:text-base">
+                <button id="clearSearch" class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-8 space-x-2 no-scrollbar">
+            <button class="filter-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-blue-600 text-white shadow-md shadow-blue-500/20 whitespace-nowrap" data-category="all">
+                <i class="fa-solid fa-layer-group mr-1.5"></i> Semua Menu (<span id="count-all">0</span>)
+            </button>
+            <button class="filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap" data-category="operasional">
+                <i class="fa-solid fa-ship mr-1.5 text-blue-500"></i> Operasional
+            </button>
+            <button class="filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap" data-category="administrasi">
+                <i class="fa-solid fa-file-invoice mr-1.5 text-emerald-500"></i> Administrasi
+            </button>
+            <button class="filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap" data-category="layanan">
+                <i class="fa-solid fa-gears mr-1.5 text-purple-500"></i> Layanan & Sistem
+            </button>
+            <button class="filter-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap" data-category="informasi">
+                <i class="fa-solid fa-circle-info mr-1.5 text-amber-500"></i> Profil & Informasi
+            </button>
+        </div>
+
+        <!-- Links Grid Container -->
+        <div id="linksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Dynamic Injection via JavaScript -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl border border-slate-200 dark:border-slate-700">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Menu tidak ditemukan</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Coba masukkan kata kunci pencarian lain atau pilih kategori lain.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-3">
+            <div class="flex items-center space-x-2">
+                <img src="https://res.cloudinary.com/kshynbri/image/upload/v1789867989/logo-pt-agas88.ico" alt="Logo" class="w-4 h-4">
+                <span>&copy; 2026 PT AGAS88. Seluruh Hak Cipta Dilindungi.</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="https://www.agas88.com/kebijakan-privasi" target="_blank" class="hover:underline hover:text-blue-500">Kebijakan Privasi</a>
+                <a href="https://www.agas88.com/kontak" target="_blank" class="hover:underline hover:text-blue-500">Hubungi Kami</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Script -->
+    <script>
+        // Data Tautan Resmi PT AGAS88
+        const urlData = [
+            // Operasional
+            { name: "Armada", url: "armada.html", category: "operasional", icon: "fa-ship", desc: "Daftar & spesifikasi armada kapal AGAS88" },
+            { name: "ETA", url: "https://www.agas88.com/eta", category: "operasional", icon: "fa-clock", desc: "Estimasi waktu kedatangan kapal (ETA)" },
+            { name: "Ikan", url: "https://www.agas88.com/ikan", category: "operasional", icon: "fa-fish", desc: "Data komoditas kargo & kualifikasi ikan" },
+            { name: "Live Monitoring", url: "https://www.agas88.com/live", category: "operasional", icon: "fa-tower-broadcast", desc: "Pantauan langsung operasional real-time" },
+            { name: "Manifest", url: "https://www.agas88.com/manifest", category: "operasional", icon: "fa-clipboard-list", desc: "Dokumen manifest kargo dan perjalanan" },
+            { name: "Nama Kapal", url: "https://www.agas88.com/nama-kapal", category: "operasional", icon: "fa-anchor", desc: "Direktori & identitas registrasi kapal" },
+            { name: "Status SIAP", url: "https://www.agas88.com/siap", category: "operasional", icon: "fa-circle-check", desc: "Status kesiapan armada & operasional" },
+            { name: "Status Tracking", url: "https://www.agas88.com/status", category: "operasional", icon: "fa-chart-line", desc: "Pantauan status proses perjalanan" },
+
+            // Administrasi
+            { name: "Bukti Transaksi", url: "https://www.agas88.com/Bukti", category: "administrasi", icon: "fa-receipt", desc: "Arsip bukti transaksi & pembayaran" },
+            { name: "Arsip Dokumen", url: "https://www.agas88.com/dokumen", category: "administrasi", icon: "fa-folder-open", desc: "Pengelolaan & kearsipan dokumen resmi" },
+            { name: "Invoice / Faktur", url: "https://www.agas88.com/invoice", category: "administrasi", icon: "fa-file-invoice-dollar", desc: "Sistem tagihan & faktur pembayaran" },
+            { name: "Pengajuan Leave", url: "https://www.agas88.com/leave", category: "administrasi", icon: "fa-calendar-minus", desc: "Formulir & status pengajuan cuti" },
+            { name: "List Directory", url: "https://www.agas88.com/list", category: "administrasi", icon: "fa-list-check", desc: "Daftar inventaris data & arsip" },
+            { name: "PNBP", url: "https://www.agas88.com/pnbp", category: "administrasi", icon: "fa-building-columns", desc: "Penerimaan Negara Bukan Pajak" },
+            { name: "Dokumen SIK", url: "https://www.agas88.com/sik", category: "administrasi", icon: "fa-file-contract", desc: "Surat Izin Kerja & operasional legal" },
+
+            // Layanan & Sistem
+            { name: "Copy / Salin Data", url: "https://www.agas88.com/copy", category: "layanan", icon: "fa-copy", desc: "Fitur penggandaan & ekstraksi data" },
+            { name: "Salin Alternatif", url: "https://www.agas88.com/salin", category: "layanan", icon: "fa-clone", desc: "Layanan duplikasi berkas cepat" },
+            { name: "Form Registrasi", url: "https://www.agas88.com/formreg", category: "layanan", icon: "fa-id-card", desc: "Formulir pendaftaran akun & pengguna" },
+            { name: "Kalkulator Sistem", url: "https://www.agas88.com/kalkulator", category: "layanan", icon: "fa-calculator", desc: "Alat hitung estimasi biaya & muatan" },
+            { name: "Lapor / Pengaduan", url: "https://www.agas88.com/lapor", category: "layanan", icon: "fa-bullhorn", desc: "Portal pelaporan & pengaduan kendala" },
+            { name: "Konverter Latin", url: "https://www.agas88.com/latin", category: "layanan", icon: "fa-language", desc: "Sistem transliterasi & alih aksara" },
+            { name: "Katalog Layanan", url: "https://www.agas88.com/layanan", category: "layanan", icon: "fa-concierge-bell", desc: "Daftar lengkap layanan PT AGAS88" },
+            { name: "Layanan Web Saya", url: "https://www.agas88.com/myweb", category: "layanan", icon: "fa-globe", desc: "Dasbor situs web personal" },
+            { name: "Form Revisi", url: "https://www.agas88.com/revisi", category: "layanan", icon: "fa-pen-to-square", desc: "Pengajuan revisi berkas & data" },
+            { name: "Server Status", url: "https://www.agas88.com/server", category: "layanan", icon: "fa-server", desc: "Pantauan kondisi & performa server" },
+            { name: "Pengaturan Theme", url: "https://www.agas88.com/theme", category: "layanan", icon: "fa-palette", desc: "Kustomisasi tema tampilan sistem" },
+
+            // Profil & Informasi
+            { name: "Kontak Resmi", url: "https://www.agas88.com/kontak", category: "informasi", icon: "fa-headset", desc: "Hubungi tim layanan & support AGAS88" },
+            { name: "Kontak Alternatif", url: "https://www.agas88.com/contak", category: "informasi", icon: "fa-address-book", desc: "Informasi kontak darurat & cabang" },
+            { name: "Foto & Galeri", url: "https://www.agas88.com/foto", category: "informasi", icon: "fa-images", desc: "Dokumentasi foto kegiatan & kapal" },
+            { name: "Pusat Info", url: "https://www.agas88.com/info", category: "informasi", icon: "fa-circle-info", desc: "Pengumuman resmi & berita terkini" },
+            { name: "Kebijakan Privasi", url: "https://www.agas88.com/kebijakan-privasi", category: "informasi", icon: "fa-user-shield", desc: "Ketentuan privasi & keamanan data" },
+            { name: "Profil Perusahaan", url: "https://www.agas88.com/profil", category: "informasi", icon: "fa-building", desc: "Profil resmi PT AGAS88" },
+            { name: "Profil Saya", url: "https://www.agas88.com/myprofil", category: "informasi", icon: "fa-user-gear", desc: "Manajemen profil & pengaturan akun" },
+            { name: "Tentang Kami", url: "https://www.agas88.com/tentang", category: "informasi", icon: "fa-circle-nodes", desc: "Sejarah, visi, dan misi PT AGAS88" },
+            { name: "Tim Kami", url: "https://www.agas88.com/tim", category: "informasi", icon: "fa-users", desc: "Struktur organisasi & direksi" },
+            { name: "AGAS Portal Main", url: "https://www.agas88.com/agas", category: "informasi", icon: "fa-compass", desc: "Halaman utama direktori AGAS" }
+        ];
+
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        // DOM Elements
+        const linksGrid = document.getElementById('linksGrid');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // Render Links Card Grid
+        function renderLinks() {
+            linksGrid.innerHTML = '';
+            
+            const filtered = urlData.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery) || 
+                                      item.desc.toLowerCase().includes(searchQuery) ||
+                                      item.url.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "card-hover bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between shadow-sm hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-500/50 group";
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-slate-700/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center text-lg group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                                    <i class="fa-solid ${item.icon}"></i>
+                                </div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
+                                    ${item.category}
+                                </span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-800 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
+                                ${item.name}
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+                                ${item.desc}
+                            </p>
+                        </div>
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-50 dark:bg-slate-700/40 group-hover:bg-blue-600 group-hover:text-white text-slate-700 dark:text-slate-200 transition-all duration-200">
+                            <span>Kunjungi Tautan</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    `;
+                    linksGrid.appendChild(card);
+                });
+            }
+
+            // Update Counts
+            document.getElementById('count-all').innerText = urlData.length;
+        }
+
+        // Live Search Handler
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            clearSearchBtn.classList.toggle('hidden', searchQuery === '');
+            renderLinks();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            clearSearchBtn.classList.add('hidden');
+            renderLinks();
+            searchInput.focus();
+        });
+
+        // Filter Category Handler
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+                    b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-700');
+                });
+                btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-700');
+                btn.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+
+                activeCategory = btn.getAttribute('data-category');
+                renderLinks();
+            });
+        });
+
+        // Dark/Light Theme Switcher
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            themeIcon.className = isDark ? 'fa-solid fa-sun text-lg text-amber-400' : 'fa-solid fa-moon text-lg text-slate-600';
+        });
+
+        // Initialize App on Load
+        window.onload = function() {
+            renderLinks();
+        }
+    </script>
+</body>
+</html>

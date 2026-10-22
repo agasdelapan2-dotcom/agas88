@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Template Invoice 2 Halaman PT. AGAS DELAPAN DELAPAN</title>
-    <!-- Favicon & App Icon untuk Google Search & Browser -->
+    <!-- Favicon & App Icon -->
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
-     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
-     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
-     <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
-     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for icons -->
@@ -22,7 +18,6 @@
             font-family: 'Roboto', sans-serif;
             background-color: #f1f5f9;
         }
-        /* Excel grid background effect for screen view */
         .excel-grid {
             background-image: 
                 linear-gradient(to right, rgba(200, 200, 200, 0.25) 1px, transparent 1px),
@@ -38,7 +33,6 @@
             outline: 2px solid #2563eb;
             background-color: #ffffff;
         }
-        /* Print styles */
         @media print {
             body {
                 background-color: white !important;
@@ -125,8 +119,7 @@
                 <div class="flex">
                     <span class="w-20 font-semibold text-slate-600">Alamat</span>
                     <span class="mr-2">:</span>
-                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Jalan Raya Samarinda - Tenggarong, Loa Duri Ulu, RT. 01 RW. 01 Kec. Loa Janan
-Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
+                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Jalan Raya Samarinda - Tenggarong, Loa Duri Ulu, RT. 01 RW. 01 Kec. Loa Janan Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 </div>
             </div>
             <div class="space-y-1.5">
@@ -162,56 +155,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                             <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="border border-slate-400 text-center py-2 font-medium row-num">02</td>
-                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Berkah Ilahi 99</td>
-                        <td class="border border-slate-400 text-center py-2"><input type="number" value="8" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">8,000,000</td>
-                        <td class="border border-slate-400 text-center py-2 no-print">
-                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="border border-slate-400 text-center py-2 font-medium row-num">03</td>
-                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Bunga Rizka</td>
-                        <td class="border border-slate-400 text-center py-2"><input type="number" value="11" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">11,000,000</td>
-                        <td class="border border-slate-400 text-center py-2 no-print">
-                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="border border-slate-400 text-center py-2 font-medium row-num">05</td>
-                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Adi Rahmatullah Putra</td>
-                        <td class="border border-slate-400 text-center py-2"><input type="number" value="9" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">9,000,000</td>
-                        <td class="border border-slate-400 text-center py-2 no-print">
-                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="border border-slate-400 text-center py-2 font-medium row-num">06</td>
-                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Sumber Rizky</td>
-                        <td class="border border-slate-400 text-center py-2"><input type="number" value="5" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">5,000,000</td>
-                        <td class="border border-slate-400 text-center py-2 no-print">
-                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="border border-slate-400 text-center py-2 font-medium row-num">07</td>
-                        <td class="border border-slate-400 py-2 px-3" contenteditable="true">KLM. Sumber Rezky 88</td>
-                        <td class="border border-slate-400 text-center py-2"><input type="number" value="16" oninput="calculateTotals(1)" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(1)" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                        <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">16,000,000</td>
-                        <td class="border border-slate-400 text-center py-2 no-print">
-                            <button onclick="deleteRow(this, 1)" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -229,7 +172,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                     <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
                     <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
                     
-                    <!-- QR Code Image -->
                     <div class="w-36 h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
                         <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" 
                              alt="QR Code Direktur" 
@@ -243,7 +185,7 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 </div>
             </div>
 
-            <div class="flex flex-col justify-end">
+            <div class="flex flex-col justify-between h-full space-y-6">
                 <div class="border border-slate-400 p-4 bg-slate-50 rounded space-y-3">
                     <div class="flex justify-between items-center border-b border-slate-300 pb-2">
                         <span class="font-bold text-slate-700 text-sm">Sub Total</span>
@@ -253,6 +195,13 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                         <span class="font-bold text-slate-900 text-base">Total</span>
                         <span id="grand-total-1" class="font-black text-slate-900 text-lg text-blue-700">61,000,000</span>
                     </div>
+                </div>
+
+                <!-- Gambar Label WA/CP -->
+                <div class="flex justify-end pt-2">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1792667689/Label_Kontak_WhatsApp_Hijau2_vv4hzq.png" 
+                         alt="Label Kontak WhatsApp" 
+                         class="w-56 sm:w-64 h-auto object-contain" />
                 </div>
             </div>
         </div>
@@ -290,8 +239,7 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 <div class="flex">
                     <span class="w-20 font-semibold text-slate-600">Alamat</span>
                     <span class="mr-2">:</span>
-                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Jalan Raya Samarinda - Tenggarong, Loa Duri Ulu, RT. 01 RW. 01 Kec. Loa Janan
-Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
+                    <span contenteditable="true" class="flex-1 text-slate-800 border-b border-transparent hover:border-blue-400">Jalan Raya Samarinda - Tenggarong, Loa Duri Ulu, RT. 01 RW. 01 Kec. Loa Janan Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 </div>
             </div>
             <div class="space-y-1.5">
@@ -299,8 +247,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                     <span class="w-20 font-semibold text-slate-600">Tanggal</span>
                     <span class="mr-2">:</span>
                     <span contenteditable="true" class="flex-1 font-bold text-slate-800 border-b border-transparent hover:border-blue-400">08/10/2026</span>
-                </div>
-              
                 </div>
             </div>
         </div>
@@ -311,7 +257,7 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 <thead>
                     <tr class="bg-blue-200 text-slate-900 text-center font-bold">
                         <th class="border border-slate-400 py-2.5 px-2 w-12">No</th>
-                        <th class="border border-slate-400 py-2.5 px-4 text-left">raian</th>
+                        <th class="border border-slate-400 py-2.5 px-4 text-left">Uraian</th>
                         <th class="border border-slate-400 py-2.5 px-2 w-24">Jumlah</th>
                         <th class="border border-slate-400 py-2.5 px-3 w-32 text-right">Harga Satuan</th>
                         <th class="border border-slate-400 py-2.5 px-3 w-36 text-right">Total</th>
@@ -366,7 +312,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                     <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
                     <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
                     
-                    <!-- QR Code Image -->
                     <div class="w-36 h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
                         <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791615872/ttd-agung-bambang-sujadmiko_gw9scd.png" 
                              alt="QR Code Direktur" 
@@ -380,7 +325,7 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                 </div>
             </div>
 
-            <div class="flex flex-col justify-end">
+            <div class="flex flex-col justify-between h-full space-y-6">
                 <div class="border border-slate-400 p-4 bg-slate-50 rounded space-y-3">
                     <div class="flex justify-between items-center border-b border-slate-300 pb-2">
                         <span class="font-bold text-slate-700 text-sm">Sub Total</span>
@@ -391,6 +336,13 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
                         <span id="grand-total-2" class="font-black text-slate-900 text-lg text-blue-700">11,800,000</span>
                     </div>
                 </div>
+
+                <!-- Gambar Label WA/CP -->
+                <div class="flex justify-end pt-2">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1792667689/Label_Kontak_WhatsApp_Hijau2_vv4hzq.png" 
+                         alt="Label Kontak WhatsApp" 
+                         class="w-56 sm:w-64 h-auto object-contain" />
+                </div>
             </div>
         </div>
     </div>
@@ -399,7 +351,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
     <script>
         let currentTab = 1;
 
-        // Switch Tab Function
         function switchTab(pageNum) {
             currentTab = pageNum;
             const page1 = document.getElementById('page-1');
@@ -420,18 +371,15 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
             }
         }
 
-        // Helper to format numbers with commas
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        // Helper to parse currency string to float
         function parseCurrency(str) {
             if (!str) return 0;
             return parseFloat(str.toString().replace(/,/g, '')) || 0;
         }
 
-        // Format input live as currency
         function formatCurrencyInput(input) {
             let value = input.value.replace(/[^\d]/g, '');
             if (value) {
@@ -441,12 +389,11 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
             }
         }
 
-        // Recalculate row totals and grand totals for specific page
         function calculateTotals(pageNum) {
             const rows = document.querySelectorAll(`#invoice-items-${pageNum} tr`);
             let subTotal = 0;
 
-            rows.forEach((row, index) => {
+            rows.forEach((row) => {
                 const qtyInput = row.querySelector('.qty-input');
                 const priceInput = row.querySelector('.price-input');
                 const rowTotalCell = row.querySelector('.row-total');
@@ -465,7 +412,6 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
             document.getElementById(`grand-total-${pageNum}`).innerText = formatNumber(subTotal);
         }
 
-        // Add row to currently active page
         function addRowActive() {
             const tbody = document.getElementById(`invoice-items-${currentTab}`);
             const rowCount = tbody.children.length + 1;
@@ -475,10 +421,10 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
             newRow.className = 'hover:bg-slate-50';
             newRow.innerHTML = `
                 <td class="border border-slate-400 text-center py-2 font-medium row-num">${formattedNum}</td>
-                <td class="border border-slate-400 py-2 px-3" contenteditable="true">Uraian / Layanan Baru</td>
+                <td class="border border-slate-400 py-2 px-3" contenteditable="true">Item Baru</td>
                 <td class="border border-slate-400 text-center py-2"><input type="number" value="1" oninput="calculateTotals(${currentTab})" class="w-full text-center bg-transparent font-medium focus:outline-none qty-input"></td>
-                <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="1,000,000" oninput="formatCurrencyInput(this); calculateTotals(${currentTab})" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
-                <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">1,000,000</td>
+                <td class="border border-slate-400 text-right py-2 px-3"><input type="text" value="0" oninput="formatCurrencyInput(this); calculateTotals(${currentTab})" class="w-full text-right bg-transparent font-medium focus:outline-none price-input"></td>
+                <td class="border border-slate-400 text-right py-2 px-3 font-bold row-total">0</td>
                 <td class="border border-slate-400 text-center py-2 no-print">
                     <button onclick="deleteRow(this, ${currentTab})" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
                 </td>
@@ -487,23 +433,18 @@ Kab. Kutai Kartanegara 75391 Kalimantan Timur, Indonesia</span>
             calculateTotals(currentTab);
         }
 
-        // Delete an item row
         function deleteRow(btn, pageNum) {
             const row = btn.closest('tr');
-            const tbody = document.getElementById(`invoice-items-${pageNum}`);
-            if (tbody.children.length > 1) {
-                row.remove();
-                calculateTotals(pageNum);
-            } else {
-                alert('Invoice minimal harus memiliki satu baris rincian.');
-            }
+            row.remove();
+            
+            const rows = document.querySelectorAll(`#invoice-items-${pageNum} tr`);
+            rows.forEach((r, idx) => {
+                const numCell = r.querySelector('.row-num');
+                if (numCell) numCell.innerText = String(idx + 1).padStart(2, '0');
+            });
+            
+            calculateTotals(pageNum);
         }
-
-        // Run initial calculations on load
-        window.onload = function() {
-            calculateTotals(1);
-            calculateTotals(2);
-        };
     </script>
 </body>
 </html>

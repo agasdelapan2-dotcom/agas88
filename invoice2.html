@@ -96,7 +96,7 @@
     <!-- ========================================== -->
     <!-- HALAMAN 1 -->
     <!-- ========================================== -->
-    <div id="page-1" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-6 sm:p-10 mb-10 text-slate-900 relative">
+    <div id="page-1" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-4 sm:p-10 mb-10 text-slate-900 relative">
         
         <!-- Header / Kop Image -->
         <div class="border-b-0 pb-1 mb-4">
@@ -115,7 +115,7 @@
         </div>
 
         <!-- Client & Date Meta Box -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-3 sm:p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
             <div class="space-y-1.5">
                 <div class="flex">
                     <span class="w-20 font-semibold text-slate-600">Nama</span>
@@ -144,9 +144,9 @@
                     <tr class="bg-blue-200 text-slate-900 text-center font-bold">
                         <th class="border border-slate-400 py-2.5 px-2 w-12">No</th>
                         <th class="border border-slate-400 py-2.5 px-4 text-left">Uraian</th>
-                        <th class="border border-slate-400 py-2.5 px-2 w-24">Jumlah</th>
-                        <th class="border border-slate-400 py-2.5 px-3 w-32 text-right">Harga Satuan</th>
-                        <th class="border border-slate-400 py-2.5 px-3 w-36 text-right">Total</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-20 sm:w-24">Jumlah</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-28 sm:w-32 text-right">Harga Satuan</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-32 sm:w-36 text-right">Total</th>
                         <th class="border border-slate-400 py-2.5 px-2 w-12 no-print">Aksi</th>
                     </tr>
                 </thead>
@@ -184,63 +184,71 @@
             </table>
         </div>
 
-        <!-- Summary & Bank Info Page 1 (Grid 2 Kolom Selalu Sejajar) -->
-        <div class="grid grid-cols-2 gap-4 sm:gap-6 mb-8 items-start">
-            <div class="space-y-4">
-                <div>
-                    <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
-                    <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
-                    <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
-                </div>
+        <!-- Summary & Bank Info Page 1 (Menggunakan Tabel HTML agar 100% Sejajar di HP & PC) -->
+        <table class="w-full border-none mb-6">
+            <tr>
+                <!-- Sisi Kiri: Info Bank, Tanggal, QR Code, Tanda Tangan -->
+                <td style="width: 50%; vertical-align: top; padding-right: 15px;">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
+                            <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
+                            <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
+                        </div>
 
-                <div class="pt-2">
-                    <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
-                    <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
-                    
-                    <div class="w-28 sm:w-36 h-28 sm:h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
-                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" 
-                             alt="QR Code Direktur" 
-                             class="w-full h-full object-contain"
-                             onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
-                    </div>
+                        <div class="pt-2">
+                            <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
+                            <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
+                            
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
+                                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791612891/QR-CODE-DIREKTUR_hfscku.jpg" 
+                                     alt="QR Code Direktur" 
+                                     class="w-full h-full object-contain"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
+                            </div>
 
-                    <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[140px]" contenteditable="true">
-                        Agung Bambang Sujadmiko
+                            <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[140px]" contenteditable="true">
+                                Agung Bambang Sujadmiko
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </td>
 
-            <div class="flex flex-col justify-start">
-                <div class="border border-slate-400 p-3 sm:p-4 bg-slate-50/50 rounded space-y-3 sm:space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-300 pb-2 sm:pb-3">
-                        <span class="font-bold text-slate-700 text-xs sm:text-sm">Sub Total</span>
-                        <span id="sub-total-1" class="font-bold text-slate-900 text-sm sm:text-base">12,000,000</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-1">
-                        <span class="font-bold text-slate-700 text-xs sm:text-sm">Total</span>
-                        <span id="grand-total-1" class="font-black text-slate-900 text-base sm:text-lg text-blue-700">12,000,000</span>
-                    </div>
-                </div>
+                <!-- Sisi Kanan: Kotak Sub Total, Total, dan Kontak WhatsApp -->
+                <td style="width: 50%; vertical-align: top; padding-left: 15px;">
+                    <div class="flex flex-col justify-start space-y-4">
+                        <div class="border border-slate-400 p-3 sm:p-4 bg-slate-50/50 rounded space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-300 pb-2.5">
+                                <span class="font-bold text-slate-700 text-xs sm:text-sm">Sub Total</span>
+                                <span id="sub-total-1" class="font-bold text-slate-900 text-sm sm:text-base">12,000,000</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-1">
+                                <span class="font-bold text-slate-700 text-xs sm:text-sm">Total</span>
+                                <span id="grand-total-1" class="font-black text-slate-900 text-base sm:text-lg text-blue-700">12,000,000</span>
+                            </div>
+                        </div>
 
-                <!-- Bagian WhatsApp Logo + Angka Biasa di Bawah Kotak Total -->
-                <div class="flex flex-col items-end pt-3 sm:pt-4 space-y-1">
-                    <div class="flex items-center gap-1.5 text-emerald-600">
-                        <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
-                        <span class="font-bold text-xs sm:text-sm tracking-wide" contenteditable="true">WA/CP:</span>
+                        <!-- Bagian WhatsApp Logo + Angka Biasa di Bawah Kotak Total -->
+                        <div class="flex flex-col items-end pt-2 space-y-1">
+                            <div class="flex items-center gap-1.5 text-emerald-600">
+                                <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
+                                <span class="font-bold text-xs sm:text-sm tracking-wide" contenteditable="true">WA/CP:</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-slate-800 font-bold text-xs sm:text-sm tracking-wider" contenteditable="true">+62 821-9700-1999</div>
+                                <div class="text-slate-800 font-bold text-xs sm:text-sm tracking-wider" contenteditable="true">+62 853-1807-7777</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-slate-800 font-bold text-xs sm:text-base tracking-wider" contenteditable="true">+62 821-9700-1999</div>
-                        <div class="text-slate-800 font-bold text-xs sm:text-base tracking-wider" contenteditable="true">+62 853-1807-7777</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- ========================================== -->
     <!-- HALAMAN 2 -->
     <!-- ========================================== -->
-    <div id="page-2" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-6 sm:p-10 mb-10 text-slate-900 relative hidden">
+    <div id="page-2" class="max-w-4xl mx-auto bg-white invoice-sheet shadow-2xl rounded-lg border border-slate-300 p-4 sm:p-10 mb-10 text-slate-900 relative hidden">
         
         <!-- Header / Kop Image -->
         <div class="border-b-0 pb-1 mb-4">
@@ -259,7 +267,7 @@
         </div>
 
         <!-- Client & Date Meta Box -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-400 p-3 sm:p-4 mb-6 text-xs sm:text-sm bg-slate-50/50 rounded">
             <div class="space-y-1.5">
                 <div class="flex">
                     <span class="w-20 font-semibold text-slate-600">Nama</span>
@@ -288,9 +296,9 @@
                     <tr class="bg-blue-200 text-slate-900 text-center font-bold">
                         <th class="border border-slate-400 py-2.5 px-2 w-12">No</th>
                         <th class="border border-slate-400 py-2.5 px-4 text-left">Uraian</th>
-                        <th class="border border-slate-400 py-2.5 px-2 w-24">Jumlah</th>
-                        <th class="border border-slate-400 py-2.5 px-3 w-32 text-right">Harga Satuan</th>
-                        <th class="border border-slate-400 py-2.5 px-3 w-36 text-right">Total</th>
+                        <th class="border border-slate-400 py-2.5 px-2 w-20 sm:w-24">Jumlah</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-28 sm:w-32 text-right">Harga Satuan</th>
+                        <th class="border border-slate-400 py-2.5 px-3 w-32 sm:w-36 text-right">Total</th>
                         <th class="border border-slate-400 py-2.5 px-2 w-12 no-print">Aksi</th>
                     </tr>
                 </thead>
@@ -328,57 +336,65 @@
             </table>
         </div>
 
-        <!-- Summary & Bank Info Page 2 (Grid 2 Kolom Selalu Sejajar) -->
-        <div class="grid grid-cols-2 gap-4 sm:gap-6 mb-8 items-start">
-            <div class="space-y-4">
-                <div>
-                    <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
-                    <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
-                    <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
-                </div>
+        <!-- Summary & Bank Info Page 2 (Menggunakan Tabel HTML agar 100% Sejajar di HP & PC) -->
+        <table class="w-full border-none mb-6">
+            <tr>
+                <!-- Sisi Kiri: Info Bank, Tanggal, QR Code, Tanda Tangan -->
+                <td style="width: 50%; vertical-align: top; padding-right: 15px;">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-blue-700 font-semibold italic text-xs" contenteditable="true">PT.Agas Delapan Delapan</div>
+                            <div class="text-xs font-bold text-slate-800">Acount Number : <span contenteditable="true" class="text-black font-extrabold">1510018623907</span></div>
+                            <div class="text-xs text-slate-700 font-medium" contenteditable="true">Bank Mandiri/Muzakkir</div>
+                        </div>
 
-                <div class="pt-2">
-                    <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
-                    <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
-                    
-                    <div class="w-28 sm:w-36 h-28 sm:h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
-                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791615872/ttd-agung-bambang-sujadmiko_gw9scd.png" 
-                             alt="QR Code Direktur" 
-                             class="w-full h-full object-contain"
-                             onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
-                    </div>
+                        <div class="pt-2">
+                            <div class="text-xs text-slate-700 font-medium mb-1" contenteditable="true">Wani,08-10-2026</div>
+                            <div class="text-xs font-bold text-slate-800 mb-2" contenteditable="true">PT.Agas Delapan Delapan</div>
+                            
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 bg-white border border-slate-300 p-1 flex items-center justify-center shadow-sm rounded">
+                                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1791615872/ttd-agung-bambang-sujadmiko_gw9scd.png" 
+                                     alt="QR Code Direktur" 
+                                     class="w-full h-full object-contain"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/ffffff/000000?text=QR+CODE';" />
+                            </div>
 
-                    <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[140px]" contenteditable="true">
-                        Agung Bambang Sujadmiko
+                            <div class="mt-3 text-xs font-bold text-slate-900 border-b border-slate-800 pb-0.5 inline-block min-w-[140px]" contenteditable="true">
+                                Agung Bambang Sujadmiko
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </td>
 
-            <div class="flex flex-col justify-start">
-                <div class="border border-slate-400 p-3 sm:p-4 bg-slate-50/50 rounded space-y-3 sm:space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-300 pb-2 sm:pb-3">
-                        <span class="font-bold text-slate-700 text-xs sm:text-sm">Sub Total</span>
-                        <span id="sub-total-2" class="font-bold text-slate-900 text-sm sm:text-base">6,000,000</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-1">
-                        <span class="font-bold text-slate-700 text-xs sm:text-sm">Total</span>
-                        <span id="grand-total-2" class="font-black text-slate-900 text-base sm:text-lg text-blue-700">6,000,000</span>
-                    </div>
-                </div>
+                <!-- Sisi Kanan: Kotak Sub Total, Total, dan Kontak WhatsApp -->
+                <td style="width: 50%; vertical-align: top; padding-left: 15px;">
+                    <div class="flex flex-col justify-start space-y-4">
+                        <div class="border border-slate-400 p-3 sm:p-4 bg-slate-50/50 rounded space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-300 pb-2.5">
+                                <span class="font-bold text-slate-700 text-xs sm:text-sm">Sub Total</span>
+                                <span id="sub-total-2" class="font-bold text-slate-900 text-sm sm:text-base">6,000,000</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-1">
+                                <span class="font-bold text-slate-700 text-xs sm:text-sm">Total</span>
+                                <span id="grand-total-2" class="font-black text-slate-900 text-base sm:text-lg text-blue-700">6,000,000</span>
+                            </div>
+                        </div>
 
-                <!-- Bagian WhatsApp Logo + Angka Biasa di Bawah Kotak Total -->
-                <div class="flex flex-col items-end pt-3 sm:pt-4 space-y-1">
-                    <div class="flex items-center gap-1.5 text-emerald-600">
-                        <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
-                        <span class="font-bold text-xs sm:text-sm tracking-wide" contenteditable="true">WA/CP:</span>
+                        <!-- Bagian WhatsApp Logo + Angka Biasa di Bawah Kotak Total -->
+                        <div class="flex flex-col items-end pt-2 space-y-1">
+                            <div class="flex items-center gap-1.5 text-emerald-600">
+                                <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
+                                <span class="font-bold text-xs sm:text-sm tracking-wide" contenteditable="true">WA/CP:</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-slate-800 font-bold text-xs sm:text-sm tracking-wider" contenteditable="true">+62 821-9700-1999</div>
+                                <div class="text-slate-800 font-bold text-xs sm:text-sm tracking-wider" contenteditable="true">+62 853-1807-7777</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-slate-800 font-bold text-xs sm:text-base tracking-wider" contenteditable="true">+62 821-9700-1999</div>
-                        <div class="text-slate-800 font-bold text-xs sm:text-base tracking-wider" contenteditable="true">+62 853-1807-7777</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- JavaScript Application Logic -->

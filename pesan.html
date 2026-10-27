@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan WhatsApp PT. AGAS88</title>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b141a;
+            color: #e9edef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #111b21;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid #222d34;
+        }
+
+        /* Header Chat */
+        .chat-header {
+            background-color: #202c33;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #222d34;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            background-color: #00a884;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .chat-info h3 {
+            font-size: 16px;
+            color: #e9edef;
+            font-weight: 600;
+        }
+
+        .chat-info p {
+            font-size: 12px;
+            color: #8696a0;
+        }
+
+        /* Area Chat WhatsApp */
+        .chat-body {
+            background-color: #0b141a;
+            background-image: radial-gradient(#202c33 1px, transparent 0);
+            background-size: 16px 16px;
+            padding: 20px;
+        }
+
+        /* Gelembung Pesan WA */
+        .message-bubble {
+            background-color: #005c4b;
+            color: #e9edef;
+            padding: 12px 14px;
+            border-radius: 8px 0px 8px 8px;
+            font-size: 14.5px;
+            line-height: 1.5;
+            position: relative;
+            margin-left: auto;
+            max-width: 90%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            white-space: pre-line;
+        }
+
+        /* Segitiga Gelembung Pesan */
+        .message-bubble::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid #005c4b;
+            border-right: 8px solid transparent;
+        }
+
+        .message-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: #8696a0;
+        }
+
+        .ticks {
+            color: #53bdeb;
+        }
+
+        /* Area Form & Tombol */
+        .action-area {
+            background-color: #202c33;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: #8696a0;
+        }
+
+        .input-group input {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #2a3942;
+            background-color: #111b21;
+            color: #e9edef;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #00a884;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: #111b21;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #20bd5a;
+        }
+
+        .btn-copy {
+            background-color: #2a3942;
+            color: #e9edef;
+        }
+
+        .btn-copy:hover {
+            background-color: #374853;
+        }
+
+        /* Notifikasi Toast */
+        .toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #00a884;
+            color: #fff;
+            text-align: center;
+            border-radius: 20px;
+            padding: 10px;
+            position: fixed;
+            z-index: 10;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="avatar">AG</div>
+            <div class="chat-info">
+                <h3>Grup PT. AGAS88</h3>
+                <p>Klik tombol di bawah untuk mengirim pesan</p>
+            </div>
+        </div>
+
+        <!-- Tampilan Chat -->
+        <div class="chat-body">
+            <div class="message-bubble" id="messageText">Assalamu'alaikum Wr. Wb.
+
+Yth. Rekan-rekan PT.AGAS88 yang bertugas hari ini,
+
+Mohon informasinya, apakah ada kapal yang siap berangkat hari ini dan akan diajukan permohonan Karantina Tumbuhan dan Ikan?
+
+Apabila ada, mohon segera diinformasikan agar dapat segera kami tindak lanjuti.
+
+Terima kasih atas perhatian dan kerja samanya. 🙏
+
+Wassalamu'alaikum Wr. Wb.
+                <div class="message-footer">
+                    <span>08:00</span>
+                    <i class="fa-solid fa-check-double ticks"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Kirim & Fitur Tambahan -->
+        <div class="action-area">
+            <div class="input-group">
+                <label for="phoneNumber">Nomor WhatsApp Tujuan (Opsional):</label>
+                <input type="text" id="phoneNumber" placeholder="Contoh: 628123456789 (kosongkan jika memilih tujuan manual)">
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-copy" onclick="copyText()">
+                    <i class="fa-regular fa-copy"></i> Salin Teks
+                </button>
+                <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Kirim WA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Pesan berhasil disalin!</div>
+
+    <script>
+        // Teks template pesan menggunakan tanda petik lurus yang aman
+        const message = `Assalamu'alaikum Wr. Wb.
+Yth. Rekan-rekan PT.AGAS88 yang bertugas hari ini,
+
+Mohon informasinya, apakah ada kapal yang siap berangkat hari ini dan akan diajukan permohonan Karantina Tumbuhan dan Ikan?
+
+Apabila ada, mohon segera diinformasikan agar dapat segera kami tindak lanjuti.
+
+Terima kasih atas perhatian dan kerja samanya. 🙏
+Wassalamu'alaikum Wr. Wb.`;
+
+        // Fungsi Kirim ke WhatsApp
+        function sendToWhatsApp() {
+            let phone = document.getElementById('phoneNumber').value.trim();
+            phone = phone.replace(/[^0-9]/g, '');
+
+            const encodedMessage = encodeURIComponent(message);
+
+            let waUrl = '';
+            if (phone !== '') {
+                waUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+            } else {
+                waUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+            }
+
+            window.open(waUrl, '_blank');
+        }
+
+        // Fungsi Salin Teks
+        function copyText() {
+            navigator.clipboard.writeText(message).then(() => {
+                showToast("Pesan berhasil disalin!");
+            }).catch(err => {
+                showToast("Gagal menyalin pesan.");
+            });
+        }
+
+        // Fungsi Tampilkan Toast Notifikasi
+        function showToast(text) {
+            const toast = document.getElementById("toast");
+            toast.innerText = text;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
